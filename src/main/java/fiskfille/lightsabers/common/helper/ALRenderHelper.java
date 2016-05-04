@@ -25,11 +25,9 @@ public class ALRenderHelper
 	private static ModelLightsaberBlade modelLightsaberBlade = new ModelLightsaberBlade(34);
 	private static ModelLightsaberBlade modelCrossguardBlade = new ModelLightsaberBlade(4);
 
-	public static void setLighting(int c0)
+	public static void setLighting(int lighting)
 	{
-		int j = c0 % 65536;
-		int k = c0 / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j, k);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (lighting % 65536) / 255.0F, (lighting / 65536) / 255.0F);
 	}
 
 	public static void renderLightsaberHilt(ItemStack itemstack)
@@ -91,7 +89,7 @@ public class ALRenderHelper
 			float lastBrightnessX = OpenGlHelper.lastBrightnessX;
 			float lastBrightnessY = OpenGlHelper.lastBrightnessY;
 
-			float[] afloat = LightsaberColors.getRGB(LightsaberColors.getColors()[LightsaberHelper.getColorId(itemstack)]);
+			float[] color = LightsaberColors.getRGB(LightsaberColors.getColors()[LightsaberHelper.getColorId(itemstack)]);
 			Lightsaber emitter = LightsaberHelper.getPart(itemstack, EnumPartType.EMITTER);
 
 			GL11.glPushMatrix();
@@ -113,17 +111,17 @@ public class ALRenderHelper
 				GL11.glTranslatef(0, 0.083F, -0.23F);
 				GL11.glRotatef(90, 1, 0, 0);
 				GL11.glRotatef(180, 0, 1, 0);
-				modelCrossguardBlade.renderCrossguardOuter(itemstack, afloat[0], afloat[1], afloat[2], flag);
+				modelCrossguardBlade.renderCrossguardOuter(itemstack, color[0], color[1], color[2], flag);
 				GL11.glPopMatrix();
 
 				GL11.glPushMatrix();
 				GL11.glTranslatef(0, 0.083F, 0.23F);
 				GL11.glRotatef(-90, 1, 0, 0);
-				modelCrossguardBlade.renderCrossguardOuter(itemstack, afloat[0], afloat[1], afloat[2], flag);
+				modelCrossguardBlade.renderCrossguardOuter(itemstack, color[0], color[1], color[2], flag);
 				GL11.glPopMatrix();
 			}
 
-			modelLightsaberBlade.renderOuter(itemstack, afloat[0], afloat[1], afloat[2], flag);
+			modelLightsaberBlade.renderOuter(itemstack, color[0], color[1], color[2], flag);
 			GL11.glDisable(GL11.GL_BLEND);
 //			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			GL11.glDepthMask(true);
