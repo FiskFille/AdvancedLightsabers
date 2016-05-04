@@ -218,17 +218,20 @@ public class ItemDoubleLightsaber extends ItemLightsaberBase
 		
 		for (EntityLivingBase entity1 : list)
 		{
-			float damage = (float)getAttackDamage() + 1;
-        	float sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemstack) * 1.25F;
-            entity1.setFire(EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, itemstack) * 4);
-			
-			if (entity instanceof EntityPlayer)
+			if (entity1 != entity)
 			{
-				entity1.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)entity), damage + sharpnessDamage);
-			}
-			else
-			{
-				entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), damage + sharpnessDamage);
+				float damage = (float)getAttackDamage() + 1;
+				float sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemstack) * 1.25F;
+				entity1.setFire(EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, itemstack) * 4);
+
+				if (entity instanceof EntityPlayer)
+				{
+					entity1.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)entity), damage + sharpnessDamage);
+				}
+				else
+				{
+					entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), damage + sharpnessDamage);
+				}
 			}
 		}
 		
