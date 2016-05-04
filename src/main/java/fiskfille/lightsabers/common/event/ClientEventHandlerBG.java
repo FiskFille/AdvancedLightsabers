@@ -11,7 +11,7 @@ public class ClientEventHandlerBG
 	public void onPreRenderSheathed(PreRenderSheathed event)
 	{
 		ItemStack itemstack = event.element;
-		
+
 		if (itemstack != null)
 		{
 			if (itemstack.getItem() == ModItems.lightsaber || itemstack.getItem() == ModItems.doubleLightsaber)
