@@ -1,0 +1,11 @@
+{
+	"lightsaber_on": {category:"player", sounds:["lightsaber_on"]},
+	"lightsaber_off": {category:"player", sounds:["lightsaber_off"]},
+	"lightsaber_swing": {category:"player", sounds:["lightsaber_swing1", "lightsaber_swing2", "lightsaber_swing3", "lightsaber_swing4"]},
+	
+	"sith_sarcophagus_open": {category:"block", sounds:["sith_sarcophagus_open"]},
+	
+	"hum_light": {category:"ambient", sounds:[{name:"hum_light", stream:true}]},
+    "hum_medium": {category:"ambient", sounds:[{name:"hum_medium", stream:true}]},
+    "hum_heavy": {category:"ambient", sounds:[{name:"hum_medium", stream:true}]}
+}

@@ -1,0 +1,74 @@
+------Items------
+item.bottom_lightsaber_piece.name=Bottom Lightsaber Piece
+item.upper_lightsaber_piece.name=Upper Lightsaber Piece
+item.jedi_robe.name=Jedi Robe
+item.sith_robe.name=Sith Robe
+item.brown_cloth.name=Brown Cloth
+item.black_cloth.name=Black Cloth
+item.lightsaber_circuitry.name=Lightsaber Circuitry
+item.compressed_focusing_crystal.name=Compressed Focusing Crystal
+item.cracked_kyber_crystal.name=Cracked Kyber Crystal
+item.inverting_focusing_crystal.name=Inverting Focusing Crystal
+item.fine_cut_focusing_crystal.name=Fine-Cut Focusing Crystal
+
+item.lightsaber_blade_emitter.name=Lightsaber Blade Emitter
+item.lightsaber_switch_module.name=Lightsaber Switch Module
+item.lightsaber_grip.name=Lightsaber Grip
+item.lightsaber_pommel.name=Lightsaber Pommel
+
+item.lightsaber.name=Lightsaber
+item.double_lightsaber.name=Double Lightsaber
+
+------Blocks------
+tile.lightsaber_crystal.name=%s Lightsaber Crystal
+tile.lightsaber_forge.name=Lightsaber Forge
+tile.sith_coffin.name=Sith Sarcophagus
+tile.sith_stone_coffin.name=Stone Sith Coffin
+tile.light_forcestone.default.name=Light Forcestone
+tile.light_forcestone.inscribed.name=Light Inscribed Forcestone
+tile.light_forcestone.pillar.name=Light Forcestone Pillar
+tile.light_activated_forcestone_pillar.name=Light Activated Forcestone Pillar
+tile.light_forcestone_stairs.name=Light Forcestone Stairs
+tile.dark_forcestone.default.name=Dark Forcestone
+tile.dark_forcestone.inscribed.name=Dark Inscribed Forcestone
+tile.dark_forcestone.pillar.name=Dark Forcestone Pillar
+tile.dark_activated_forcestone_pillar.name=Dark Activated Forcestone Pillar
+tile.dark_forcestone_stairs.name=Dark Forcestone Stairs
+tile.forcestone_slab.light.name=Light Forcestone Slab
+tile.forcestone_slab.dark.name=Dark Forcestone Slab
+
+------Entities------
+entity.al_SithGhost.name=Sith Ghost
+
+------GUI------
+gui.lightsaber_forge=Lightsaber Forge
+gui.sith_coffin=Sith Coffin
+recipe.lightsaber_forge=Lightsaber Forge
+
+------Tooltip------
+lightsaber.color=Color:
+lightsaber.colors=Colors:
+lightsaber.hilt=Hilt:
+lightsaber.focusingCrystals=Focusing Crystals:
+lightsaber.upper=Upper:
+lightsaber.lower=Lower:
+
+------Colors------
+color.0=Deep Blue
+color.1=Medium Blue
+color.2=Light Blue
+color.3=Arctic Blue
+color.4=White
+color.5=Indigo
+color.6=Purple
+color.7=Pink
+color.8=Magenta
+color.9=Red
+color.10=Blood Orange
+color.11=Amber
+color.12=Yellow
+color.13=Gold
+color.14=Lime Green
+color.15=Green
+color.16=Mint Green
+color.17=Cyan
