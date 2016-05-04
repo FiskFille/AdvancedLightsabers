@@ -32,17 +32,17 @@ public class ModelLightsaberBlade extends ModelBase
 		bladeLength = length;
 	}
 
-	public void renderInner(ItemStack itemstack)
+	public void renderInner(ItemStack stack)
 	{
-		int[] aint = LightsaberHelper.getFocusingCrystalIds(itemstack);
-		List<String> list = Lists.newArrayList();
+		int[] crystalds = LightsaberHelper.getFocusingCrystalIds(stack);
+		List<String> focusingCrystals = Lists.newArrayList();
 		
-		for (int id : aint)
+		for (int id : crystalds)
 		{
-			list.add(FocusingCrystals.getFocusingCrystals()[id]);
+			focusingCrystals.add(FocusingCrystals.getFocusingCrystals()[id]);
 		}
 		
-		if (list.contains(FocusingCrystals.INVERTING_FOCUSING_CRYSTAL))
+		if (focusingCrystals.contains(FocusingCrystals.INVERTING_FOCUSING_CRYSTAL))
 		{
 			GL11.glColor4f(0, 0, 0, 1);
 		}
@@ -51,12 +51,12 @@ public class ModelLightsaberBlade extends ModelBase
 			GL11.glColor4f(1, 1, 1, 1);
 		}
 		
-		if (list.contains(FocusingCrystals.COMPRESSED_FOCUSING_CRYSTAL))
+		if (focusingCrystals.contains(FocusingCrystals.COMPRESSED_FOCUSING_CRYSTAL))
 		{
 			GL11.glScalef(0.6F, 1, 0.6F);
 		}
 		
-		if (list.contains(FocusingCrystals.CRACKED_KYBER_CRYSTAL))
+		if (focusingCrystals.contains(FocusingCrystals.CRACKED_KYBER_CRYSTAL))
 		{
 			int ticks = (Minecraft.getMinecraft().thePlayer.ticksExisted) % 100;
 			float divider = 60;
@@ -81,7 +81,7 @@ public class ModelLightsaberBlade extends ModelBase
 					}
 				}
 
-				if (!list.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL))
+				if (!focusingCrystals.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL))
 				{
 					blade.render(0.0625F);
 					GL11.glTranslatef(0, -0.0625F * (0.5F + bladeLength), 0.0625F / 2);
@@ -92,7 +92,7 @@ public class ModelLightsaberBlade extends ModelBase
 			}
 		}
 		
-		if (list.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL))
+		if (focusingCrystals.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL))
 		{
 	        Tessellator tessellator = Tessellator.instance;
 	        float f = 0.0625F;
@@ -154,12 +154,12 @@ public class ModelLightsaberBlade extends ModelBase
 
 	public void renderOuter(ItemStack itemstack, float r, float g, float b, boolean flag)
 	{
-		int[] aint = LightsaberHelper.getFocusingCrystalIds(itemstack);
-		List<String> list = Lists.newArrayList();
+		int[] focusingCrystalIds = LightsaberHelper.getFocusingCrystalIds(itemstack);
+		List<String> focusingCrystals = Lists.newArrayList();
 		
-		for (int id : aint)
+		for (int id : focusingCrystalIds)
 		{
-			list.add(FocusingCrystals.getFocusingCrystals()[id]);
+			focusingCrystals.add(FocusingCrystals.getFocusingCrystals()[id]);
 		}
 		
 		int smooth = 10;
@@ -169,14 +169,14 @@ public class ModelLightsaberBlade extends ModelBase
 		float f2 = 1;
 		float f3 = 0.1F;
 		
-		if (list.contains(FocusingCrystals.COMPRESSED_FOCUSING_CRYSTAL))
+		if (focusingCrystals.contains(FocusingCrystals.COMPRESSED_FOCUSING_CRYSTAL))
 		{
 			width = 0.4F;
 			smooth = 7;
 			f3 = 0.07F;
 		}
 		
-		if (list.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL))
+		if (focusingCrystals.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL))
 		{
 			f *= 0.55F;
 			f1 *= 0.925F;
@@ -189,9 +189,9 @@ public class ModelLightsaberBlade extends ModelBase
 			smooth *= ModConfig.renderGlobalMultiplier * ModConfig.renderSmoothingMultiplier;
 		}
 		
-		int i1 = 5 * smooth;
+		int layerCount = 5 * smooth;
 		
-		for (int i = 0; i < i1; ++i)
+		for (int i = 0; i < layerCount; ++i)
 		{
 			GL11.glColor4f(r, g, b, (f3 / smooth) * (flag ? ModConfig.renderGlobalMultiplier * ModConfig.renderOpacityMultiplier : 1));
 			float scale = 1 + i * (width / smooth);
@@ -199,12 +199,12 @@ public class ModelLightsaberBlade extends ModelBase
 			GL11.glPushMatrix();
 	        GL11.glTranslatef(blade.offsetX, blade.offsetY, blade.offsetZ);
 	        GL11.glTranslatef(blade.rotationPointX * 0.0625F, blade.rotationPointY * 0.0625F, blade.rotationPointZ * 0.0625F);
-	        GL11.glScaled(scale * f, (1 - i * (list.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL) ? 0.003F : 0.005F) + 0.2F) * f1, scale * f2);
+	        GL11.glScaled(scale * f, (1 - i * (focusingCrystals.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL) ? 0.003F : 0.005F) + 0.2F) * f1, scale * f2);
 	        GL11.glTranslatef(-blade.offsetX, -blade.offsetY, -blade.offsetZ);
 	        GL11.glTranslatef(-blade.rotationPointX * 0.0625F, -blade.rotationPointY * 0.0625F, -blade.rotationPointZ * 0.0625F);
 	        GL11.glTranslatef(0, -(float)i / 400 + 0.06F, 0);
 	        
-	        if (list.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL))
+	        if (focusingCrystals.contains(FocusingCrystals.FINE_CUT_FOCUSING_CRYSTAL))
 	        {
 	        	GL11.glTranslatef(0, 0, 0.005F + i * 0.00001F);
 	        }
