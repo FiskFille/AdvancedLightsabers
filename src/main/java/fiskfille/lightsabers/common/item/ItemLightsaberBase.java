@@ -116,7 +116,7 @@ public abstract class ItemLightsaberBase extends ItemSword
 
             MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, (EntityPlayer) entity, b);
 
-            Vec3 position = entity.getPosition(0.0F);
+            Vec3 position = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
             Vec3 look = entity.getLook(0.0F);
             Vec3 lookPosition = position.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
             float expand = 1.0F;
