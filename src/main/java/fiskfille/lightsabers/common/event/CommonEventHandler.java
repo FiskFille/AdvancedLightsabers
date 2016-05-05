@@ -2,18 +2,23 @@ package fiskfille.lightsabers.common.event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fiskfille.lightsabers.common.data.DataManager;
+import fiskfille.lightsabers.common.entity.EntitySithGhost;
 import fiskfille.lightsabers.common.item.ItemLightsaberBase;
 import fiskfille.lightsabers.common.network.ALNetworkManager;
 import fiskfille.lightsabers.common.network.PacketBroadcastState;
@@ -91,6 +96,29 @@ public class CommonEventHandler
 			if (itemstack != null && itemstack.getItem() instanceof ItemLightsaberBase)
 			{
 				event.setCanceled(true);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingAttack(LivingAttackEvent event) {
+		Entity weapon = event.source.getSourceOfDamage();
+		
+		if (event.entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)event.entity;
+			
+			if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLightsaberBase && player.isSneaking() && player.isUsingItem()) {
+				if (
+					weapon instanceof EntityThrowable ||
+					weapon instanceof IProjectile ||
+					weapon instanceof EntityPlayer ||
+					weapon instanceof EntitySithGhost
+				) {
+					Random rand = new Random();
+					String soundName = "lightsabers:saberhit" + (rand.nextInt(7) + 1);
+					event.entityLiving.worldObj.playSoundAtEntity(player, soundName, 1.0F, 1.0F);
+					event.setCanceled(true);
+				}
 			}
 		}
 	}
