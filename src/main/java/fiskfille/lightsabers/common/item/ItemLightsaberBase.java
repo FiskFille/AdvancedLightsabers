@@ -187,8 +187,13 @@ public abstract class ItemLightsaberBase extends ItemSword
 
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player)
     {
-        LightsaberHelper.igniteLightsaber(player, !isActive(itemstack));
-        return itemstack;
+    	if (isActive(itemstack) && player.isSneaking()) {
+    		player.setItemInUse(itemstack, this.getMaxItemUseDuration(itemstack));
+    	} else {
+    		LightsaberHelper.igniteLightsaber(player, !isActive(itemstack));
+    	}
+    	
+    	return itemstack;
     }
 
     public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player, Entity entity)
@@ -198,7 +203,7 @@ public abstract class ItemLightsaberBase extends ItemSword
 
     public EnumAction getItemUseAction(ItemStack itemstack)
     {
-        return EnumAction.bow;
+        return EnumAction.block;
     }
 
     public int getMaxItemUseDuration(ItemStack itemstack)
