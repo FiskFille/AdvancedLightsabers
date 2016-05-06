@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,7 +16,6 @@ import net.minecraft.world.World;
 import com.google.common.collect.Lists;
 
 import fiskfille.lightsabers.LightsaberAPI;
-import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.common.block.ModBlocks;
 import fiskfille.lightsabers.common.container.InventoryLightsaberForge;
 import fiskfille.lightsabers.common.entity.EntitySithGhost;
@@ -345,16 +343,10 @@ public class LightsaberHelper
 		}
 	}
 	
-	public static boolean isBlockable(Entity entity) {
-		if (
-			entity instanceof EntityThrowable
-		||	entity instanceof IProjectile
-		||  entity instanceof EntityPlayer
-		||  entity instanceof EntitySithGhost
-		) {
-			return true;
-		} else {
-			return false;
-		}
+	public static boolean isBlockable(Entity entity)
+	{
+		return entity instanceof IProjectile
+			|| entity instanceof EntityPlayer
+			|| entity instanceof EntitySithGhost;
 	}
 }

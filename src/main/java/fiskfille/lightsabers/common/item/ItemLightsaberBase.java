@@ -1,5 +1,7 @@
 package fiskfille.lightsabers.common.item;
 
+import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,8 +27,6 @@ import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.common.entity.EntityLightsaber;
 import fiskfille.lightsabers.common.helper.LightsaberHelper;
 
-import java.util.List;
-
 public abstract class ItemLightsaberBase extends ItemSword
 {
     @SideOnly(Side.CLIENT)
@@ -38,9 +38,9 @@ public abstract class ItemLightsaberBase extends ItemSword
     public ItemLightsaberBase()
     {
         super(ToolMaterial.EMERALD);
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0);
-        this.setMaxStackSize(1);
+        setHasSubtypes(true);
+        setMaxDamage(0);
+        setMaxStackSize(1);
     }
 
     public double getAttackDamage()
@@ -114,7 +114,7 @@ public abstract class ItemLightsaberBase extends ItemSword
                 reach = ((EntityPlayerMP) entity).theItemInWorldManager.getBlockReachDistance();
             }
 
-            MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, (EntityPlayer) entity, b);
+            MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world, (EntityPlayer) entity, b);
 
             Vec3 position = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
             Vec3 look = entity.getLook(0.0F);
@@ -187,9 +187,12 @@ public abstract class ItemLightsaberBase extends ItemSword
 
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player)
     {
-    	if (isActive(itemstack) && player.isSneaking()) {
-    		player.setItemInUse(itemstack, this.getMaxItemUseDuration(itemstack));
-    	} else {
+    	if (isActive(itemstack) && player.isSneaking())
+    	{
+    		player.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
+    	}
+    	else
+    	{
     		LightsaberHelper.igniteLightsaber(player, !isActive(itemstack));
     	}
     	
