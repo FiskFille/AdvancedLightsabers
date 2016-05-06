@@ -51,47 +51,49 @@ public class ModelHelper
 				float f6 = model.onGround;
 				float f7 = (f6 > 0.5F ? 1 - f6 : f6) * 2;
 				
-				if (itemstack.getItem() == ModItems.doubleLightsaber)
-				{
-					if (model.heldItemRight != 0)
-			        {
-						float f8 = 1 - f1;
-			            model.bipedRightArm.rotateAngleX = model.bipedRightArm.rotateAngleX * f1 - (((float)Math.PI / 2.5F) * (float)model.heldItemRight) * f8;
-			            model.bipedRightArm.rotateAngleY = model.bipedRightArm.rotateAngleY * f1 + (model.bipedRightArm.rotateAngleY * 0.5F - ((float)Math.PI / 15F) * (float)model.heldItemRight) * f8;
-			        }
-					
-					if (itemstack.getTagCompound().getBoolean("active"))
+				if (itemstack.getItem() instanceof ItemLightsaberBase && !entityliving.isSneaking()) {
+					if (itemstack.getItem() == ModItems.doubleLightsaber)
 					{
-						model.bipedRightArm.rotateAngleX -= f7;
-						model.bipedRightArm.rotateAngleY += f7;
-					}
-				}
-				else if (itemstack.getItem() == ModItems.lightsaber)
-				{
-					if (model.heldItemRight != 0 && !isDualWielding(entityliving))
-					{
-						float f8 = 1 - f1;
-						model.bipedRightArm.rotateAngleX = model.bipedRightArm.rotateAngleX * f1 - (1 * (float)model.heldItemRight) * f8;
-						model.bipedRightArm.rotateAngleY = model.bipedRightArm.rotateAngleY * f1 + (model.bipedRightArm.rotateAngleY * 0.5F - 0.5F * (float)model.heldItemRight) * f8;
-						model.bipedRightArm.rotateAngleZ = model.bipedRightArm.rotateAngleZ * f1 + (model.bipedRightArm.rotateAngleZ * 0.5F - 0.2F * (float)model.heldItemRight) * f8;
-						model.bipedRightArm.rotationPointX += 0.5F * f8;
+						if (model.heldItemRight != 0)
+				        {
+							float f8 = 1 - f1;
+				            model.bipedRightArm.rotateAngleX = model.bipedRightArm.rotateAngleX * f1 - (((float)Math.PI / 2.5F) * (float)model.heldItemRight) * f8;
+				            model.bipedRightArm.rotateAngleY = model.bipedRightArm.rotateAngleY * f1 + (model.bipedRightArm.rotateAngleY * 0.5F - ((float)Math.PI / 15F) * (float)model.heldItemRight) * f8;
+				        }
 						
-						float f9 = f1 > 0.5F ? 1 : f1 * 2;
-						float f10 = 1 - f9;
-						model.bipedLeftArm.rotateAngleX = model.bipedLeftArm.rotateAngleX * f9 - (1 * (float)model.heldItemRight) * f10;
-						model.bipedLeftArm.rotateAngleY = model.bipedLeftArm.rotateAngleY * f9 + (model.bipedLeftArm.rotateAngleY * 0.5F + 0.75F * (float)model.heldItemRight) * f10;
-						model.bipedLeftArm.rotateAngleZ = model.bipedLeftArm.rotateAngleZ * f9 + (model.bipedLeftArm.rotateAngleZ * 0.5F + 0.0F * (float)model.heldItemRight) * f10;
-						model.bipedLeftArm.rotationPointX -= 0.5F * f8;
-					}
-					
-					if (!isDualWielding(entityliving))
-					{
 						if (itemstack.getTagCompound().getBoolean("active"))
 						{
 							model.bipedRightArm.rotateAngleX -= f7;
-							model.bipedRightArm.rotateAngleY -= f7 * 0.4F;
-							model.bipedLeftArm.rotateAngleX -= f7 * 1.6F;
-							model.bipedLeftArm.rotateAngleY -= f7 * 0.9F;
+							model.bipedRightArm.rotateAngleY += f7;
+						}
+					}
+					else if (itemstack.getItem() == ModItems.lightsaber)
+					{
+						if (model.heldItemRight != 0 && !isDualWielding(entityliving))
+						{
+							float f8 = 1 - f1;
+							model.bipedRightArm.rotateAngleX = model.bipedRightArm.rotateAngleX * f1 - (1 * (float)model.heldItemRight) * f8;
+							model.bipedRightArm.rotateAngleY = model.bipedRightArm.rotateAngleY * f1 + (model.bipedRightArm.rotateAngleY * 0.5F - 0.5F * (float)model.heldItemRight) * f8;
+							model.bipedRightArm.rotateAngleZ = model.bipedRightArm.rotateAngleZ * f1 + (model.bipedRightArm.rotateAngleZ * 0.5F - 0.2F * (float)model.heldItemRight) * f8;
+							model.bipedRightArm.rotationPointX += 0.5F * f8;
+							
+							float f9 = f1 > 0.5F ? 1 : f1 * 2;
+							float f10 = 1 - f9;
+							model.bipedLeftArm.rotateAngleX = model.bipedLeftArm.rotateAngleX * f9 - (1 * (float)model.heldItemRight) * f10;
+							model.bipedLeftArm.rotateAngleY = model.bipedLeftArm.rotateAngleY * f9 + (model.bipedLeftArm.rotateAngleY * 0.5F + 0.75F * (float)model.heldItemRight) * f10;
+							model.bipedLeftArm.rotateAngleZ = model.bipedLeftArm.rotateAngleZ * f9 + (model.bipedLeftArm.rotateAngleZ * 0.5F + 0.0F * (float)model.heldItemRight) * f10;
+							model.bipedLeftArm.rotationPointX -= 0.5F * f8;
+						}
+						
+						if (!isDualWielding(entityliving))
+						{
+							if (itemstack.getTagCompound().getBoolean("active"))
+							{
+								model.bipedRightArm.rotateAngleX -= f7;
+								model.bipedRightArm.rotateAngleY -= f7 * 0.4F;
+								model.bipedLeftArm.rotateAngleX -= f7 * 1.6F;
+								model.bipedLeftArm.rotateAngleY -= f7 * 0.9F;
+							}
 						}
 					}
 				}

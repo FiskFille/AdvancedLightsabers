@@ -3,9 +3,12 @@ package fiskfille.lightsabers.common.helper;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,6 +20,7 @@ import fiskfille.lightsabers.LightsaberAPI;
 import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.common.block.ModBlocks;
 import fiskfille.lightsabers.common.container.InventoryLightsaberForge;
+import fiskfille.lightsabers.common.entity.EntitySithGhost;
 import fiskfille.lightsabers.common.item.ItemLightsaberBase;
 import fiskfille.lightsabers.common.item.ModItems;
 import fiskfille.lightsabers.common.lightsaber.Lightsaber;
@@ -338,6 +342,19 @@ public class LightsaberHelper
 
 				igniteLightsaberWithoutNotify(entity, state);
 			}
+		}
+	}
+	
+	public static boolean isBlockable(Entity entity) {
+		if (
+			entity instanceof EntityThrowable
+		||	entity instanceof IProjectile
+		||  entity instanceof EntityPlayer
+		||  entity instanceof EntitySithGhost
+		) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
