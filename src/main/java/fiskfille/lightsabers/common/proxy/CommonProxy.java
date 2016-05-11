@@ -1,6 +1,10 @@
 package fiskfille.lightsabers.common.proxy;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import fiskfille.lightsabers.Lightsabers;
@@ -13,7 +17,9 @@ import fiskfille.lightsabers.common.lightsaber.LightsaberManager;
 import fiskfille.lightsabers.common.recipe.ModRecipes;
 
 public class CommonProxy
-{	
+{
+	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
+	
 	public void preInit()
 	{
 		LightsaberManager.register();
@@ -47,5 +53,15 @@ public class CommonProxy
 	public EntityPlayer getPlayer()
 	{
 		return null;
+	}
+	
+	public static void storeEntityData(String name, NBTTagCompound compound)
+	{
+		extendedEntityData.put(name, compound);
+	}
+
+	public static NBTTagCompound getEntityData(String name)
+	{
+		return extendedEntityData.remove(name);
 	}
 }

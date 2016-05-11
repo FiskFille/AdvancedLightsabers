@@ -10,16 +10,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 import fiskfille.lightsabers.Lightsabers;
+import fiskfille.lightsabers.client.gui.GuiForcePowers;
 import fiskfille.lightsabers.client.sound.MovingSoundHum;
 import fiskfille.lightsabers.common.config.ModConfig;
 import fiskfille.lightsabers.common.helper.ALRenderHelper;
@@ -28,6 +31,8 @@ import fiskfille.lightsabers.common.item.ModItems;
 import fiskfille.lightsabers.common.lightsaber.Lightsaber.EnumPartType;
 import fiskfille.lightsabers.common.network.ALNetworkManager;
 import fiskfille.lightsabers.common.network.PacketUpdateLightsaber;
+import fiskfille.lightsabers.common.power.Power;
+import fiskfille.lightsabers.common.power.PowerManager;
 
 public class ClientEventHandler
 {
@@ -48,6 +53,32 @@ public class ClientEventHandler
             ModConfig.configFile.save();
         }
     }
+	
+	@SubscribeEvent
+	public void onKeyPress(KeyInputEvent event)
+	{
+		EntityPlayer player = mc.thePlayer;
+        
+        if (mc.currentScreen == null)
+        {
+        	if (Keyboard.isKeyDown(Keyboard.KEY_Y)) // TODO: Make keybind
+        	{
+        		mc.displayGuiScreen(new GuiForcePowers(null, player));
+        	}
+        	else if (Keyboard.isKeyDown(Keyboard.KEY_U))
+        	{
+//        		PowerManager.unlockPower(player, Power.forceSensitivity);
+//        		PowerManager.unlockPower(player, Power.forceLevel3);
+//        		PowerManager.unlockPower(player, Power.forceLevel4);
+//        		PowerManager.unlockPower(player, Power.forceLevel5);
+        		
+        		for (Power power : Power.powers)
+        		{
+        			PowerManager.unlockPower(player, power);
+        		}
+        	}
+        }
+	}
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event)
