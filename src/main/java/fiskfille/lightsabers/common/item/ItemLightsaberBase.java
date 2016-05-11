@@ -1,5 +1,7 @@
 package fiskfille.lightsabers.common.item;
 
+import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,8 +26,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.common.entity.EntityLightsaber;
 import fiskfille.lightsabers.common.helper.LightsaberHelper;
-
-import java.util.List;
 
 public abstract class ItemLightsaberBase extends ItemSword
 {
@@ -116,7 +116,7 @@ public abstract class ItemLightsaberBase extends ItemSword
 
             MovingObjectPosition mop = this.getMovingObjectPositionFromPlayer(world, (EntityPlayer) entity, b);
 
-            Vec3 position = entity.getPosition(0.0F);
+            Vec3 position = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
             Vec3 look = entity.getLook(0.0F);
             Vec3 lookPosition = position.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
             float expand = 1.0F;
