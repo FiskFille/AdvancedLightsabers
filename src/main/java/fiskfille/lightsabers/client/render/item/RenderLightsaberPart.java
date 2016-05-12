@@ -36,6 +36,12 @@ public class RenderLightsaberPart implements IItemRenderer
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) 
 	{
 		Lightsaber lightsaber = LightsaberHelper.getLightsaberFromPart(item);
+		
+		if (lightsaber == null)
+		{
+			return;
+		}
+		
 		ModelBase model = LightsaberAPIClient.getModelFor(lightsaber, partType);
 		float height = partType == EnumPartType.EMITTER ? lightsaber.getEmitter().height : (partType == EnumPartType.SWITCH_SECTION ? lightsaber.getSwitchSection().height : (partType == partType.BODY ? lightsaber.getBody().height : lightsaber.getPommel().height));
 		float f = (height / 2 - (partType == EnumPartType.BODY || partType == EnumPartType.POMMEL ? height : 0)) * 0.0625F;
