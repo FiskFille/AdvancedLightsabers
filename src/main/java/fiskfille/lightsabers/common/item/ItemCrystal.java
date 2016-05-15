@@ -66,6 +66,14 @@ public class ItemCrystal extends ItemBlock
 			}
 		}
 		
+		if (list.isEmpty())
+		{
+			for (int color : LightsaberColors.getColors())
+			{
+				list.add(LightsaberHelper.getCrystalIdFromColor(color));
+			}
+		}
+		
 		itemstack = LightsaberHelper.createCrystal(list.get(rand.nextInt(list.size())));
 		return new WeightedRandomChestContent(itemstack, original.theMinimumChanceToGenerateItem, original.theMaximumChanceToGenerateItem, original.itemWeight);
 	}

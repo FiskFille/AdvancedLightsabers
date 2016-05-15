@@ -85,7 +85,8 @@ public class ModChestGen
 			}
 		}
 		
-		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 2));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 3));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 3));
 	}
 	
 	private static void addInfo(String category, WeightedRandomChestContent[] items, int min, int max)
