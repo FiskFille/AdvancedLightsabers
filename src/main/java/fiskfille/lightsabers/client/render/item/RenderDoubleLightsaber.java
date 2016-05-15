@@ -43,7 +43,8 @@ public class RenderDoubleLightsaber implements IItemRenderer
 			GL11.glRotatef(-100, 0, 1, 0);
 			GL11.glRotatef(-150, 1, 0, 0);
 			GL11.glRotatef(95, 0, 0, 1);
-			GL11.glTranslatef(0.2F, -0.8F, 1.0F);
+			GL11.glRotatef(180, 0, 0, 1);
+			GL11.glTranslatef(-0.1F, -0.2F, 1.1F);
 			
 			if (data.length > 1 && data[1] instanceof EntityPlayer)
 			{
@@ -53,9 +54,9 @@ public class RenderDoubleLightsaber implements IItemRenderer
 				float f2 = player.getSwingProgress(ClientEventHandler.RENDER_TICK);
 				float f3 = (f2 > 0.5F ? 1 - f2 : f2) * 2;
 				GL11.glRotatef(90 * f, 0, 0, 1);
-				GL11.glTranslatef(0.4F * f3 + 0.4F * f, 0, 0);
+				GL11.glTranslatef(0.2F * f3 + 0.8F * f, 0.5F * f3, 0.4F * f);
 				GL11.glRotatef(30 * f3, 1, 0, 0);
-				GL11.glRotatef(-360 * f2, 0, 0, 1);
+				GL11.glRotatef(360 * f2, 0, 0, 1);
 			}
 
 			float scale;
