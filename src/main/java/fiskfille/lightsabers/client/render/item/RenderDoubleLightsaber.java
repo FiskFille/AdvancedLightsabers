@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import fiskfille.lightsabers.common.event.ClientEventHandler;
 import fiskfille.lightsabers.common.helper.ALRenderHelper;
-import fiskfille.lightsabers.common.helper.LightsaberColors;
+import fiskfille.lightsabers.common.helper.FocusingCrystals;
 import fiskfille.lightsabers.common.helper.LightsaberHelper;
 import fiskfille.lightsabers.common.helper.ModelHelper;
 import fiskfille.lightsabers.common.lightsaber.Lightsaber.EnumPartType;
@@ -30,12 +30,8 @@ public class RenderDoubleLightsaber implements IItemRenderer
 
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) 
 	{
-		GL11.glPushMatrix();
 		ItemStack upper = LightsaberHelper.getDoubleLightsaberUpper(item);
 		ItemStack lower = LightsaberHelper.getDoubleLightsaberLower(item);
-		float height1 = LightsaberHelper.getPart(upper, EnumPartType.EMITTER).getEmitter().height + LightsaberHelper.getPart(upper, EnumPartType.SWITCH_SECTION).getSwitchSection().height + LightsaberHelper.getPart(upper, EnumPartType.BODY).getBody().height + LightsaberHelper.getPart(upper, EnumPartType.POMMEL).getPommel().height;
-		float height2 = LightsaberHelper.getPart(lower, EnumPartType.EMITTER).getEmitter().height + LightsaberHelper.getPart(lower, EnumPartType.SWITCH_SECTION).getSwitchSection().height + LightsaberHelper.getPart(lower, EnumPartType.BODY).getBody().height + LightsaberHelper.getPart(lower, EnumPartType.POMMEL).getPommel().height;
-		float height3 = height1 + height2;
 		
 		if (type == ItemRenderType.EQUIPPED_FIRST_PERSON)
 		{
@@ -102,7 +98,7 @@ public class RenderDoubleLightsaber implements IItemRenderer
 			GL11.glPushMatrix();
 			GL11.glRotatef(-90, 0, 1, 0);
 			GL11.glRotatef(-150, 1, 0, 0);
-			GL11.glTranslatef(-0.15F + height3 * 0.0015F, 0.14F, 0.75F);
+			GL11.glTranslatef(-0.15F + LightsaberHelper.getLightsaberHeight(item) * 0.0015F, 0.14F, 0.75F);
 			
 			if (data[1] instanceof Entity)
 			{
@@ -178,7 +174,7 @@ public class RenderDoubleLightsaber implements IItemRenderer
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			float size = 4;
-			float[] afloat = LightsaberColors.getRGB(LightsaberColors.getColors()[LightsaberHelper.getColorId(lower)]);
+			float[] afloat = ALRenderHelper.getLightsaberColor(lower);
 			GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
@@ -187,7 +183,7 @@ public class RenderDoubleLightsaber implements IItemRenderer
 			tessellator.addVertex(0F, 0F, 0);
 			tessellator.addVertex(0F, size, 0);
 			tessellator.draw();
-			afloat = LightsaberColors.getRGB(LightsaberColors.getColors()[LightsaberHelper.getColorId(upper)]);
+			afloat = ALRenderHelper.getLightsaberColor(upper);
 			GL11.glColor4f(afloat[0], afloat[1], afloat[2], 1);
 			tessellator.startDrawingQuads();
 			tessellator.addVertex(size / 2, size / 2, 0);
@@ -195,6 +191,30 @@ public class RenderDoubleLightsaber implements IItemRenderer
 			tessellator.addVertex(0F, 0F, 0);
 			tessellator.addVertex(size / 2, size / 2, 0);
 			tessellator.draw();
+			GL11.glTranslatef(0.625F, 0.625F, 0);
+			GL11.glColor4f(0, 0, 0, 1);
+			size = 2;
+			
+			if (LightsaberHelper.hasFocusingCrystal(lower, FocusingCrystals.INVERTING_FOCUSING_CRYSTAL))
+			{
+				tessellator.startDrawingQuads();
+				tessellator.addVertex(size / 2, size / 2, 0);
+				tessellator.addVertex(size, 0F, 0);
+				tessellator.addVertex(0F, 0F, 0);
+				tessellator.addVertex(0F, size, 0);
+				tessellator.draw();
+			}
+			
+			if (LightsaberHelper.hasFocusingCrystal(upper, FocusingCrystals.INVERTING_FOCUSING_CRYSTAL))
+			{
+				tessellator.startDrawingQuads();
+				tessellator.addVertex(size / 2, size / 2, 0);
+				tessellator.addVertex(size, 0F, 0);
+				tessellator.addVertex(0F, 0F, 0);
+				tessellator.addVertex(size / 2, size / 2, 0);
+				tessellator.draw();
+			}
+			
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glColor4f(1, 1, 1, 1);
@@ -232,7 +252,5 @@ public class RenderDoubleLightsaber implements IItemRenderer
 			
 			GL11.glPopMatrix();
 		}
-
-		GL11.glPopMatrix();
 	}
 }

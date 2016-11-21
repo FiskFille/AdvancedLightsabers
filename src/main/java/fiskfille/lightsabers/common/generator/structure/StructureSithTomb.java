@@ -8,6 +8,7 @@ import java.util.Random;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.ChestGenHooks;
 import fiskfille.lightsabers.common.block.ModBlocks;
 import fiskfille.lightsabers.common.tileentity.TileEntitySithCoffin;
@@ -78,7 +79,8 @@ public class StructureSithTomb extends Structure
 				while (worldObj.isAirBlock(xCoord + 4 - j, yCoord - 1 + k, zCoord + 1 + i))
 				{
 					--k;
-					setBlock(worldObj.getBiomeGenForCoords(xCoord + 4 - j, zCoord + 1 + i).fillerBlock, 0, 4 - j, k, 1 + i);
+					BiomeGenBase biome = worldObj.getBiomeGenForCoords(xCoord + 4 - j, zCoord + 1 + i);
+					setBlock(biome.fillerBlock, biome.field_150604_aj, 4 - j, k, 1 + i);
 				}
 			}
 		}
@@ -976,6 +978,11 @@ public class StructureSithTomb extends Structure
 		setBlock(ModBlocks.darkForcestoneStairs, 3, 0, 0, -6);
 		setBlock(ModBlocks.darkForcestoneStairs, 2, 0, 0, -8);
 		setBlock(Blocks.redstone_block, 0, 0, 0, -7);
+		
+		if (random.nextBoolean())
+		{
+			setBlock(ModBlocks.holocron, 1, 0, 1, -7);
+		}
 		
 		generateStructureChestContents(random, 0, 0, -10, ChestGenHooks.getItems(SITH_TOMB_TREASURY, random), ChestGenHooks.getCount(SITH_TOMB_TREASURY, random));
 		generateStructureChestContents(random, 3, 0, -7, ChestGenHooks.getItems(SITH_TOMB_TREASURY, random), ChestGenHooks.getCount(SITH_TOMB_TREASURY, random));

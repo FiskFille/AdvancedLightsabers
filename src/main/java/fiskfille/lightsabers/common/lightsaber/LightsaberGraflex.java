@@ -6,7 +6,7 @@ public class LightsaberGraflex extends Lightsaber
 {
 	public Part[] parts =
 	{
-		new Part(EnumPartType.EMITTER, 15),
+		new Part(EnumPartType.EMITTER, 16),
 		new Part(EnumPartType.SWITCH_SECTION, 8.8F),
 		new Part(EnumPartType.BODY, 16),
 		new Part(EnumPartType.POMMEL, 1)

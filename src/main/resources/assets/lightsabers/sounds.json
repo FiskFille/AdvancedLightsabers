@@ -1,12 +1,178 @@
 {
-	"lightsaber_on": {category:"player", sounds:["lightsaber_on"]},
-	"lightsaber_off": {category:"player", sounds:["lightsaber_off"]},
-	"lightsaber_swing": {category:"player", sounds:["lightsaber_swing1", "lightsaber_swing2", "lightsaber_swing3", "lightsaber_swing4"]},
-	"saberhit": {category:"player", sounds:["saberhit1", "saberhit2", "saberhit3", "saberhit4", "saberhit5", "saberhit6", "saberhit7"]},
-	
-	"sith_sarcophagus_open": {category:"block", sounds:["sith_sarcophagus_open"]},
-	
-	"hum_light": {category:"ambient", sounds:[{name:"hum_light", stream:true}]},
-    "hum_medium": {category:"ambient", sounds:[{name:"hum_medium", stream:true}]},
-    "hum_heavy": {category:"ambient", sounds:[{name:"hum_medium", stream:true}]}
+  "ambient.fortify": {
+	"sounds": [
+	  "ambient/force/fortify"
+	],
+	"category": "ambient"
+  },
+  "ambient.stealth": {
+	"sounds": [
+	  "ambient/force/stealth1",
+	  "ambient/force/stealth2",
+	  "ambient/force/stealth3"
+	],
+	"category": "ambient"
+  },
+  "block.holocron.invest": {
+	"sounds": [
+	  "block/holocron/invest"
+	],
+	"category": "block"
+  },
+  "block.holocron.unlock": {
+	"sounds": [
+	  "block/holocron/unlock"
+	],
+	"category": "block"
+  },
+  "block.sith_sarcophagus.close": {
+	"sounds": [
+	  {
+	    "name": "block/sith_sarcophagus/open",
+		"pitch": 0.8
+	  }
+	],
+	"category": "block"
+  },
+  "block.sith_sarcophagus.open": {
+	"sounds": [
+	  "block/sith_sarcophagus/open"
+	],
+	"category": "block"
+  },
+  "mob.lightsaber.hit": {
+	"sounds": [
+	  "item/lightsaber/hit1",
+	  "item/lightsaber/hit2",
+	  "item/lightsaber/hit3",
+	  "item/lightsaber/hit4",
+	  "item/lightsaber/hit5",
+	  "item/lightsaber/hit6",
+	  "item/lightsaber/hit7"
+	],
+	"category": "hostile"
+  },
+  "mob.lightsaber.off": {
+	"sounds": [
+	  "item/lightsaber/off"
+	],
+	"category": "hostile"
+  },
+  "mob.lightsaber.on": {
+	"sounds": [
+	  "item/lightsaber/on"
+	],
+	"category": "hostile"
+  },
+  "mob.lightsaber.swing": {
+	"sounds": [
+	  "item/lightsaber/swing1",
+	  "item/lightsaber/swing2",
+	  "item/lightsaber/swing3",
+	  "item/lightsaber/swing4"
+	],
+	"category": "hostile"
+  },
+  "mob.sith_ghost.death": {
+	"sounds": [
+	  "mob/sith_ghost/death"
+	],
+	"category": "hostile"
+  },
+  "mob.sith_ghost.idle": {
+	"sounds": [
+	  "mob/sith_ghost/idle1",
+	  "mob/sith_ghost/idle2",
+	  "mob/sith_ghost/idle3"
+	],
+	"category": "hostile"
+  },
+  "player.force.cast": {
+	"sounds": [
+	  "force/cast"
+	],
+	"category": "player"
+  },
+  "player.force.dark": {
+	"sounds": [
+	  "force/cast_dark"
+	],
+	"category": "player"
+  },
+  "player.force.fail": {
+	"sounds": [
+	  "force/cast_fail"
+	],
+	"category": "player"
+  },
+  "player.force.heal": {
+	"sounds": [
+	  "force/heal"
+	],
+	"category": "player"
+  },
+  "player.force.lightning": {
+	"sounds": [
+	  "force/lightning1",
+	  "force/lightning2",
+	  "force/lightning3",
+	  "force/lightning4",
+	  "force/lightning5"
+	],
+	"category": "player"
+  },
+  "player.force.stealth.off": {
+	"sounds": [
+	  {
+		"name": "force/stealth",
+		"pitch": 1.1
+	  }
+	],
+	"category": "player"
+  },
+  "player.force.stealth.on": {
+	"sounds": [
+	  "force/stealth"
+	],
+	"category": "player"
+  },
+  "player.lightsaber.hit": {
+	"sounds": [
+	  "item/lightsaber/hit1",
+	  "item/lightsaber/hit2",
+	  "item/lightsaber/hit3",
+	  "item/lightsaber/hit4",
+	  "item/lightsaber/hit5",
+	  "item/lightsaber/hit6",
+	  "item/lightsaber/hit7"
+	],
+	"category": "player"
+  },
+  "player.lightsaber.off": {
+	"sounds": [
+	  "item/lightsaber/off"
+	],
+	"category": "player"
+  },
+  "player.lightsaber.on": {
+	"sounds": [
+	  "item/lightsaber/on"
+	],
+	"category": "player"
+  },
+  "player.lightsaber.sweet_dreams": {
+	"sounds": [
+	  "random/sweet_dreams"
+	],
+	"category": "master"
+  },
+  "player.lightsaber.swing": {
+	"sounds": [
+	  "item/lightsaber/swing1",
+	  "item/lightsaber/swing2",
+	  "item/lightsaber/swing3",
+	  "item/lightsaber/swing4"
+	],
+	"category": "player"
+  }
 }

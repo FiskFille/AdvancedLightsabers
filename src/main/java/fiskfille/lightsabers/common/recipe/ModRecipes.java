@@ -25,7 +25,8 @@ public class ModRecipes
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.darkForcestoneStairs, 4), new Object[] {"#  ", "## ", "###", '#', new ItemStack(ModBlocks.darkForcestone, 1, 0)});
 		
 		GameRegistry.addRecipe(new ItemStack(ModItems.lightsaberCircuitry, 1), new Object[] {"IDI", "BDS", "TDR", 'I', Items.iron_ingot, 'D', Items.diamond, 'B', Blocks.iron_block, 'S', Blocks.stone_button, 'T', Blocks.redstone_torch, 'R', Items.redstone});
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.lightsaberForge, 1), new Object[] {"* *", "*-*", "#O#", '#', new ItemStack(ModBlocks.darkForcestone, 1, 0), 'O', Blocks.iron_block, '*', ModBlocks.darkForcestoneStairs, '-', new ItemStack(ModBlocks.forcestoneSlab, 1, 1)});
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.lightsaberForgeLight, 1), new Object[] {"*-*", "#O#", '#', new ItemStack(ModBlocks.lightForcestone, 1, 0), 'O', Blocks.iron_block, '*', ModBlocks.lightForcestoneStairs, '-', new ItemStack(ModBlocks.forcestoneSlab, 1, 0)});
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.lightsaberForgeDark, 1), new Object[] {"*-*", "#O#", '#', new ItemStack(ModBlocks.darkForcestone, 1, 0), 'O', Blocks.iron_block, '*', ModBlocks.darkForcestoneStairs, '-', new ItemStack(ModBlocks.forcestoneSlab, 1, 1)});
 		GameRegistry.addRecipe(new RecipesDoubleLightsaber());
 	}
 }

@@ -54,7 +54,6 @@ public class ItemLightsaberForge extends ItemBlock
                 ++x;
             }
 
-            BlockLightsaberForge block = (BlockLightsaberForge) ModBlocks.lightsaberForge;
             int direction = MathHelper.floor_double((double) (player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
             byte x1 = 0;
             byte z1 = 0;
@@ -81,21 +80,16 @@ public class ItemLightsaberForge extends ItemBlock
             
             if (player.canPlayerEdit(x, y, z, side, itemstack))
             {
-                if (world.isAirBlock(x, y, z) && world.isAirBlock(x + x1, y, z + z1) && player.canPlayerEdit(x + x1, y, z + z1, side, itemstack) && world.isAirBlock(x - x1, y, z - z1) && player.canPlayerEdit(x - x1, y, z - z1, side, itemstack))
+                if (world.isAirBlock(x, y, z) && world.isAirBlock(x + x1, y, z + z1) && player.canPlayerEdit(x + x1, y, z + z1, side, itemstack))
                 {
-                	world.setBlock(x, y, z, block, direction, 3);
+                	world.setBlock(x, y, z, field_150939_a, direction, 3);
                 	
-                	if (world.getBlock(x, y, z) == block)
-                    {
-                        world.setBlock(x - x1, y, z - z1, block, direction + 4, 2);
-                    }
-                	
-                	if (world.getBlock(x, y, z) == block)
-                    {
-                        world.setBlock(x + x1, y, z + z1, block, direction + 8, 2);
-                    }
+                	if (world.getBlock(x, y, z) == field_150939_a)
+                	{
+                		world.setBlock(x + x1, y, z + z1, field_150939_a, direction + 4, 2);
+                	}
                     
-                	world.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), block.stepSound.func_150496_b(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
+                	world.playSoundEffect((double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), field_150939_a.stepSound.func_150496_b(), (field_150939_a.stepSound.getVolume() + 1.0F) / 2.0F, field_150939_a.stepSound.getPitch() * 0.8F);
             		--itemstack.stackSize;
             		return true;
                 }

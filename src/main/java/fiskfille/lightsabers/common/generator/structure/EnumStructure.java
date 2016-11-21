@@ -1,30 +1,43 @@
 package fiskfille.lightsabers.common.generator.structure;
 
-import java.util.List;
+import java.util.Arrays;
 
 import net.minecraft.world.biome.BiomeGenBase;
 
-import com.google.common.collect.Lists;
-
 public enum EnumStructure
 {
-	SITH_TOMB(StructureSithTomb.class, 8, 32, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.mesaPlateau_F);
+	SITH_TOMB(StructureSithTomb.class, 8, 32, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.mesaPlateau_F),
+	JEDI_TEMPLE(StructureJediTemple.class, 16, 48, new BiomePredicate()
+	{
+		@Override
+		public boolean matches(BiomeGenBase biome)
+		{
+			return biome.rootHeight > 0 && biome.temperature < 1.5F;
+		}
+	});
 	
 	public final Class<? extends Structure> structureClass;
-	public final int minDistance;
-	public final int maxDistance;
-	public final List<BiomeGenBase> biomeList;
+	public int minDistance;
+	public int maxDistance;
+	public final BiomePredicate biomePredicate;
     
-	private EnumStructure(Class<? extends Structure> clazz, int min, int max, BiomeGenBase... biomes)
+	private EnumStructure(Class<? extends Structure> clazz, int min, int max, BiomePredicate predicate)
 	{
 		structureClass = clazz;
 		minDistance = min;
 		maxDistance = max;
-		biomeList = Lists.newArrayList();
-		
-		for (BiomeGenBase biome : biomes)
+		biomePredicate = predicate;
+	}
+	
+	private EnumStructure(Class<? extends Structure> clazz, int min, int max, final BiomeGenBase... biomes)
+	{
+		this(clazz, min, max, new BiomePredicate()
 		{
-			biomeList.add(biome);
-		}
+			@Override
+			public boolean matches(BiomeGenBase biome)
+			{
+				return Arrays.asList(biomes).contains(biome);
+			}
+		});
 	}
 }

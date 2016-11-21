@@ -24,6 +24,7 @@ import com.google.common.collect.Multimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.lightsabers.Lightsabers;
+import fiskfille.lightsabers.client.sound.ALSounds;
 import fiskfille.lightsabers.common.entity.EntityLightsaber;
 import fiskfille.lightsabers.common.helper.LightsaberHelper;
 
@@ -43,14 +44,14 @@ public abstract class ItemLightsaberBase extends ItemSword
         setMaxStackSize(1);
     }
 
-    public double getAttackDamage()
+    public double getAttackDamage(ItemStack itemstack)
     {
         return 8.0D;
     }
 
-    public Entity getThrownLightsaberEntity(World world, EntityLivingBase entity, ItemStack itemstack)
+    public Entity getThrownLightsaberEntity(World world, EntityLivingBase entity, ItemStack itemstack, int amplifier)
     {
-        return new EntityLightsaber(world, entity, itemstack);
+        return new EntityLightsaber(world, entity, itemstack, amplifier);
     }
 
     public static void refreshNBT(ItemStack itemstack)
@@ -80,25 +81,20 @@ public abstract class ItemLightsaberBase extends ItemSword
 
             if (mop == null || mop.typeOfHit != mop.typeOfHit.BLOCK)
             {
-                entity.playSound(Lightsabers.modid + ":lightsaber_swing", 1.0F, 1.0F);
+                entity.playSound(entity instanceof EntityPlayer ? ALSounds.player_lightsaber_swing : ALSounds.mob_lightsaber_swing, 1.0F, 1.0F);
             }
             else
             {
                 return onPunchBlock(itemstack, entity, mop);
-            }
-
-            if (entity.isSneaking())
-            {
-                throwLightsaber(entity, itemstack);
             }
         }
 
         return super.onEntitySwing(entity, itemstack);
     }
 
-    public void throwLightsaber(EntityLivingBase entity, ItemStack itemstack)
+    public static void throwLightsaber(EntityLivingBase entity, ItemStack itemstack, int amplifier)
     {
-        Entity lightsaber = getThrownLightsaberEntity(entity.worldObj, entity, itemstack);
+        Entity lightsaber = ((ItemLightsaberBase)itemstack.getItem()).getThrownLightsaberEntity(entity.worldObj, entity, itemstack, amplifier);
         entity.worldObj.spawnEntityInWorld(lightsaber);
         entity.setCurrentItemOrArmor(0, null);
     }
@@ -187,11 +183,7 @@ public abstract class ItemLightsaberBase extends ItemSword
 
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player)
     {
-    	if (isActive(itemstack) && player.isSneaking())
-    	{
-    		player.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
-    	}
-    	else
+    	if (player.isSneaking() && !world.isRemote)
     	{
     		LightsaberHelper.igniteLightsaber(player, !isActive(itemstack));
     	}
@@ -214,11 +206,11 @@ public abstract class ItemLightsaberBase extends ItemSword
         return 72000;
     }
 
-    public Multimap getItemAttributeModifiers()
+    public Multimap getAttributeModifiers(ItemStack stack)
     {
-        Multimap multimap = super.getItemAttributeModifiers();
+        Multimap multimap = super.getAttributeModifiers(stack);
         multimap.removeAll(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName());
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", getAttackDamage(), 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", getAttackDamage(stack), 0));
         return multimap;
     }
 

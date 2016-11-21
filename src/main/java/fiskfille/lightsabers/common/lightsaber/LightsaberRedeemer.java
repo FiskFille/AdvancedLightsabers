@@ -6,7 +6,7 @@ public class LightsaberRedeemer extends Lightsaber
 {
 	public Part[] parts =
 	{
-		new Part(EnumPartType.EMITTER, 26),
+		new Part(EnumPartType.EMITTER, 30),
 		new Part(EnumPartType.SWITCH_SECTION, 8),
 		new Part(EnumPartType.BODY, 12.3F),
 		new Part(EnumPartType.POMMEL, 1)

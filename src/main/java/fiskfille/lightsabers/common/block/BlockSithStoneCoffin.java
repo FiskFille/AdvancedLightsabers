@@ -22,7 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.lightsabers.common.entity.EntitySithGhost;
 import fiskfille.lightsabers.common.network.ALNetworkManager;
-import fiskfille.lightsabers.common.network.PacketSithCoffin;
+import fiskfille.lightsabers.common.network.PacketTileAction;
 import fiskfille.lightsabers.common.tileentity.TileEntitySithStoneCoffin;
 
 public class BlockSithStoneCoffin extends BlockContainer
@@ -60,6 +60,8 @@ public class BlockSithStoneCoffin extends BlockContainer
 				
 				entity.setCurrentItemOrArmor(0, tile.equipment);
 			}
+			
+			tile.baseplateOnly = true;
 		}
 		
 		world.spawnEntityInWorld(entity);
@@ -121,7 +123,7 @@ public class BlockSithStoneCoffin extends BlockContainer
     			if (!world.isRemote)
     			{
     				spawnSithGhost(world, x, y, z);
-    				ALNetworkManager.networkWrapper.sendToServer(new PacketSithCoffin(null, x, y, z, 1));
+    				ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(null, x, y, z, 1));
     			}
     		}
     	}
@@ -191,11 +193,6 @@ public class BlockSithStoneCoffin extends BlockContainer
     public boolean isOpaqueCube()
     {
         return false;
-    }
-
-    public boolean hasTileEntity()
-    {
-        return true;
     }
 
     @SideOnly(Side.CLIENT)

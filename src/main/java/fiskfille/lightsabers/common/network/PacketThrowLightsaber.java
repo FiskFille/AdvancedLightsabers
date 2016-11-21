@@ -54,7 +54,7 @@ public class PacketThrowLightsaber implements IMessage
                 if (entity instanceof EntityLivingBase)
                 {
                 	EntityLivingBase entity1 = (EntityLivingBase)entity;
-            		((ItemLightsaberBase)lightsaber.getItem()).throwLightsaber(entity1, lightsaber);
+            		ItemLightsaberBase.throwLightsaber(entity1, lightsaber, 1);
                 }
             }
             else
@@ -78,7 +78,7 @@ public class PacketThrowLightsaber implements IMessage
 				            ALNetworkManager.networkWrapper.sendToDimension(new PacketThrowLightsaber(entity1, lightsaber), player.dimension);
 				        }
 						
-						((ItemLightsaberBase)lightsaber.getItem()).throwLightsaber(entity1, lightsaber);
+						ItemLightsaberBase.throwLightsaber(entity1, lightsaber, 1);
 					}
                 }
             }

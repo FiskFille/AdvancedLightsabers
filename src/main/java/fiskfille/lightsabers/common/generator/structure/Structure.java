@@ -1,5 +1,6 @@
 package fiskfille.lightsabers.common.generator.structure;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -9,12 +10,21 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import com.google.common.collect.Lists;
+
 public abstract class Structure
 {
 	protected final World worldObj;
 	protected int xCoord;
 	protected int yCoord;
 	protected int zCoord;
+	
+	protected boolean mirrorX;
+	protected boolean mirrorZ;
+	
+	protected int maxY;
+	protected boolean simulate = false;
+	protected List<StructurePoint> coverage = Lists.newArrayList();
 	
 	public Structure(World world, int x, int y, int z)
 	{
@@ -30,7 +40,52 @@ public abstract class Structure
 	{
 		if (yCoord + y > 4)
 		{
-			worldObj.setBlock(xCoord + x, yCoord + y, zCoord + z, block, metadata, 3);
+			if (mirrorX && x > 0)
+			{
+				setBlock(xCoord - x, yCoord + y, zCoord + z, block, StructureHelper.mirrorMetadata(block, metadata));
+			}
+			
+			if (mirrorZ && z > 0)
+			{
+				setBlock(xCoord + x, yCoord + y, zCoord - z, block, StructureHelper.mirrorMetadata(block, metadata));
+			}
+			
+			setBlock(xCoord + x, yCoord + y, zCoord + z, block, metadata);
+		}
+	}
+	
+	private void setBlock(int x, int y, int z, Block block, int metadata)
+	{
+		if (simulate || worldObj.getBlock(x, y, z) != block || worldObj.getBlockMetadata(x, y, z) != metadata)
+		{
+			if (simulate)
+			{
+				maxY = Math.max(maxY, y);
+				
+				StructurePoint p = new StructurePoint(x, y, z);
+				
+				if (coverage.contains(p))
+				{
+					for (int i = 0; i < coverage.size(); ++i)
+					{
+						StructurePoint p1 = coverage.get(i);
+						
+						if (p.equals(p1))
+						{
+							p1.posY = Math.min(p1.posY, y);
+							break;
+						}
+					}
+				}
+				else
+				{
+					coverage.add(p);
+				}
+			}
+			else
+			{
+				worldObj.setBlock(x, y, z, block, metadata, 3);
+			}
 		}
 	}
 	

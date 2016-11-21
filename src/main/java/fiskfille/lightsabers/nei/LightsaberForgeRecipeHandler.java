@@ -17,6 +17,7 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
@@ -25,7 +26,9 @@ import com.google.common.collect.Lists;
 import fiskfille.lightsabers.LightsaberAPI;
 import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.client.gui.GuiLightsaberForge;
+import fiskfille.lightsabers.client.sound.ALSounds;
 import fiskfille.lightsabers.common.block.ModBlocks;
+import fiskfille.lightsabers.common.event.ClientEventHandler;
 import fiskfille.lightsabers.common.helper.ALRenderHelper;
 import fiskfille.lightsabers.common.helper.LightsaberColors;
 import fiskfille.lightsabers.common.helper.LightsaberHelper;
@@ -124,6 +127,11 @@ public class LightsaberForgeRecipeHandler extends TemplateRecipeHandler
     {
     	if (result.getItem() == ModItems.lightsaber)
     	{
+    		if (result.getDisplayName().equalsIgnoreCase("sweet dreams"))
+    		{
+    			Minecraft.getMinecraft().thePlayer.playSound(ALSounds.player_lightsaber_sweet_dreams, 1.0F, 1.0F);
+    		}
+    		
     		Object[] aobject = new Object[8];
     		EnumPartType[] types = {EnumPartType.EMITTER, EnumPartType.SWITCH_SECTION, EnumPartType.BODY, EnumPartType.POMMEL};
     		
@@ -277,7 +285,9 @@ public class LightsaberForgeRecipeHandler extends TemplateRecipeHandler
         	itemstack = itemstack.copy();
         	itemstack.getTagCompound().setBoolean("active", true);
         	
-        	float spin = (float)mc.thePlayer.ticksExisted;
+        	GuiDraw.drawString(StatCollector.translateToLocalFormatted("%s cm", ItemStack.field_111284_a.format(LightsaberHelper.getLightsaberHeightCm(itemstack))), k + 45, l + 64 - GuiDraw.fontRenderer.FONT_HEIGHT, -1);
+        	
+        	float spin = mc.thePlayer.ticksExisted + ClientEventHandler.RENDER_TICK;
         	short short1 = 240;
             short short2 = 240;
         	GL11.glEnable(GL12.GL_RESCALE_NORMAL);

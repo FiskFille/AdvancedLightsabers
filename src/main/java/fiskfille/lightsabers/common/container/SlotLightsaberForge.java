@@ -5,6 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.FMLCommonHandler;
+import fiskfille.lightsabers.common.helper.LightsaberHelper;
 
 public class SlotLightsaberForge extends Slot
 {
@@ -15,8 +16,18 @@ public class SlotLightsaberForge extends Slot
     public SlotLightsaberForge(EntityPlayer player, InventoryLightsaberForge inventory1, IInventory inventory2, int id, int x, int y)
     {
         super(inventory2, id, x, y);
-        this.thePlayer = player;
-        this.craftMatrix = inventory1;
+        thePlayer = player;
+        craftMatrix = inventory1;
+    }
+    
+    public boolean canTakeStack(EntityPlayer player)
+    {
+    	if (getStack() == null || LightsaberHelper.getLightsaberHeightCm(getStack()) < LightsaberHelper.MIN_LENGTH_CM)
+    	{
+    		return false;
+    	}
+    	
+    	return true;
     }
 
     public boolean isItemValid(ItemStack itemstack)
@@ -26,9 +37,9 @@ public class SlotLightsaberForge extends Slot
 
     public ItemStack decrStackSize(int amount)
     {
-        if (this.getHasStack())
+        if (getHasStack())
         {
-            this.amountCrafted += Math.min(amount, this.getStack().stackSize);
+            amountCrafted += Math.min(amount, getStack().stackSize);
         }
 
         return super.decrStackSize(amount);
@@ -36,22 +47,22 @@ public class SlotLightsaberForge extends Slot
 
     protected void onCrafting(ItemStack itemstack, int amount)
     {
-        this.amountCrafted += amount;
-        this.onCrafting(itemstack);
+        amountCrafted += amount;
+        onCrafting(itemstack);
     }
 
     public void onPickupFromSlot(EntityPlayer player, ItemStack itemstack)
     {
         FMLCommonHandler.instance().firePlayerCraftingEvent(player, itemstack, craftMatrix);
-        this.onCrafting(itemstack);
+        onCrafting(itemstack);
 
-        for (int i = 0; i < this.craftMatrix.getSizeInventory(); ++i)
+        for (int i = 0; i < craftMatrix.getSizeInventory(); ++i)
         {
-            ItemStack itemstack1 = this.craftMatrix.getStackInSlot(i);
+            ItemStack itemstack1 = craftMatrix.getStackInSlot(i);
 
             if (itemstack1 != null)
             {
-                this.craftMatrix.decrStackSize(i, 1);
+                craftMatrix.decrStackSize(i, 1);
             }
         }
     }

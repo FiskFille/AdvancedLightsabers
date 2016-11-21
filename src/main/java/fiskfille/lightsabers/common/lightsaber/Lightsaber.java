@@ -30,12 +30,6 @@ public abstract class Lightsaber
 		public float height;
 		public float[] glInstructions;
 		
-		public Part(EnumPartType type, float height)
-		{
-			this.type = type;
-			this.height = height;
-		}
-		
 		public Part(EnumPartType type, float height, float... instructions)
 		{
 			this.type = type;

@@ -6,7 +6,7 @@ public class LightsaberDroideka extends Lightsaber
 {
 	public Part[] parts =
 	{
-		new Part(EnumPartType.EMITTER, 3),
+		new Part(EnumPartType.EMITTER, 5),
 		new Part(EnumPartType.SWITCH_SECTION, 9.6F),
 		new Part(EnumPartType.BODY, 29.4F),
 		new Part(EnumPartType.POMMEL, 6.5F)

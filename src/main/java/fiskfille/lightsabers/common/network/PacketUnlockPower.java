@@ -88,6 +88,13 @@ public class PacketUnlockPower implements IMessage
 		public void onMessage(EntityPlayer player, PacketUnlockPower message, MessageContext ctx)
         {
 			PowerManager.getPowerData(player, message.power).unlocked = true;
+			
+			if (message.power == Power.forceSensitivity)
+			{
+				PowerManager.getPowerData(player, Power.lightSide).unlocked = true;
+				PowerManager.getPowerData(player, Power.darkSide).unlocked = true;
+				PowerManager.getPowerData(player, Power.neutral).unlocked = true;
+			}
         }
 	}
 }

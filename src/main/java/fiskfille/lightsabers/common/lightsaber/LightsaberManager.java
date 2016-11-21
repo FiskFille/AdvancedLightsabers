@@ -13,6 +13,10 @@ public class LightsaberManager
 	public static Lightsaber lightsaberVaidModern = new LightsaberVaid("Modern");
 	public static Lightsaber lightsaberDroideka = new LightsaberDroideka();
 	public static Lightsaber lightsaberFulcrum = new LightsaberFulcrum();
+	public static Lightsaber lightsaberJuggernaut = new LightsaberJuggernaut();
+	public static Lightsaber lightsaberMechanical = new LightsaberMechanical();
+	public static Lightsaber lightsaberMandalorian = new LightsaberMandalorian();
+	public static Lightsaber lightsaberFury = new LightsaberFury();
 	
 	public static void register()
 	{
@@ -25,5 +29,9 @@ public class LightsaberManager
 		LightsaberAPI.registerLightsaber(lightsaberVaidModern);
 		LightsaberAPI.registerLightsaber(lightsaberDroideka);
 		LightsaberAPI.registerLightsaber(lightsaberFulcrum);
+		LightsaberAPI.registerLightsaber(lightsaberJuggernaut);
+		LightsaberAPI.registerLightsaber(lightsaberMechanical);
+		LightsaberAPI.registerLightsaber(lightsaberMandalorian);
+		LightsaberAPI.registerLightsaber(lightsaberFury);
 	}
 }

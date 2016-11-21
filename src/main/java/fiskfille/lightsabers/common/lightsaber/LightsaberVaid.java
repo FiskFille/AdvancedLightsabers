@@ -6,7 +6,7 @@ public class LightsaberVaid extends Lightsaber
 {
 	public Part[] parts =
 	{
-		new Part(EnumPartType.EMITTER, 14.5F),
+		new Part(EnumPartType.EMITTER, 18.5F),
 		new Part(EnumPartType.SWITCH_SECTION, 9.2F),
 		new Part(EnumPartType.BODY, 22.37F),
 		new Part(EnumPartType.POMMEL, 6.6F)

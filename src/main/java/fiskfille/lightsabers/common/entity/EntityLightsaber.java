@@ -8,29 +8,28 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import fiskfille.lightsabers.Lightsabers;
+import fiskfille.lightsabers.client.sound.ALSounds;
+import fiskfille.lightsabers.common.damagesource.ModDamageSources;
 import fiskfille.lightsabers.common.item.ItemLightsaberBase;
 
 public class EntityLightsaber extends EntityThrowable
 {
 	public ItemStack lightsaber;
 	public boolean shouldReturn = false;
-	public int soundTick = 3;
 	
-	public EntityLightsaber(World world, EntityLivingBase entity, ItemStack itemstack)
+	public EntityLightsaber(World world, EntityLivingBase entity, ItemStack itemstack, int amplifier)
 	{
 		super(world, entity);
 		lightsaber = itemstack;
-		setSize(2, 0.0625F);
+		setSize(2.0F / (2 - amplifier), 0.0625F);
 	}
 	
 	public EntityLightsaber(World world)
 	{
 		super(world);
-		setSize(2, 0.0625F);
+		setSize(2.0F, 0.0625F);
 	}
 	
 	public ItemStack getLightsaberItem()
@@ -80,9 +79,9 @@ public class EntityLightsaber extends EntityThrowable
         
         if (getThrower() != null && getThrower().isEntityAlive())
         {
-            if (ticksExisted % soundTick == 0)
+            if (ticksExisted % 3 == 0)
             {
-            	worldObj.playSound(posX, posY, posZ, Lightsabers.modid + ":lightsaber_swing", 1.0F, 1.0F, true);
+            	worldObj.playSound(posX, posY, posZ, getThrower() instanceof EntityPlayer ? ALSounds.player_lightsaber_swing : ALSounds.mob_lightsaber_swing, 1.0F, 1.0F, true);
             }
         }
         else if (!(getThrower() instanceof EntitySithGhost))
@@ -91,8 +90,8 @@ public class EntityLightsaber extends EntityThrowable
 			
 			if (!worldObj.isRemote)
 			{
-				EntityItem entityitem = new EntityItem(getThrower().worldObj);
-				entityitem.setLocationAndAngles(getThrower().posX, getThrower().posY, getThrower().posZ, 0.0F, 0.0F);
+				EntityItem entityitem = new EntityItem(worldObj);
+				entityitem.setLocationAndAngles(posX, posY, posZ, 0.0F, 0.0F);
 				entityitem.setEntityItemStack(lightsaber);
 				worldObj.spawnEntityInWorld(entityitem);
 			}
@@ -129,7 +128,7 @@ public class EntityLightsaber extends EntityThrowable
         					{
         						if (!player.inventory.addItemStackToInventory(getLightsaberItem()))
         						{
-        							EntityItem entityitem = new EntityItem(getThrower().worldObj);
+        							EntityItem entityitem = new EntityItem(worldObj);
         							entityitem.setLocationAndAngles(getThrower().posX, getThrower().posY, getThrower().posZ, 0.0F, 0.0F);
         							entityitem.setEntityItemStack(getLightsaberItem());
         							worldObj.spawnEntityInWorld(entityitem);
@@ -143,7 +142,7 @@ public class EntityLightsaber extends EntityThrowable
         	{
         		EntityLivingBase entity = getThrower();
     			
-        		if (shouldReturn)
+        		if (shouldReturn && entity != null)
         		{
         			motionX = (entity.posX - posX) / 4;
         			motionY = (entity.posY - posY - entity.height / 2) / 4;
@@ -170,20 +169,12 @@ public class EntityLightsaber extends EntityThrowable
 			return;
 		}
 		
-        if (mop.entityHit != null && mop.entityHit.getUniqueID() != getThrower().getUniqueID())
+        if (mop.entityHit != null && mop.entityHit != getThrower())
         {
-        	float damage = (float)((ItemLightsaberBase)getLightsaberItem().getItem()).getAttackDamage() + (ticksExisted > 5 ? 2.5F : ticksExisted / 2);
-        	float sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, getLightsaberItem()) * 1.25F;
-            mop.entityHit.setFire(EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, getLightsaberItem()) * 4);
+        	float damage = (float)((ItemLightsaberBase)getLightsaberItem().getItem()).getAttackDamage(getLightsaberItem()) + EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, getLightsaberItem()) * 1.25F;
             
-            if (getThrower() instanceof EntityPlayer)
-            {
-            	mop.entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)getThrower()), damage + sharpnessDamage);
-            }
-            else
-            {
-            	mop.entityHit.attackEntityFrom(DamageSource.causeMobDamage(getThrower()), damage + sharpnessDamage);
-            }
+        	mop.entityHit.setFire(EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, getLightsaberItem()) * 4);
+        	mop.entityHit.attackEntityFrom(ModDamageSources.causeLightsaberDamage(getThrower()), shouldReturn ? damage * 0.25F : damage * (1 - ((float)ticksExisted / 20) * 0.75F));
         }
         else
         {

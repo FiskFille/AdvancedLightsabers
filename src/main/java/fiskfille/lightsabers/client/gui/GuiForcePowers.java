@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptionButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -13,7 +14,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChatComponentTranslation;
@@ -21,6 +21,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -32,11 +33,14 @@ import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.common.block.ModBlocks;
 import fiskfille.lightsabers.common.data.ALData;
 import fiskfille.lightsabers.common.helper.ALHelper;
+import fiskfille.lightsabers.common.network.ALNetworkManager;
+import fiskfille.lightsabers.common.network.PacketTileAction;
 import fiskfille.lightsabers.common.power.EnumPowerType;
 import fiskfille.lightsabers.common.power.Power;
 import fiskfille.lightsabers.common.power.PowerData;
 import fiskfille.lightsabers.common.power.PowerManager;
 import fiskfille.lightsabers.common.power.PowerStats;
+import fiskfille.lightsabers.common.tileentity.TileEntityHolocron;
 
 public class GuiForcePowers extends GuiScreen
 {
@@ -52,7 +56,6 @@ public class GuiForcePowers extends GuiScreen
     protected int prevMouseX;
     protected int prevMouseY;
     protected float zoom = 1;
-    protected int xpDrained;
     protected double field_146569_s;
     protected double field_146568_t;
     protected double field_146567_u;
@@ -64,10 +67,13 @@ public class GuiForcePowers extends GuiScreen
 
     private GuiButton button;
     private LinkedList<Power> powers = new LinkedList<Power>();
+    
+    public final TileEntityHolocron tile;
 
-    public GuiForcePowers(GuiScreen gui, EntityPlayer player)
+    public GuiForcePowers(GuiScreen gui, EntityPlayer player, TileEntityHolocron tileentity)
     {
         prevScreen = gui;
+        tile = tileentity;
         powerManager = new PowerManager(player);
         short short1 = 141;
         short short2 = 141;
@@ -85,6 +91,14 @@ public class GuiForcePowers extends GuiScreen
     {
         buttonList.clear();
         buttonList.add(new GuiOptionButton(1, width / 2 + 24, height / 2 + 74, 80, 20, I18n.format("gui.done")));
+    }
+
+    public void onGuiClosed()
+    {
+    	if (tile != null)
+    	{
+    		ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(mc.thePlayer, tile.xCoord, tile.yCoord, tile.zCoord, 1));
+    	}
     }
 
     protected void actionPerformed(GuiButton button)
@@ -191,11 +205,6 @@ public class GuiForcePowers extends GuiScreen
 
         drawDefaultBackground();
         drawBackground(mouseX, mouseY, partialTicks);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        drawForeground();
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
     public void updateScreen()
@@ -223,12 +232,15 @@ public class GuiForcePowers extends GuiScreen
         int j = (height - ySize) / 2;
         fontRendererObj.drawString(I18n.format("gui.forcePowers"), i + 15, j + 5, 4210752);
 
-        boolean flag1 = false;
-        int color = flag1 ? 16777215 : 8453920;
-        String s = "Xp: " + ALHelper.getTotalXp(mc.thePlayer);
         int x = i + 15;
         int y = j + ySize - 25;
-        fontRendererObj.drawString(s, x + 1, y, 0);
+        drawOutlinedString(StatCollector.translateToLocalFormatted("gui.forcePowers.xp", MathHelper.floor_float(ALData.getFloat(mc.thePlayer, ALData.FORCE_XP))), x, y, MathHelper.floor_float(ALData.getFloat(mc.thePlayer, ALData.FORCE_XP)) > 0 ? 8453920 : 0xD74848);
+        drawOutlinedString(StatCollector.translateToLocalFormatted("gui.forcePowers.basePower", ALHelper.getBasePower(mc.thePlayer)), x, y + 10, ALHelper.getBasePower(mc.thePlayer) > 0 ? 8453920 : 0xD74848);
+    }
+    
+    public void drawOutlinedString(String s, int x, int y, int color)
+    {
+    	fontRendererObj.drawString(s, x + 1, y, 0);
         fontRendererObj.drawString(s, x - 1, y, 0);
         fontRendererObj.drawString(s, x, y + 1, 0);
         fontRendererObj.drawString(s, x, y - 1, 0);
@@ -298,47 +310,18 @@ public class GuiForcePowers extends GuiScreen
 
             for (j3 = 0; (float)j3 * f2 - (float)k2 < 224; ++j3)
             {
+            	Block block = ModBlocks.lightForcestone;
                 random.setSeed((long)(mc.getSession().getPlayerID().hashCode() + i2 + j3 + (j2 + i3) * 16));
-                k3 = random.nextInt(1 + j2 + i3) + (j2 + i3) / 2;
-                IIcon iicon = Blocks.sand.getIcon(0, 0);
-                iicon = ModBlocks.lightForcestone.getIcon(2, 0);
+                k3 = random.nextInt(Math.max(1 + (i2 + j3 + 10) / 6, 0)) + (i2 + j3 + 10) / 1 - 11;
                 
+                if (k3 < 20)
+                {
+                	block = ModBlocks.darkForcestone;
+                }
                 
-//                if (k3 <= 37 && j2 + i3 != 35)
-//                {
-//                    if (k3 == 22)
-//                    {
-//                        if (random.nextInt(2) == 0)
-//                        {
-//                            iicon = Blocks.diamond_ore.getIcon(0, 0);
-//                        }
-//                        else
-//                        {
-//                            iicon = Blocks.redstone_ore.getIcon(0, 0);
-//                        }
-//                    }
-//                    else if (k3 == 10)
-//                    {
-//                        iicon = Blocks.iron_ore.getIcon(0, 0);
-//                    }
-//                    else if (k3 == 8)
-//                    {
-//                        iicon = Blocks.coal_ore.getIcon(0, 0);
-//                    }
-//                    else if (k3 > 4)
-//                    {
-//                        iicon = ModBlocks.darkForcestone.getIcon(0, 0);
-//                    }
-//                    else if (k3 > 0)
-//                    {
-//                        iicon = Blocks.dirt.getIcon(0, 0);
-//                    }
-//                }
-//                else
-//                {
-//                    iicon = Blocks.bedrock.getIcon(0, 0);
-//                }
-
+                k3 = random.nextInt(50);
+                IIcon iicon = block.getIcon(random.nextInt(6), k3 > 32 ? (k3 > 40 ? 2 : 1) : 0);
+                
                 mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
                 drawTexturedModelRectFromIcon(j3 * 16 - k2, i3 * 16 - l2, iicon, 16, 16);
             }
@@ -491,12 +474,16 @@ public class GuiForcePowers extends GuiScreen
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         super.drawScreen(mouseX, mouseY, partialTicks);
+        
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        drawForeground();
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
 
         // Tooltip
         if (power != null)
         {
             String s1 = power.getNameTranslated();
-            String s2 = /*power.getDescription()*/"";
             i5 = mouseX + 12;
             j5 = mouseY - 4;
             i4 = powerManager.getHierarchy(power);
@@ -510,7 +497,7 @@ public class GuiForcePowers extends GuiScreen
                 {
                     s1 = I18n.format("achievement.unknown");
                     j4 = Math.max(fontRendererObj.getStringWidth(s1), 120);
-                    s = (new ChatComponentTranslation("achievement.requires", new Object[] {power.getNameTranslated()})).getUnformattedText();
+                    s = (new ChatComponentTranslation("achievement.requires", new Object[] {power.parent.getNameTranslated()})).getUnformattedText();
                     k4 = fontRendererObj.splitStringWidth(s, j4);
                     drawGradientRect(i5 - 3, j5 - 3, i5 + j4 + 3, j5 + k4 + 12 + 3, -1073741824, -1073741824);
                     fontRendererObj.drawSplitString(s, i5, j5 + 12, j4, -9416624);
@@ -531,24 +518,23 @@ public class GuiForcePowers extends GuiScreen
             else
             {
                 j4 = Math.max(fontRendererObj.getStringWidth(s1), 120);
-                int k5 = fontRendererObj.splitStringWidth(s2, j4) + 12;
                 
                 List<String> list = Lists.newArrayList();
                 PowerStats stats = power.powerStats;
                 
-                if (stats.xpCost > 0)
+                if (power.getActualXpCost(mc.thePlayer) > 0)
                 {
-                	list.add((mc.thePlayer.experienceTotal < stats.xpCost ? EnumChatFormatting.RED : "") + I18n.format("forcepower.cost", stats.xpCost));
+                	list.add((!powerManager.getPowerData(power).unlocked ? EnumChatFormatting.RED : "") + I18n.format("forcepower.cost", power.getActualXpCost(mc.thePlayer)));
                 }
                 
                 if (stats.basePowerRequirement > 0)
                 {
-                	list.add(I18n.format("forcepower.basePowerReq", stats.basePowerRequirement));
+                	list.add((!powerManager.getPowerData(power).unlocked && ALHelper.getBasePower(mc.thePlayer) < stats.basePowerRequirement ? EnumChatFormatting.RED : "") + I18n.format("forcepower.basePowerReq", stats.basePowerRequirement));
                 }
                 
                 if (stats.forcePowerUseCost > 0)
                 {
-                	list.add(I18n.format(stats.powerType == EnumPowerType.PER_USE ? "forcepower.perUse" : "forcepower.perSecond", stats.forcePowerUseCost));
+                	list.add(I18n.format(stats.powerType == EnumPowerType.PER_USE ? "forcepower.perUse" : "forcepower.perSecond", ItemStack.field_111284_a.format(stats.forcePowerUseCost)));
                 }
                 
                 if (stats.basePowerBonus > 0)
@@ -565,14 +551,37 @@ public class GuiForcePowers extends GuiScreen
                 {
                 	list.add(I18n.format("forcepower.forceRegen", (stats.forcePowerRegen < 0 ? "-" : "+") + stats.forcePowerRegen + (stats.forcePowerRegenOperation == 1 ? "%" : "")));
                 }
-
-                drawGradientRect(i5 - 3, j5 - 3, i5 + j4 + 3, j5 + k5 + 6 + (2 + fontRendererObj.FONT_HEIGHT) * list.size(), -1073741824, -1073741824);
-                fontRendererObj.drawSplitString(s2, i5, j5 + 12, j4, -6250336);
-                int height = j5 + fontRendererObj.FONT_HEIGHT + 4;
+                
+                if (power.powerEffect != null)
+                {
+                	String[] astring = power.powerEffect.getDesc(power.powerEffectArgs);
+                	
+                	if (astring.length > 0)
+                	{
+                		list.add("");
+                		
+                		for (String s : astring)
+                		{
+                			list.add(s);
+                		}
+                	}
+                }
                 
                 for (String s : list)
                 {
-                	fontRendererObj.drawStringWithShadow(s, i5, height, 0xa4a4a4);
+                	j4 = Math.max(fontRendererObj.getStringWidth(s), j4);
+                }
+                
+                PowerData data = powerManager.getPowerData(mc.thePlayer, power);
+                String s = I18n.format("forcepower.xpLeft", power.getActualXpCost(mc.thePlayer) - data.xpInvested);
+                j4 = Math.max(fontRendererObj.getStringWidth(s), j4);
+                
+                drawGradientRect(i5 - 3, j5 - 3, i5 + j4 + 3, j5 + 6 + (2 + fontRendererObj.FONT_HEIGHT) * (list.size() + 1) + 12, -1073741824, -1073741824);
+                int height = j5 + fontRendererObj.FONT_HEIGHT + 4;
+                
+                for (String s3 : list)
+                {
+                	fontRendererObj.drawStringWithShadow(s3, i5, height, 0xa4a4a4);
                 	height += 2 + fontRendererObj.FONT_HEIGHT;
                 }
                 
@@ -582,8 +591,7 @@ public class GuiForcePowers extends GuiScreen
                 }
                 else
                 {
-                	PowerData data = powerManager.getPowerData(mc.thePlayer, power);
-                	fontRendererObj.drawStringWithShadow(I18n.format("forcepower.xpLeft", power.powerStats.xpCost - data.xpInvested), i5, height + 3, -7302913);
+                	fontRendererObj.drawStringWithShadow(s, i5, height + 3, -7302913);
                 }
             }
 
@@ -592,7 +600,7 @@ public class GuiForcePowers extends GuiScreen
                 fontRendererObj.drawStringWithShadow(s1, i5, j5, powerManager.canUnlockPower(power) ? -1 : -8355712);
             }
             
-            if (Mouse.isButtonDown(0) && ALHelper.getTotalXp(mc.thePlayer) > 0 && !powerManager.getPowerData(power).unlocked && powerManager.canUnlockPower(power))
+            if (Mouse.isButtonDown(0) && !powerManager.getPowerData(power).unlocked && powerManager.canUnlockPower(power) && (MathHelper.floor_double(ALData.getFloat(mc.thePlayer, ALData.FORCE_XP)) > 0 || power.getActualXpCost(mc.thePlayer) == 0) && ALHelper.getBasePower(mc.thePlayer) >= power.powerStats.basePowerRequirement)
             {
             	ALData.set(mc.thePlayer, ALData.DRAINING_XP_TO, power.getName());
             }

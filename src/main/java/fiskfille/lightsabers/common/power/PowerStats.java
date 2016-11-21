@@ -8,7 +8,7 @@ public class PowerStats
 	public int forcePowerBonus;
 	public int forcePowerRegen;
 	public int forcePowerRegenOperation;
-	public int forcePowerUseCost;
+	public float forcePowerUseCost;
 	public EnumPowerType powerType = EnumPowerType.PER_USE;
 	
 	public PowerStats setXpCost(int i)
@@ -48,9 +48,9 @@ public class PowerStats
 		return this;
 	}
 
-	public PowerStats setForcePowerUseCost(int i)
+	public PowerStats setForcePowerUseCost(float f)
 	{
-		forcePowerUseCost = i;
+		forcePowerUseCost = f;
 		return this;
 	}
 
@@ -58,5 +58,5 @@ public class PowerStats
 	{
 		powerType = type;
 		return this;
-	}
+	}	
 }

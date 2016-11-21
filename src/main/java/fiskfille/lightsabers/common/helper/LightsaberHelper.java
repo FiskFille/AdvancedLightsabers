@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import com.google.common.collect.Lists;
 
 import fiskfille.lightsabers.LightsaberAPI;
+import fiskfille.lightsabers.client.sound.ALSounds;
 import fiskfille.lightsabers.common.block.ModBlocks;
 import fiskfille.lightsabers.common.container.InventoryLightsaberForge;
 import fiskfille.lightsabers.common.entity.EntitySithGhost;
@@ -29,6 +30,8 @@ import fiskfille.lightsabers.common.network.PacketIgniteLightsaber;
 
 public class LightsaberHelper
 {
+	public static final float MIN_LENGTH_CM = 22;
+	
 	public static int getColorId(ItemStack itemstack)
 	{
 		ItemLightsaberBase.refreshNBT(itemstack);
@@ -124,7 +127,7 @@ public class LightsaberHelper
 		
 		for (int i = 0; i < 2; ++i)
 		{
-			if (random.nextFloat() < (i == 0 ? 0.5F : 0.25F))
+			if (random.nextFloat() < (i == 0 ? 0.25F : 0.125F))
 			{
 				int k = random.nextInt(FocusingCrystals.getFocusingCrystals().length);
 				
@@ -144,7 +147,14 @@ public class LightsaberHelper
 			aint[i] = list.get(i);
 		}
 		
-		return createLightsaber(color, parts[0], parts[1], parts[2], parts[3], aint);
+		ItemStack itemstack = createLightsaber(color, parts[0], parts[1], parts[2], parts[3], aint);
+		
+		if (getLightsaberHeightCm(itemstack) < MIN_LENGTH_CM)
+		{
+			return createRandomLightsaber(random, colorId);
+		}
+		
+		return itemstack;
 	}
 	
 	public static ItemStack createRandomLightsaber(Random random)
@@ -316,6 +326,15 @@ public class LightsaberHelper
 		{
 			ItemLightsaberBase.refreshNBT(itemstack);
 			itemstack.getTagCompound().setBoolean("active", state);
+			
+			String[] sounds = {ALSounds.mob_lightsaber_on, ALSounds.mob_lightsaber_off};
+			
+			if (entity instanceof EntityPlayer)
+			{
+				sounds = new String[] {ALSounds.player_lightsaber_on, ALSounds.player_lightsaber_off};
+			}
+			
+			entity.playSound(sounds[state ? 0 : 1], 1.0F, 1.0F);
 		}
 	}
 	
@@ -349,4 +368,32 @@ public class LightsaberHelper
 			|| entity instanceof EntityPlayer
 			|| entity instanceof EntitySithGhost;
 	}
+	
+	public static boolean hasFocusingCrystal(ItemStack itemstack, String id)
+	{
+		int[] crystalIds = getFocusingCrystalIds(itemstack);
+		List<String> focusingCrystals = Lists.newArrayList();
+		
+		for (int i : crystalIds)
+		{
+			focusingCrystals.add(FocusingCrystals.getFocusingCrystals()[i]);
+		}
+		
+		return focusingCrystals.contains(id);
+	}
+	
+	public static float getLightsaberHeight(ItemStack itemstack)
+    {
+    	if (itemstack.getItem() == ModItems.doubleLightsaber)
+    	{
+    		return getLightsaberHeight(getDoubleLightsaberUpper(itemstack)) + getLightsaberHeight(getDoubleLightsaberLower(itemstack));
+    	}
+    	
+    	return getPart(itemstack, EnumPartType.EMITTER).getEmitter().height + getPart(itemstack, EnumPartType.SWITCH_SECTION).getSwitchSection().height + getPart(itemstack, EnumPartType.BODY).getBody().height + getPart(itemstack, EnumPartType.POMMEL).getPommel().height;
+    }
+	
+	public static float getLightsaberHeightCm(ItemStack itemstack)
+    {
+		return getLightsaberHeight(itemstack) * 0.575F;
+    }
 }

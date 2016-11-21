@@ -2,6 +2,7 @@ package fiskfille.lightsabers.common.generator;
 
 import java.util.Map;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,6 +17,7 @@ public class ModChestGen
 	public static final String SITH_TOMB_ANNEX = "sithTombAnnex";
 	public static final String SITH_TOMB_TREASURY = "sithTombTreasury";
 	public static final String SITH_TOMB_COFFIN = "sithTombCoffin";
+	public static final String JEDI_TEMPLE = "jediTemple";
 	
 	public static void register()
 	{
@@ -31,7 +33,7 @@ public class ModChestGen
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 1, SITH_TOMB_ANNEX),
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 1, SITH_TOMB_ANNEX),
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 1, SITH_TOMB_ANNEX)
-		}, 2, 7);
+		}, 3, 7);
 		
 		addInfo(SITH_TOMB_TREASURY, new WeightedRandomChestContent[]
 		{
@@ -50,7 +52,7 @@ public class ModChestGen
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 4, SITH_TOMB_TREASURY),
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 4, SITH_TOMB_TREASURY),
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 4, SITH_TOMB_TREASURY)
-		}, 3, 7);
+		}, 5, 7);
 		
 		addInfo(SITH_TOMB_COFFIN, new WeightedRandomChestContent[]
 		{
@@ -70,9 +72,28 @@ public class ModChestGen
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 1, SITH_TOMB_COFFIN),
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 1, SITH_TOMB_COFFIN),
 			createColorCrystal(Item.getItemFromBlock(ModBlocks.lightsaberCrystal), 0, 1, 1, 1, SITH_TOMB_COFFIN),
-			createLightsaber(ModItems.lightsaber, 0, 1, 1, 9)
+			createSithLightsaber(ModItems.lightsaber, 0, 1, 1, 6)
 		}, 6, 14);
 		
+		addInfo(JEDI_TEMPLE, new WeightedRandomChestContent[]
+		{
+			new WeightedRandomChestContent(Items.cooked_chicken, 0, 1, 4, 4),
+			new WeightedRandomChestContent(Items.baked_potato, 0, 2, 6, 5),
+			new WeightedRandomChestContent(Items.name_tag, 0, 1, 2, 2),
+			new WeightedRandomChestContent(Items.leather, 0, 1, 8, 4),
+			new WeightedRandomChestContent(Item.getItemFromBlock(Blocks.wool), 0, 1, 9, 10),
+			new WeightedRandomChestContent(ModItems.lightsaberCircuitry, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 1),
+			createJediLightsaber(ModItems.lightsaber, 0, 1, 1, 1),
+		}, 4, 8);
 		
 		for (Map.Entry<Integer, String[]> e : LightsaberColors.chestMap.entrySet())
 		{
@@ -85,8 +106,12 @@ public class ModChestGen
 			}
 		}
 		
-		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 3));
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 3));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 2));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 2));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 2));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 2));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 2));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(ModItems.lightsaberEmitter, 0, 1, 1, 2));
 	}
 	
 	private static void addInfo(String category, WeightedRandomChestContent[] items, int min, int max)
@@ -102,11 +127,19 @@ public class ModChestGen
 		chest.setMax(max);
     }
 	
-	private static WeightedRandomChestContent createLightsaber(Item item, int metadata, int min, int max, int weight)
+	private static WeightedRandomChestContent createSithLightsaber(Item item, int metadata, int min, int max, int weight)
 	{
 		WeightedRandomChestContent chest = new WeightedRandomChestContent(item, metadata, min, max, weight);
 		chest.theItemId.setTagCompound(new NBTTagCompound());
 		chest.theItemId.getTagCompound().setBoolean("SithTombLoot", true);
+		return chest;
+	}
+	
+	private static WeightedRandomChestContent createJediLightsaber(Item item, int metadata, int min, int max, int weight)
+	{
+		WeightedRandomChestContent chest = new WeightedRandomChestContent(item, metadata, min, max, weight);
+		chest.theItemId.setTagCompound(new NBTTagCompound());
+		chest.theItemId.getTagCompound().setBoolean("JediTempleLoot", true);
 		return chest;
 	}
 	

@@ -1,11 +1,13 @@
 package fiskfille.lightsabers.common.data;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
@@ -13,14 +15,14 @@ import com.google.common.collect.Lists;
 
 import fiskfille.lightsabers.common.power.Power;
 import fiskfille.lightsabers.common.power.PowerData;
-import fiskfille.lightsabers.common.proxy.CommonProxy;
 
 public class ALPlayerData implements IExtendedEntityProperties
 {
-	public static final String IDENTIFIER = "LIGHTSABERSPLAYERDATA";
+	public static final String IDENTIFIER = "ALPlayer";
 
 	public Object[] data = ALData.init();
 	public List<PowerData> powers = createPowerDataList();
+	public List<Power> selectedPowers = Arrays.asList(null, null, null);
 
 	public EntityPlayer player;
 
@@ -29,7 +31,7 @@ public class ALPlayerData implements IExtendedEntityProperties
 		return (ALPlayerData)player.getExtendedProperties(IDENTIFIER);
 	}
 
-	private List<PowerData> createPowerDataList()
+	public List<PowerData> createPowerDataList()
 	{
 		List<PowerData> list = Lists.newArrayList();
 
@@ -51,6 +53,7 @@ public class ALPlayerData implements IExtendedEntityProperties
 	{
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		NBTTagList nbttaglist = new NBTTagList();
+		NBTTagList nbttaglist1 = new NBTTagList();
 		ALData.writeToNBT(nbttagcompound, data);
 
 		for (PowerData data : powers)
@@ -61,8 +64,16 @@ public class ALPlayerData implements IExtendedEntityProperties
 			nbttagcompound1.setInteger("XpInvested", data.xpInvested);
 			nbttaglist.appendTag(nbttagcompound1);
 		}
+		
+		for (Power power : selectedPowers)
+		{
+			String s = power != null ? power.getName() : "null";
+			nbttaglist1.appendTag(new NBTTagString(s));
+		}
 
 		nbttagcompound.setTag("Powers", nbttaglist);
+		nbttagcompound.setTag("SelectedPowers", nbttaglist1);
+		nbttagcompound.setBoolean("Saved", true);
 		nbt.setTag(IDENTIFIER, nbttagcompound);
 	}
 
@@ -70,25 +81,40 @@ public class ALPlayerData implements IExtendedEntityProperties
 	public void loadNBTData(NBTTagCompound nbt)
 	{
 		NBTTagCompound nbttagcompound = nbt.getCompoundTag(IDENTIFIER);
-		NBTTagList nbttaglist = nbttagcompound.getTagList("Powers", 10);
-
-		if (nbttagcompound != null)
+		
+		if (nbttagcompound.getBoolean("Saved"))
 		{
-			data = ALData.readFromNBT(nbttagcompound);
-		}
-
-		for (int i = 0; i < nbttaglist.tagCount(); ++i)
-		{
-			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-
-			for (PowerData data : powers)
+			NBTTagList nbttaglist = nbttagcompound.getTagList("Powers", 10);
+			NBTTagList nbttaglist1 = nbttagcompound.getTagList("SelectedPowers", 8);
+			
+			if (nbttagcompound != null)
 			{
-				if (data.power.getName().equals(nbttagcompound1.getString("Id")))
+				data = ALData.readFromNBT(nbttagcompound);
+			}
+
+			for (int i = 0; i < nbttaglist.tagCount(); ++i)
+			{
+				NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+
+				for (PowerData data : powers)
 				{
-					data.unlocked = nbttagcompound1.getBoolean("Unlocked");
-					data.xpInvested = nbttagcompound1.getInteger("XpInvested");
+					if (data.power.getName().equals(nbttagcompound1.getString("Id")))
+					{
+						data.unlocked = nbttagcompound1.getBoolean("Unlocked");
+						data.xpInvested = nbttagcompound1.getInteger("XpInvested");
+					}
 				}
 			}
+			
+			Power[] powers = new Power[nbttaglist1.tagCount()];
+			
+			for (int i = 0; i < nbttaglist1.tagCount(); ++i)
+			{
+				String s = nbttaglist1.getStringTagAt(i);
+				powers[i] = Power.getPowerFromName(s);
+			}
+			
+			selectedPowers = Arrays.asList(powers);
 		}
 	}
 
@@ -100,24 +126,11 @@ public class ALPlayerData implements IExtendedEntityProperties
 			player = (EntityPlayer)entity;
 		}
 	}
-
-	public static void saveProxyData(EntityPlayer player)
-	{
-		ALPlayerData playerData = ALPlayerData.getData(player);
-		NBTTagCompound savedData = new NBTTagCompound();
-
-		playerData.saveNBTData(savedData);
-		CommonProxy.storeEntityData(player.getUniqueID().toString(), savedData);
-	}
-
-	public static void loadProxyData(EntityPlayer player)
-	{
-		ALPlayerData playerData = ALPlayerData.getData(player);
-		NBTTagCompound savedData = CommonProxy.getEntityData(player.getUniqueID().toString());
-
-		if (savedData != null)
-		{
-			playerData.loadNBTData(savedData);
-		}
-	}
+	
+	public void copy(ALPlayerData props)
+    {
+    	data = props.data;
+    	powers = props.powers;
+    	selectedPowers = props.selectedPowers;
+    }
 }

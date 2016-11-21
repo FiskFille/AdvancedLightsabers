@@ -4,25 +4,30 @@ import java.util.List;
 
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.stats.AchievementList;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Lists;
 
 import fiskfille.lightsabers.LightsaberAPI;
+import fiskfille.lightsabers.common.damagesource.ModDamageSources;
 import fiskfille.lightsabers.common.entity.EntityDoubleLightsaber;
 import fiskfille.lightsabers.common.helper.FocusingCrystals;
 import fiskfille.lightsabers.common.helper.LightsaberColors;
 import fiskfille.lightsabers.common.helper.LightsaberHelper;
+import fiskfille.lightsabers.common.helper.VectorHelper;
 import fiskfille.lightsabers.common.lightsaber.Lightsaber;
 import fiskfille.lightsabers.common.lightsaber.Lightsaber.EnumLightsaberType;
 import fiskfille.lightsabers.common.lightsaber.Lightsaber.EnumPartType;
@@ -58,16 +63,16 @@ public class ItemDoubleLightsaber extends ItemLightsaberBase
     {
     	ItemStack upper = LightsaberHelper.getDoubleLightsaberUpper(itemstack);
     	ItemStack lower = LightsaberHelper.getDoubleLightsaberLower(itemstack);
-    	String s = " ";
+    	String s = "  ";
 
     	if (LightsaberHelper.getColorId(upper) == LightsaberHelper.getColorId(lower))
     	{
-    		list.add("Color: ");
+    		list.add(StatCollector.translateToLocal("lightsaber.color"));
     		list.add(s + LightsaberColors.getColorName(LightsaberHelper.getColorId(upper)));
     	}
     	else
     	{
-    		list.add("Colors: ");
+    		list.add(StatCollector.translateToLocal("lightsaber.color"));
     		list.add(s + LightsaberColors.getColorName(LightsaberHelper.getColorId(upper)));
     		list.add(s + LightsaberColors.getColorName(LightsaberHelper.getColorId(lower)));
     	}
@@ -206,31 +211,139 @@ public class ItemDoubleLightsaber extends ItemLightsaberBase
     	}
     }
 	
-	public Entity getThrownLightsaberEntity(World world, EntityLivingBase entity, ItemStack itemstack)
+	public Entity getThrownLightsaberEntity(World world, EntityLivingBase entity, ItemStack itemstack, int amplifier)
 	{
-		return new EntityDoubleLightsaber(world, entity, itemstack);
+		return new EntityDoubleLightsaber(world, entity, itemstack, amplifier);
 	}
 	
-	public boolean hitEntity(ItemStack itemstack, EntityLivingBase enemy, EntityLivingBase entity)
+	public boolean hitEntity(ItemStack itemstack, EntityLivingBase target, EntityLivingBase attacker)
 	{
-		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(-2, 0, -2, 2, 1.5F, 2).offset(entity.posX, entity.posY, entity.posZ);
-		List<EntityLivingBase> list = entity.worldObj.selectEntitiesWithinAABB(EntityLivingBase.class, aabb, IEntitySelector.selectAnything);
+		float width = attacker.width * 2;
+		Vec3 vec3 = VectorHelper.getOffsetCoords(attacker, 0, 0, -0.2F);
+		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(-width, 0, -width, width, attacker.height, width).offset(vec3.xCoord, attacker.boundingBox.minY, vec3.zCoord);
+		List<EntityLivingBase> list = attacker.worldObj.selectEntitiesWithinAABB(EntityLivingBase.class, aabb, IEntitySelector.selectAnything);
 		
-		for (EntityLivingBase entity1 : list)
+		for (EntityLivingBase entity : list)
 		{
-			if (entity1 != entity)
+			if (entity != attacker)
 			{
-				float damage = (float)getAttackDamage() + 1;
-				float sharpnessDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemstack) * 1.25F;
-				entity1.setFire(EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, itemstack) * 4);
+				ItemStack stack = attacker.getHeldItem();
 
-				if (entity instanceof EntityPlayer)
+				if (attacker instanceof EntityPlayer && stack != null && stack.getItem().onLeftClickEntity(stack, (EntityPlayer)attacker, entity))
 				{
-					entity1.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)entity), damage + sharpnessDamage);
+					continue;
 				}
-				else
+
+				if (entity.canAttackWithItem())
 				{
-					entity1.attackEntityFrom(DamageSource.causeMobDamage(entity), damage + sharpnessDamage);
+					if (!entity.hitByEntity(attacker))
+					{
+						float attackDamage = (float)attacker.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+						float livingModifier = EnchantmentHelper.getEnchantmentModifierLiving(attacker, entity);
+						int knockback = EnchantmentHelper.getKnockbackModifier(attacker, entity);
+
+						if (attacker.isSprinting())
+						{
+							++knockback;
+						}
+
+						if (attackDamage > 0.0F || livingModifier > 0.0F)
+						{
+							boolean crit = attacker.fallDistance > 0.0F && !attacker.onGround && !attacker.isOnLadder() && !attacker.isInWater() && !attacker.isPotionActive(Potion.blindness) && attacker.ridingEntity == null;
+
+							if (crit && attackDamage > 0.0F)
+							{
+								attackDamage *= 1.5F;
+							}
+
+							attackDamage += livingModifier;
+
+							boolean onFire = false;
+							int fire = EnchantmentHelper.getFireAspectModifier(attacker);
+
+							if (fire > 0 && !entity.isBurning())
+							{
+								onFire = true;
+								entity.setFire(1);
+							}
+
+							boolean success = entity.attackEntityFrom(ModDamageSources.causeLightsaberDamage(attacker), attackDamage);
+
+							if (success)
+							{
+								if (knockback > 0)
+								{
+//									entity.addVelocity
+//									(
+//										-MathHelper.sin(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)knockback * 0.5F,
+//										0.1D,
+//										MathHelper.cos(attacker.rotationYaw * (float)Math.PI / 180.0F) * (float)knockback * 0.5F
+//									);
+									
+									double d = knockback * 0.25F;
+									double x = attacker.posX - entity.posX;
+									double z = attacker.posZ - entity.posZ;
+									
+									while (Math.sqrt(x * x + z * z) > d)
+									{
+										double d1 = 0.95D;
+										x *= d1;
+										z *= d1;
+									}
+									
+									while (Math.sqrt(x * x + z * z) < d)
+									{
+										double d1 = 1.05D;
+										x *= d1;
+										z *= d1;
+									}
+									
+									entity.addVelocity(-x, 0.1D, -z);
+									
+									attacker.motionX *= 0.6D;
+									attacker.motionZ *= 0.6D;
+									attacker.setSprinting(false);
+								}
+
+								if (attacker instanceof EntityPlayer)
+								{
+									EntityPlayer player = (EntityPlayer)attacker;
+
+									if (crit)
+									{
+										player.onCriticalHit(entity);
+									}
+
+									if (livingModifier > 0.0F)
+									{
+										player.onEnchantmentCritical(entity);
+									}
+
+									if (attackDamage >= 18.0F)
+									{
+										player.triggerAchievement(AchievementList.overkill);
+									}
+
+									player.setLastAttacker(entity);
+									EnchantmentHelper.func_151384_a(entity, player);
+									EnchantmentHelper.func_151385_b(player, entity);
+
+									player.addStat(StatList.damageDealtStat, Math.round(attackDamage * 10.0F));
+
+									if (fire > 0)
+									{
+										entity.setFire(fire * 4);
+									}
+
+									player.addExhaustion(0.3F);
+								}
+							}
+							else if (onFire)
+							{
+								entity.extinguish();
+							}
+						}
+					}
 				}
 			}
 		}
@@ -238,7 +351,7 @@ public class ItemDoubleLightsaber extends ItemLightsaberBase
 		return true;
 	}
 	
-	public double getAttackDamage()
+	public double getAttackDamage(ItemStack itemstack)
 	{
 		return 8.0D;
 	}

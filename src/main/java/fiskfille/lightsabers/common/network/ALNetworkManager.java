@@ -20,11 +20,14 @@ public class ALNetworkManager
         registerPacket(PacketBroadcastState.Handler.class, PacketBroadcastState.class);
         registerPacket(PacketPlayerData.Handler.class, PacketPlayerData.class);
         registerPacket(PacketUpdateLightsaber.Handler.class, PacketUpdateLightsaber.class);
-        registerPacket(PacketSithCoffin.Handler.class, PacketSithCoffin.class);
+        registerPacket(PacketTileAction.Handler.class, PacketTileAction.class);
         registerPacket(PacketIgniteLightsaber.Handler.class, PacketIgniteLightsaber.class);
         registerPacket(PacketThrowLightsaber.Handler.class, PacketThrowLightsaber.class);
         registerPacket(PacketUnlockPower.Handler.class, PacketUnlockPower.class);
         registerPacket(PacketUpdatePowerList.Handler.class, PacketUpdatePowerList.class);
+        registerPacket(PacketUpdateSelectedPowers.Handler.class, PacketUpdateSelectedPowers.class);
+        registerPacket(PacketRightClick.Handler.class, PacketRightClick.class);
+        registerPacket(PacketUpdateEffectsList.Handler.class, PacketUpdateEffectsList.class);
     }
     
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

@@ -1,5 +1,6 @@
 package fiskfille.lightsabers.common.item;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -46,6 +47,16 @@ public class ItemLightsaber extends ItemLightsaberBase
 				itemstack = LightsaberHelper.createDoubleLightsaber(itemstack, itemstack);
 			}
 		}
+		else if (itemstack.hasTagCompound() && itemstack.getTagCompound().getBoolean("JediTempleLoot"))
+		{
+			List<Integer> list = Arrays.asList(LightsaberColors.GREEN, LightsaberColors.MEDIUM_BLUE);
+			itemstack = LightsaberHelper.createRandomLightsaber(rand, LightsaberHelper.getCrystalIdFromColor(list.get(rand.nextInt(list.size()))));
+			
+			if (rand.nextFloat() < 0.125F)
+			{
+				itemstack = LightsaberHelper.createDoubleLightsaber(itemstack, itemstack);
+			}
+		}
 		else
 		{
 			itemstack = LightsaberHelper.createRandomLightsaber(rand);
@@ -75,7 +86,7 @@ public class ItemLightsaber extends ItemLightsaberBase
     
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean flag)
     {
-    	String s = " ";
+    	String s = "  ";
     	list.add(StatCollector.translateToLocal("lightsaber.color"));
     	list.add(s + LightsaberColors.getColorName(LightsaberHelper.getColorId(itemstack)));
     	
@@ -132,9 +143,9 @@ public class ItemLightsaber extends ItemLightsaberBase
     	}
     }
 	
-	public Entity getThrownLightsaberEntity(World par1World, EntityLivingBase par2EntityLivingBase, ItemStack par3ItemStack)
+	public Entity getThrownLightsaberEntity(World world, EntityLivingBase entity, ItemStack itemstack, int amplifier)
 	{
-		return new EntityLightsaber(par1World, par2EntityLivingBase, par3ItemStack);
+		return new EntityLightsaber(world, entity, itemstack, amplifier);
 	}
 	
 	public boolean onPlayerPunchBlock(ItemStack stack, EntityPlayer player, MovingObjectPosition mop)

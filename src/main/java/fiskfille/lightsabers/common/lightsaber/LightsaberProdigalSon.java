@@ -6,7 +6,7 @@ public class LightsaberProdigalSon extends Lightsaber
 {
 	public Part[] parts =
 	{
-		new Part(EnumPartType.EMITTER, 27),
+		new Part(EnumPartType.EMITTER, 31),
 		new Part(EnumPartType.SWITCH_SECTION, 8.4F),
 		new Part(EnumPartType.BODY, 13.3F),
 		new Part(EnumPartType.POMMEL, 2)

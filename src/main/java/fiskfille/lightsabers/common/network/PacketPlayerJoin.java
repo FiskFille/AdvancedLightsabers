@@ -3,6 +3,7 @@ package fiskfille.lightsabers.common.network;
 import io.netty.buffer.ByteBuf;
 
 import java.util.List;
+import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -14,8 +15,10 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.common.data.ALData;
+import fiskfille.lightsabers.common.data.ALEntityData;
 import fiskfille.lightsabers.common.data.ALPlayerData;
 import fiskfille.lightsabers.common.data.DataManager;
+import fiskfille.lightsabers.common.data.StatusEffect;
 import fiskfille.lightsabers.common.helper.LightsaberHelper;
 import fiskfille.lightsabers.common.power.Power;
 import fiskfille.lightsabers.common.power.PowerData;
@@ -23,6 +26,8 @@ import fiskfille.lightsabers.common.power.PowerData;
 public class PacketPlayerJoin extends PacketSyncBase
 {
 	private List<PowerData> powers;
+	private List<Power> selectedPowers;
+	private List<StatusEffect> activeEffects;
 	
     public PacketPlayerJoin()
     {
@@ -32,6 +37,8 @@ public class PacketPlayerJoin extends PacketSyncBase
     {
     	super(player);
     	powers = ALPlayerData.getData(player).powers;
+    	selectedPowers = ALPlayerData.getData(player).selectedPowers;
+    	activeEffects = ALEntityData.getData(player).activeEffects;
     }
 
     public void fromBytes(ByteBuf buf)
@@ -50,6 +57,36 @@ public class PacketPlayerJoin extends PacketSyncBase
     			powers.add(data);
     		}
     	}
+    	
+    	selectedPowers = Lists.newArrayList();
+		i = buf.readInt();
+    	
+    	if (i > 0)
+    	{
+    		for (int j = 0; j < i; ++j)
+    		{
+    			selectedPowers.add(Power.getPowerFromName(ByteBufUtils.readUTF8String(buf)));
+    		}
+    	}
+    	
+    	activeEffects = Lists.newArrayList();
+		i = buf.readInt();
+    	
+    	if (i > 0)
+    	{
+    		for (int j = 0; j < i; ++j)
+    		{
+    			StatusEffect effect = new StatusEffect(buf.readInt(), buf.readInt(), buf.readInt());
+    			
+    			if (buf.readBoolean())
+    			{
+    				UUID uuid = new UUID(buf.readLong(), buf.readLong());
+    				effect.casterUUID = uuid;
+    			}
+    			
+    			activeEffects.add(effect);
+    		}
+    	}
     }
 
     public void toBytes(ByteBuf buf)
@@ -62,6 +99,40 @@ public class PacketPlayerJoin extends PacketSyncBase
 			ByteBufUtils.writeUTF8String(buf, data.power.getName());
 			buf.writeBoolean(data.unlocked);
 			buf.writeInt(data.xpInvested);
+		}
+		
+		buf.writeInt(selectedPowers.size());
+		
+		for (Power power : selectedPowers)
+		{
+			if (power != null)
+			{
+				ByteBufUtils.writeUTF8String(buf, power.getName());
+			}
+			else
+			{
+				ByteBufUtils.writeUTF8String(buf, "");
+			}
+		}
+		
+		buf.writeInt(activeEffects.size());
+		
+		for (StatusEffect effect : activeEffects)
+		{
+			buf.writeInt(effect.id);
+			buf.writeInt(effect.duration);
+			buf.writeInt(effect.amplifier);
+			
+			if (effect.casterUUID != null)
+			{
+				buf.writeBoolean(true);
+				buf.writeLong(effect.casterUUID.getMostSignificantBits());
+				buf.writeLong(effect.casterUUID.getLeastSignificantBits());
+			}
+			else
+			{
+				buf.writeBoolean(false);
+			}
 		}
     }
 
@@ -84,6 +155,8 @@ public class PacketPlayerJoin extends PacketSyncBase
                 }
                 
                 DataManager.setPowers(player, message.powers);
+                DataManager.setSelectedPowers(player, message.selectedPowers);
+                DataManager.setActiveEffects(player, message.activeEffects);
                 
                 ALNetworkManager.networkWrapper.sendToServer(new PacketUpdateLightsaber(player, LightsaberHelper.getEquippedLightsaber(player)));
             }

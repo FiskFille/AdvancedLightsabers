@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.common.network.ALNetworkManager;
-import fiskfille.lightsabers.common.network.PacketSithCoffin;
+import fiskfille.lightsabers.common.network.PacketTileAction;
 import fiskfille.lightsabers.common.tileentity.TileEntitySithCoffin;
 
 public class BlockSithCoffin extends BlockDirectional implements ITileEntityProvider
@@ -52,11 +52,6 @@ public class BlockSithCoffin extends BlockDirectional implements ITileEntityProv
     public boolean isOpaqueCube()
     {
         return false;
-    }
-
-    public boolean hasTileEntity()
-    {
-        return true;
     }
     
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
@@ -157,7 +152,10 @@ public class BlockSithCoffin extends BlockDirectional implements ITileEntityProv
     
     public void sendActionPacket(TileEntitySithCoffin tile, EntityPlayer player, int action)
     {
-    	ALNetworkManager.networkWrapper.sendToServer(new PacketSithCoffin(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
+    	if (player.worldObj.isRemote)
+    	{
+    		ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
+    	}
     }
 
     public Item getItemDropped(int metadata, Random rand, int fortune)

@@ -5,10 +5,10 @@ import java.util.Iterator;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import fiskfille.lightsabers.Lightsabers;
+import fiskfille.lightsabers.common.item.ItemBlockWithMetadata;
 
 public class BlockRegistry
 {
@@ -80,6 +80,12 @@ public class BlockRegistry
     public static void registerItemBlockAsTileEntity(Block block, String name, Class clazz, Class clazz1)
     {
         registerItemBlock(block, name, clazz1);
+        GameRegistry.registerTileEntity(clazz, name);
+    }
+    
+    public static void registerItemBlockAsTileEntity(Block block, String name, Class clazz)
+    {
+        registerItemBlock(block, name, ItemBlockWithMetadata.class);
         GameRegistry.registerTileEntity(clazz, name);
     }
 }

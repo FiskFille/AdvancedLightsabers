@@ -7,7 +7,7 @@ public class LightsaberKnighted extends Lightsaber
 {
 	public Part[] parts =
 	{
-		new Part(EnumPartType.EMITTER, 8.6F),
+		new Part(EnumPartType.EMITTER, 12.6F),
 		new Part(EnumPartType.SWITCH_SECTION, 8.4F),
 		new Part(EnumPartType.BODY, 20),
 		new Part(EnumPartType.POMMEL, 13.3F)

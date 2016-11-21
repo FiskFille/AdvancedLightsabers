@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -22,12 +23,14 @@ import fiskfille.lightsabers.common.tileentity.TileEntityLightsaberForge;
 public class BlockLightsaberForge extends Block implements ITileEntityProvider
 {
 	public static final int[][] directions = new int[][]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-
-	public BlockLightsaberForge()
+	public Block block;
+	
+	public BlockLightsaberForge(Block block)
 	{
 		super(Material.iron);
 		setHarvestLevel("pickaxe", 0);
 		setStepSound(soundTypeMetal);
+		this.block = block;
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ)
@@ -57,100 +60,19 @@ public class BlockLightsaberForge extends Block implements ITileEntityProvider
 	{
 		return false;
 	}
-
-	public boolean hasTileEntity()
-	{
-		return true;
-	}
-
+	
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
 	{
-		int metadata = world.getBlockMetadata(x, y, z);
-		int direction = getDirection(metadata);
-		float f = 0.0625F;
-
-		if (isBlockSideOfPanel(metadata))
-		{
-			if (isBlockRightSideOfPanel(metadata) && direction == 2 || isBlockLeftSideOfPanel(metadata) && direction == 0)
-			{
-				setBlockBounds(0, 0, 0, 1, f * 2, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				setBlockBounds(f * 13.5F, 0, 0, 1, f * 14, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				setBlockBounds(f * 7.5F, 0, 0, f * 13.5F, f * 31, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-
-				for (int i = 1; i <= 29; ++i)
-				{
-					float f1 = i / 29F;
-					setBlockBounds(f * (f1 * 8), 0, 0, f * 7.5F, f * (2 + i), 1);
-					super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				}
-			}
-			else if (isBlockRightSideOfPanel(metadata) && direction == 0 || isBlockLeftSideOfPanel(metadata) && direction == 2)
-			{
-				setBlockBounds(0, 0, 0, 1, f * 2, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				setBlockBounds(0, 0, 0, f * 2.5F, f * 14, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				setBlockBounds(f * 2.5F, 0, 0, f * 8.5F, f * 31, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-
-				for (int i = 1; i <= 29; ++i)
-				{
-					float f1 = i / 29F;
-					setBlockBounds(f * 2.5F, 0, 0, 1 - f * (f1 * 8), f * (2 + i), 1);
-					super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				}
-			}
-			else if (isBlockRightSideOfPanel(metadata) && direction == 3 || isBlockLeftSideOfPanel(metadata) && direction == 1)
-			{
-				setBlockBounds(0, 0, 0, 1, f * 2, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				setBlockBounds(0, 0, f * 13.5F, 1, f * 14, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				setBlockBounds(0, 0, f * 7.5F, 1, f * 31, f * 13.5F);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-
-				for (int i = 1; i <= 29; ++i)
-				{
-					float f1 = i / 29F;
-					setBlockBounds(0, 0, f * (f1 * 8), 1, f * (2 + i), f * 7.5F);
-					super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				}
-			}
-			else if (isBlockRightSideOfPanel(metadata) && direction == 1 || isBlockLeftSideOfPanel(metadata) && direction == 3)
-			{
-				setBlockBounds(0, 0, 0, 1, f * 2, 1);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				setBlockBounds(0, 0, 0, 1, f * 14, f * 2.5F);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				setBlockBounds(0, 0, f * 2.5F, 1, f * 31, f * 8.5F);
-				super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-
-				for (int i = 1; i <= 29; ++i)
-				{
-					float f1 = i / 29F;
-					setBlockBounds(0, 0, f * 2.5F, 1, f * (2 + i), 1 - f * (f1 * 8));
-					super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-				}
-			}
-		}
-		else
-		{
-			setBlockBoundsBasedOnState(world, x, y, z);
-			super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-		}
-
 		setBlockBoundsBasedOnState(world, x, y, z);
+    	super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
 	}
-
-	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
-	{
-		setBlockBoundsBasedOnState(world, x, y, z);
-		return super.getSelectedBoundingBoxFromPool(world, x, y, z);
-	}
+    
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
+    {
+    	setBlockBoundsBasedOnState(world, x, y, z);
+        return super.getSelectedBoundingBoxFromPool(world, x, y, z);
+    }
 
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
@@ -160,25 +82,24 @@ public class BlockLightsaberForge extends Block implements ITileEntityProvider
 	public void setBounds(int metadata)
 	{
 		int direction = getDirection(metadata);
-		int i = isBlockLeftSideOfPanel(metadata) ? 0 : (isBlockRightSideOfPanel(metadata) ? 2 : 1);
-		float f = 0.9575F;
-		float height = 0.0625F * 14;
+		int i = isBlockSideOfPanel(metadata) ? 0 : 1;
+		float f = 0.0625F * 13;
 
 		if (direction == 0)
 		{
-			setBlockBounds(-i, 0, 0, 3 - i, height, 1);
+			setBlockBounds(-i, 0, 0, 2 - i, f, 1);
 		}
 		else if (direction == 1)
 		{
-			setBlockBounds(0, 0, -i, 1, height, 3 - i);
+			setBlockBounds(0, 0, -i, 1, f, 2 - i);
 		}
 		else if (direction == 2)
 		{
-			setBlockBounds(-2 + i, 0, 0, 1 + i, height, 1);
+			setBlockBounds(-1 + i, 0, 0, 1 + i, f, 1);
 		}
 		else if (direction == 3)
 		{
-			setBlockBounds(0, 0, -2 + i, 1, height, 1 + i);
+			setBlockBounds(0, 0, -1 + i, 1, f, 1 + i);
 		}
 	}
 
@@ -189,51 +110,40 @@ public class BlockLightsaberForge extends Block implements ITileEntityProvider
 
 		if (isBlockSideOfPanel(metadata))
 		{
-			if (isBlockRightSideOfPanel(metadata))
+			if (world.getBlock(x - directions[direction][0], y, z - directions[direction][1]) != this)
 			{
-				if (world.getBlock(x + directions[direction][0], y, z + directions[direction][1]) != this)
-				{
-					world.setBlockToAir(x, y, z);
-				}
-			}
-
-			if (isBlockLeftSideOfPanel(metadata))
-			{
-				if (world.getBlock(x - directions[direction][0], y, z - directions[direction][1]) != this)
-				{
-					world.setBlockToAir(x, y, z);
-				}
+				world.setBlockToAir(x, y, z);
+				
+//				if (!world.isRemote)
+//				{
+//					dropBlockAsItem(world, x, y, z, metadata, 0);
+//				}
 			}
 		}
-		else if (world.getBlock(x + directions[direction][0], y, z + directions[direction][1]) != this || world.getBlock(x - directions[direction][0], y, z - directions[direction][1]) != this)
+		else if (world.getBlock(x + directions[direction][0], y, z + directions[direction][1]) != this)
 		{
 			world.setBlockToAir(x, y, z);
 
-			if (!world.isRemote)
-			{
-				this.dropBlockAsItem(world, x, y, z, metadata, 0);
-			}
+//			if (!world.isRemote)
+//			{
+//				dropBlockAsItem(world, x, y, z, metadata, 0);
+//			}
 		}
 	}
 
-	public Item getItemDropped(int metadata, Random rand, int p_149650_3_)
+	public boolean canHarvestBlock(EntityPlayer player, int meta)
 	{
-		return isBlockSideOfPanel(metadata) ? Item.getItemById(0) : super.getItemDropped(metadata, rand, p_149650_3_);
+		return true;
+	}
+
+	public Item getItemDropped(int metadata, Random rand, int i)
+	{
+		return /*isBlockSideOfPanel(metadata) ? Item.getItemById(0) : */super.getItemDropped(metadata, rand, i);
 	}
 
 	public static boolean isBlockSideOfPanel(int metadata)
 	{
-		return isBlockRightSideOfPanel(metadata) || isBlockLeftSideOfPanel(metadata);
-	}
-
-	public static boolean isBlockRightSideOfPanel(int metadata)
-	{
-		return metadata >= 4 && metadata < 8;
-	}
-
-	public static boolean isBlockLeftSideOfPanel(int metadata)
-	{
-		return metadata >= 8;
+		return metadata >= 4;
 	}
 
 	public static int getDirection(int metadata)
@@ -241,11 +151,11 @@ public class BlockLightsaberForge extends Block implements ITileEntityProvider
 		return metadata % 4;
 	}
 
-	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int metadata, float p_149690_6_, int p_149690_7_)
+	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int metadata, float f, int i)
 	{
-		if (!isBlockSideOfPanel(metadata))
+//		if (isBlockSideOfPanel(metadata))
 		{
-			super.dropBlockAsItemWithChance(world, x, y, z, metadata, p_149690_6_, 0);
+			super.dropBlockAsItemWithChance(world, x, y, z, metadata, f, 0);
 		}
 	}
 
@@ -260,26 +170,12 @@ public class BlockLightsaberForge extends Block implements ITileEntityProvider
 		{
 			int direction = getDirection(metadata);
 
-			if (isBlockRightSideOfPanel(metadata))
+			x += directions[direction][0];
+			z += directions[direction][1];
+
+			if (world.getBlock(x, y, z) == this)
 			{
-				x += directions[direction][0];
-				z += directions[direction][1];
-
-				if (world.getBlock(x, y, z) == this)
-				{
-					world.setBlockToAir(x, y, z);
-				}
-			}
-
-			if (isBlockLeftSideOfPanel(metadata))
-			{
-				x -= directions[direction][0];
-				z -= directions[direction][1];
-
-				if (world.getBlock(x, y, z) == this)
-				{
-					world.setBlockToAir(x, y, z);
-				}
+				world.setBlockToAir(x, y, z);
 			}
 		}
 	}
@@ -288,10 +184,15 @@ public class BlockLightsaberForge extends Block implements ITileEntityProvider
 	{
 		return new TileEntityLightsaberForge();
 	}
+	
+	@Override
+	public IIcon getIcon(int side, int meta)
+	{
+		return block.getIcon(side, meta);
+	}
 
 	@Override
 	public void registerBlockIcons(IIconRegister par1IIconRegister)
 	{
-		blockIcon = par1IIconRegister.registerIcon(Lightsabers.modid + ":dark_forcestone");
 	}
 }

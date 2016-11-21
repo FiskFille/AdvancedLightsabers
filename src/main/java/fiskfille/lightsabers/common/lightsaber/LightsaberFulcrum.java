@@ -7,7 +7,7 @@ public class LightsaberFulcrum extends Lightsaber
 {
 	public Part[] parts =
 	{
-		new Part(EnumPartType.EMITTER, 15),
+		new Part(EnumPartType.EMITTER, 19),
 		new Part(EnumPartType.SWITCH_SECTION, 10),
 		new Part(EnumPartType.BODY, 30, 11.7F, 2, 9.8F, 3, 9),
 		new Part(EnumPartType.POMMEL, 7)

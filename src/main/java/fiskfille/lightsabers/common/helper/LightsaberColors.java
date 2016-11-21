@@ -17,7 +17,7 @@ public class LightsaberColors
 	public static final int ARCTIC_BLUE = 0xDDF6FF;
 	public static final int WHITE = 0xFFFFFF;
 	public static final int INDIGO = 0x5D00FF;
-	public static final int PURPLE = 0xBD36C1;
+	public static final int PURPLE = 0xAD00AD;
 	public static final int MAGENTA = 0xFF00FF;
 	public static final int PINK = 0xFF8FBA;
 	public static final int RED = 0xFF0000;

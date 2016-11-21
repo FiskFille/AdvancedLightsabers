@@ -97,7 +97,7 @@ public class ContainerLightsaberForge extends ContainerBasic
 
     public boolean canInteractWith(EntityPlayer player)
     {
-        return worldObj.getBlock(posX, posY, posZ) != ModBlocks.lightsaberForge ? false : player.getDistanceSq((double)posX + 0.5D, (double)posY + 0.5D, (double)posZ + 0.5D) <= 64.0D;
+        return (worldObj.getBlock(posX, posY, posZ) == ModBlocks.lightsaberForgeLight || worldObj.getBlock(posX, posY, posZ) == ModBlocks.lightsaberForgeDark) && player.getDistanceSq(posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
     }
 
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)

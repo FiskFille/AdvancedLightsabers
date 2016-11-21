@@ -1,8 +1,11 @@
 package fiskfille.lightsabers.nei;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.recipe.ShapedRecipeHandler;
+import fiskfille.lightsabers.Lightsabers;
+import fiskfille.lightsabers.client.sound.ALSounds;
 import fiskfille.lightsabers.common.helper.LightsaberColors;
 import fiskfille.lightsabers.common.helper.LightsaberHelper;
 import fiskfille.lightsabers.common.item.ItemDoubleLightsaber;
@@ -17,6 +20,11 @@ public class DoubleLightsaberRecipeHandler extends ShapedRecipeHandler
     {
     	if (result.getItem() == ModItems.doubleLightsaber)
     	{
+    		if (result.getDisplayName().equalsIgnoreCase("sweet dreams"))
+    		{
+    			Minecraft.getMinecraft().thePlayer.playSound(ALSounds.player_lightsaber_sweet_dreams, 1.0F, 1.0F);
+    		}
+    		
     		Object[] aobject = new Object[10];
     		aobject[0] = LightsaberHelper.getDoubleLightsaberUpper(result);
     		aobject[3] = LightsaberHelper.getDoubleLightsaberLower(result);

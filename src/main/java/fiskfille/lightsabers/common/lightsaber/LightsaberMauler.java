@@ -6,7 +6,7 @@ public class LightsaberMauler extends Lightsaber
 {
 	public Part[] parts =
 	{
-		new Part(EnumPartType.EMITTER, 14),
+		new Part(EnumPartType.EMITTER, 18),
 		new Part(EnumPartType.SWITCH_SECTION, 12),
 		new Part(EnumPartType.BODY, 21.6F),
 		new Part(EnumPartType.POMMEL, 0.25F)

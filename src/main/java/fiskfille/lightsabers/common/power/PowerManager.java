@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import fiskfille.lightsabers.common.data.ALPlayerData;
-import fiskfille.lightsabers.common.helper.ALHelper;
 import fiskfille.lightsabers.common.network.ALNetworkManager;
 import fiskfille.lightsabers.common.network.PacketUnlockPower;
 
@@ -38,7 +37,7 @@ public class PowerManager
 
 	public static void unlockPower(EntityPlayer player, Power power)
 	{
-		if (power != null && !hasPowerUnlocked(player, power) && (power.parent == null || hasPowerUnlocked(player, power.parent)) && ALHelper.getTotalXp(player) >= power.powerStats.xpCost)
+		if (power != null && !hasPowerUnlocked(player, power) && (power.parent == null || hasPowerUnlocked(player, power.parent)))
 		{
 			if (player.worldObj.isRemote)
 			{
@@ -50,6 +49,13 @@ public class PowerManager
 			}
 
 			getPowerData(player, power).unlocked = true;
+			
+			if (power == Power.forceSensitivity)
+			{
+				PowerManager.getPowerData(player, Power.lightSide).unlocked = true;
+				PowerManager.getPowerData(player, Power.darkSide).unlocked = true;
+				PowerManager.getPowerData(player, Power.neutral).unlocked = true;
+			}
 		}
 	}
 
