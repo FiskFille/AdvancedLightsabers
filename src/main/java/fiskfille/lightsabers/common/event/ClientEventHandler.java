@@ -95,8 +95,8 @@ public class ClientEventHandler
 		ItemStack itemstack = entity.getHeldItem();
 
 		//		if (prevLightsaber1.containsKey(entity.getUniqueID().toString()))
-			//		{
-			//			ItemStack itemstack1 = prevLightsaber1.get(entity.getUniqueID().toString());
+		//		{
+		//			ItemStack itemstack1 = prevLightsaber1.get(entity.getUniqueID().toString());
 		//			
 		////			if (entity.ticksExisted % 2 == 0)
 		//			{
@@ -212,19 +212,28 @@ public class ClientEventHandler
 					mc.displayGuiScreen(new GuiSelectPowers());
 				}
 
-				if (DataManager.getEffect(player, Effect.gaze.id) != null)
+				flag = false;
+
+				if (ModConfig.enableShaders)
 				{
-					ALRenderHelper.startShaders(ALRenderHelper.shaderBlueTint);
+					if (DataManager.getEffect(player, Effect.gaze.id) != null)
+					{
+						ALRenderHelper.startShaders(ALRenderHelper.shaderBlueTint);
+						flag = true;
+					}
+					else if (DataManager.getEffect(player, Effect.stealth.id) != null)
+					{
+						ALRenderHelper.startShaders(ALRenderHelper.shaderDesaturate);
+						flag = true;
+					}
+					else if (DataManager.getEffect(player, Effect.speed.id) != null)
+					{
+						ALRenderHelper.startShaders(ALRenderHelper.shaderMildPhosphor);
+						flag = true;
+					}
 				}
-				else if (DataManager.getEffect(player, Effect.stealth.id) != null)
-				{
-					ALRenderHelper.startShaders(ALRenderHelper.shaderDesaturate);
-				}
-				else if (DataManager.getEffect(player, Effect.speed.id) != null)
-				{
-					ALRenderHelper.startShaders(ALRenderHelper.shaderMildPhosphor);
-				}
-				else if (mc.entityRenderer.getShaderGroup() != null)
+
+				if (!flag && mc.entityRenderer.getShaderGroup() != null)
 				{
 					String s = mc.entityRenderer.getShaderGroup().getShaderGroupName();
 					ResourceLocation[] shaders = {ALRenderHelper.shaderBlueTint, ALRenderHelper.shaderDesaturate, ALRenderHelper.shaderMildPhosphor};
@@ -653,7 +662,7 @@ public class ClientEventHandler
 		if (mc.thePlayer != null)
 		{
 			String name = Lightsabers.modid + ":" + event.name;
-			
+
 			if (DataManager.getEffect(mc.thePlayer, Effect.stealth.id) != null && !name.equals(ALSounds.player_force_stealth_on) && !name.equals(ALSounds.player_force_stealth_off) && !name.startsWith(ALSounds.ambient_stealth))
 			{
 				ISound sound = event.sound;
