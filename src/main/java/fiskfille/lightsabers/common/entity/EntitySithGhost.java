@@ -112,11 +112,6 @@ public class EntitySithGhost extends EntityMob
 		return true;
 	}
 
-	protected float getSoundPitch()
-	{
-		return super.getSoundPitch();
-	}
-
 	protected String getLivingSound()
 	{
 		return Lightsabers.modid + ":mob.sith_ghost.idle";

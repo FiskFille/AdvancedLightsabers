@@ -1,4 +1,4 @@
-package fiskfille.lightsabers.client.model;
+package fiskfille.lightsabers.client.model.entity;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;

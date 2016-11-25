@@ -1,8 +1,10 @@
 package fiskfille.lightsabers.common.proxy;
 
+import net.ilexiconn.llibrary.server.network.AbstractMessage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.common.block.ModBlocks;
 import fiskfille.lightsabers.common.entity.ModEntities;
@@ -54,8 +56,13 @@ public class CommonProxy
 		return false;
 	}
 	
-	public float getRenderTicks()
+	public float getPartialTicks()
 	{
 		return 0;
 	}
+	
+	public <T extends AbstractMessage<T>> void handleMessage(final T message, final MessageContext messageContext)
+	{
+        message.onServerReceived(FMLCommonHandler.instance().getMinecraftServerInstance(), message, messageContext.getServerHandler().playerEntity, messageContext);
+    }
 }

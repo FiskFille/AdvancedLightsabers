@@ -39,6 +39,7 @@ tile.forcestone_slab.dark.name=Dark Forcestone Slab
 
 ------Entities------
 entity.al_SithGhost.name=Sith Ghost
+entity.al_Grievous.name=General Grievous
 
 
 ------GUI------

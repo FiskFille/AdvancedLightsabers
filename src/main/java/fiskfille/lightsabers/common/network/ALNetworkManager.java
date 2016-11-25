@@ -1,5 +1,6 @@
 package fiskfille.lightsabers.common.network;
 
+import net.ilexiconn.llibrary.server.network.AnimationMessage;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -28,6 +29,7 @@ public class ALNetworkManager
         registerPacket(PacketUpdateSelectedPowers.Handler.class, PacketUpdateSelectedPowers.class);
         registerPacket(PacketRightClick.Handler.class, PacketRightClick.class);
         registerPacket(PacketUpdateEffectsList.Handler.class, PacketUpdateEffectsList.class);
+        registerPacket(AnimationMessage.class, AnimationMessage.class);
     }
     
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)

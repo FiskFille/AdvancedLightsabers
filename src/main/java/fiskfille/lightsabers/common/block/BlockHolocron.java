@@ -81,7 +81,7 @@ public class BlockHolocron extends BlockContainer
 		if (world.getTileEntity(x, y, z) instanceof TileEntityHolocron)
 		{
 			TileEntityHolocron tile = (TileEntityHolocron)world.getTileEntity(x, y, z);
-			f = tile.prevOpenTimer + (tile.openTimer - tile.prevOpenTimer) * Lightsabers.proxy.getRenderTicks();
+			f = tile.prevOpenTimer + (tile.openTimer - tile.prevOpenTimer) * Lightsabers.proxy.getPartialTicks();
 		}
 		
 		float size = 0.25F;

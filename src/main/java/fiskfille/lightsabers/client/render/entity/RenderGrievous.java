@@ -6,17 +6,16 @@ import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.lightsabers.Lightsabers;
-import fiskfille.lightsabers.client.model.entity.ModelSithGhost;
-import fiskfille.lightsabers.common.helper.LightsaberColors;
+import fiskfille.lightsabers.client.model.entity.ModelGrievous;
 
 @SideOnly(Side.CLIENT)
-public class RenderSithGhost extends RenderBiped
+public class RenderGrievous extends RenderBiped
 {
-    private static final ResourceLocation textures = new ResourceLocation(Lightsabers.modid, "textures/models/sith_ghost.png");
+    private static final ResourceLocation textures = new ResourceLocation(Lightsabers.modid, "textures/models/general_grievous.png");
 
-    public RenderSithGhost()
+    public RenderGrievous()
     {
-        super(new ModelSithGhost(), 0.5F);
+        super(new ModelGrievous(), 0.5F);
     }
     
     protected ResourceLocation getEntityTexture(Entity entity)

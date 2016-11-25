@@ -1,6 +1,7 @@
 package fiskfille.lightsabers.common.proxy;
 
 import mods.battlegear2.api.core.BattlegearUtils;
+import net.ilexiconn.llibrary.server.network.AbstractMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,6 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.client.LightsaberAPIClient;
 import fiskfille.lightsabers.client.gui.GuiOverlay;
@@ -61,6 +65,7 @@ import fiskfille.lightsabers.client.model.lightsaber.ModelSwitchSectionRedeemer;
 import fiskfille.lightsabers.client.model.lightsaber.ModelSwitchSectionVaid;
 import fiskfille.lightsabers.client.render.entity.RenderDoubleLightsaberEntity;
 import fiskfille.lightsabers.client.render.entity.RenderForceLightning;
+import fiskfille.lightsabers.client.render.entity.RenderGrievous;
 import fiskfille.lightsabers.client.render.entity.RenderLightsaberEntity;
 import fiskfille.lightsabers.client.render.entity.RenderSithGhost;
 import fiskfille.lightsabers.client.render.item.RenderDoubleLightsaber;
@@ -78,6 +83,7 @@ import fiskfille.lightsabers.client.render.tile.RenderSithStoneCoffin;
 import fiskfille.lightsabers.common.block.ModBlocks;
 import fiskfille.lightsabers.common.entity.EntityDoubleLightsaber;
 import fiskfille.lightsabers.common.entity.EntityForceLightning;
+import fiskfille.lightsabers.common.entity.EntityGrievous;
 import fiskfille.lightsabers.common.entity.EntityLightsaber;
 import fiskfille.lightsabers.common.entity.EntitySithGhost;
 import fiskfille.lightsabers.common.event.ClientEventHandler;
@@ -92,6 +98,7 @@ import fiskfille.lightsabers.common.tileentity.TileEntityLightsaberForge;
 import fiskfille.lightsabers.common.tileentity.TileEntitySithCoffin;
 import fiskfille.lightsabers.common.tileentity.TileEntitySithStoneCoffin;
 
+@SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
 {	
 	public void preInit()
@@ -142,6 +149,7 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityDoubleLightsaber.class, new RenderDoubleLightsaberEntity());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySithGhost.class, new RenderSithGhost());
 		RenderingRegistry.registerEntityRenderingHandler(EntityForceLightning.class, new RenderForceLightning());
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrievous.class, new RenderGrievous());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLightsaberForge.class, new RenderLightsaberForge());
@@ -168,8 +176,21 @@ public class ClientProxy extends CommonProxy
 		return player == getPlayer();
 	}
 	
-	public float getRenderTicks()
+	public float getPartialTicks()
 	{
 		return ClientEventHandler.RENDER_TICK;
 	}
+	
+	@Override
+    public <T extends AbstractMessage<T>> void handleMessage(final T message, final MessageContext messageContext)
+	{
+        if (messageContext.side.isServer())
+        {
+            super.handleMessage(message, messageContext);
+        }
+        else
+        {
+            message.onClientReceived(Minecraft.getMinecraft(), message, Minecraft.getMinecraft().thePlayer, messageContext);
+        }
+    }
 }
