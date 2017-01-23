@@ -44,7 +44,10 @@ public class ClassTransformerColor implements IClassTransformer, Opcodes
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			if (!(e instanceof NullPointerException))
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return bytes;

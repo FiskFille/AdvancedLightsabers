@@ -1,73 +1,9 @@
 package fiskfille.lightsabers.client.sound;
 
-import net.minecraft.util.ResourceLocation;
 import fiskfille.lightsabers.Lightsabers;
 
 public class ALSounds
 {
-//	public static class Ambient
-//	{
-//		public static String fortify = create("fortify");
-//		public static String stealth = create("stealth");
-//	}
-//	
-//	public static class Block
-//	{
-//		public static class Holocron
-//		{
-//			public static String invest = create("invest");
-//			public static String unlock = create("unlock");
-//		}
-//		
-//		public static class SithSarcophagus
-//		{
-//			public static String close = create("close");
-//			public static String open = create("open");
-//		}
-//	}
-//	
-//	public static class Mob
-//	{
-//		public static class Lightsaber
-//		{
-//			public static String off = create("off");
-//			public static String on = create("on");
-//			public static String swing = create("swing");
-//		}
-//		
-//		public static class SithGhost
-//		{
-//			public static String death = create("death");
-//			public static String idle = create("idle");
-//		}
-//	}
-//	
-//	public static class Player
-//	{
-//		public static class Force
-//		{
-//			public static String cast = create("cast");
-//			public static String dark = create("dark");
-//			public static String fail = create("fail");
-//			public static String heal = create("heal");
-//			public static String lightning = create("lightning");
-//			
-//			public static class Stealth
-//			{
-//				public static String off = create("off");
-//				public static String on = create("on");
-//			}
-//		}
-//		
-//		public static class Lightsaber
-//		{
-//			public static String off = create("off");
-//			public static String on = create("on");
-//			public static String sweetDreams = create("sweet_dreams");
-//			public static String swing = create("swing");
-//		}
-//	}
-	
 	public static final String ambient_fortify					 = create("ambient.fortify");
 	public static final String ambient_stealth					 = create("ambient.stealth");
 	public static final String ambient_lightsaber_hum_heavy		 = create("ambient.lightsaber.hum_heavy");
@@ -95,9 +31,6 @@ public class ALSounds
 	public static final String player_lightsaber_on				 = create("player.lightsaber.on");
 	public static final String player_lightsaber_sweet_dreams	 = create("player.lightsaber.sweet_dreams");
 	public static final String player_lightsaber_swing			 = create("player.lightsaber.swing");
-	
-	public static SoundAL mediumHum = SoundAL.makeSound(new ResourceLocation(ambient_lightsaber_hum_medium), true, 1.0F, 0.5F);
-	public static SoundAL stealth = SoundAL.makeSound(new ResourceLocation(ambient_stealth), true, 1.0F, 1.0F);
 	
 	private static String create(String s)
 	{

@@ -9,6 +9,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SoundAL extends PositionedSound
 {
+	public static SoundAL mediumHum = SoundAL.makeSound(new ResourceLocation(ALSounds.ambient_lightsaber_hum_medium), true, 1.0F, 0.5F);
+	
     public static SoundAL makeSound(ResourceLocation resourceLocation, boolean loop)
     {
     	SoundAL sound = new SoundAL(resourceLocation, 1.0F, 1.0F, false, 0, ISound.AttenuationType.NONE, 0.0F, 0.0F, 0.0F);
