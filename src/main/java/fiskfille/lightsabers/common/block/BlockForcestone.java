@@ -30,19 +30,20 @@ public class BlockForcestone extends Block
         super(Material.rock);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata)
     {
         if (metadata != 2 && metadata != 3 && metadata != 4)
         {
-        	if (metadata == 0)
-        	{
-        		return iconDefault;
-        	}
-        	else
-        	{
-        		return side == 0 || side == 1 ? iconDefault : iconInscribed;
-        	}
+            if (metadata == 0)
+            {
+                return iconDefault;
+            }
+            else
+            {
+                return side == 0 || side == 1 ? iconDefault : iconInscribed;
+            }
         }
         else
         {
@@ -50,44 +51,49 @@ public class BlockForcestone extends Block
         }
     }
 
+    @Override
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
         if (metadata == 2)
         {
             switch (side)
             {
-                case 0:
-                case 1:
-                    metadata = 2;
-                    break;
-                case 2:
-                case 3:
-                    metadata = 4;
-                    break;
-                case 4:
-                case 5:
-                    metadata = 3;
+            case 0:
+            case 1:
+                metadata = 2;
+                break;
+            case 2:
+            case 3:
+                metadata = 4;
+                break;
+            case 4:
+            case 5:
+                metadata = 3;
             }
         }
 
         return metadata;
     }
 
+    @Override
     public int damageDropped(int metadata)
     {
         return metadata != 3 && metadata != 4 ? metadata : 2;
     }
 
+    @Override
     protected ItemStack createStackedBlock(int metadata)
     {
         return metadata != 3 && metadata != 4 ? super.createStackedBlock(metadata) : new ItemStack(Item.getItemFromBlock(this), 1, 2);
     }
 
+    @Override
     public int getRenderType()
     {
         return 39;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List list)
     {
@@ -96,6 +102,7 @@ public class BlockForcestone extends Block
         list.add(new ItemStack(item, 1, 2));
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {

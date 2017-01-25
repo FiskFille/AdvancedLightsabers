@@ -12,56 +12,59 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketUpdateLightsaber implements IMessage
 {
-	public int id;
-	private ItemStack itemstack;
+    public int id;
+    private ItemStack itemstack;
 
-	public PacketUpdateLightsaber()
-	{
+    public PacketUpdateLightsaber()
+    {
 
-	}
+    }
 
-	public PacketUpdateLightsaber(Entity entity, ItemStack lightsaber)
-	{
-		id = entity.getEntityId();
-		itemstack = lightsaber;
-	}
+    public PacketUpdateLightsaber(Entity entity, ItemStack lightsaber)
+    {
+        id = entity.getEntityId();
+        itemstack = lightsaber;
+    }
 
-	public void fromBytes(ByteBuf buf)
-	{
-		id = buf.readInt();
-		itemstack = ByteBufUtils.readItemStack(buf);
-	}
+    @Override
+    public void fromBytes(ByteBuf buf)
+    {
+        id = buf.readInt();
+        itemstack = ByteBufUtils.readItemStack(buf);
+    }
 
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(id);
-		ByteBufUtils.writeItemStack(buf, itemstack);
-	}
+    @Override
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeInt(id);
+        ByteBufUtils.writeItemStack(buf, itemstack);
+    }
 
-	public static class Handler implements IMessageHandler<PacketUpdateLightsaber, IMessage>
-	{
-		public IMessage onMessage(PacketUpdateLightsaber message, MessageContext ctx)
-		{
-			if (ctx.side.isClient())
-			{
-				EntityPlayer player = Lightsabers.proxy.getPlayer();
-				Entity entity = player.worldObj.getEntityByID(message.id);
+    public static class Handler implements IMessageHandler<PacketUpdateLightsaber, IMessage>
+    {
+        @Override
+        public IMessage onMessage(PacketUpdateLightsaber message, MessageContext ctx)
+        {
+            if (ctx.side.isClient())
+            {
+                EntityPlayer player = Lightsabers.proxy.getPlayer();
+                Entity entity = player.worldObj.getEntityByID(message.id);
 
-				if (entity instanceof EntityPlayer)
-				{
-					if (entity != player)
-					{
-						EntityPlayer player1 = (EntityPlayer)entity;
-						player1.inventory.mainInventory[10] = message.itemstack;
-					}
-				}
-			}
-			else
-			{
-				ALNetworkManager.networkWrapper.sendToAll(message);
-			}
-			
-			return null;
-		}
-	}
+                if (entity instanceof EntityPlayer)
+                {
+                    if (entity != player)
+                    {
+                        EntityPlayer player1 = (EntityPlayer) entity;
+                        player1.inventory.mainInventory[10] = message.itemstack;
+                    }
+                }
+            }
+            else
+            {
+                ALNetworkManager.networkWrapper.sendToAll(message);
+            }
+
+            return null;
+        }
+    }
 }

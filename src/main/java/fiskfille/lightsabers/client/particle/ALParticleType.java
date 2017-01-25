@@ -4,7 +4,7 @@ import net.minecraft.client.particle.EntityFX;
 
 public enum ALParticleType
 {
-	FORCE_HEAL(EntityALHealFX.class);
+    FORCE_HEAL(EntityALHealFX.class);
 
     public Class<? extends EntityFX> particleClass;
 

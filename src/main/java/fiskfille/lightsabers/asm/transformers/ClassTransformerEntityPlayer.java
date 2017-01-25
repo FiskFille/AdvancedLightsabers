@@ -14,62 +14,62 @@ import fiskfille.lightsabers.asm.ASMHooks;
 
 public class ClassTransformerEntityPlayer extends ClassTransformerBase
 {
-	public static String varPlayer;
-	public static String varEntity;
-	
-	public ClassTransformerEntityPlayer()
-	{
-		super("net.minecraft.entity.player.EntityPlayer");
-	}
-	
-	@Override
-	public boolean processMethods(List<MethodNode> methods)
-	{
-		boolean flag = false;
+    public static String varPlayer;
+    public static String varEntity;
 
-		for (MethodNode method : methods)
-		{
-			if (method.name.equals(ALTranslator.getMappedName("r", "attackTargetEntityWithCurrentItem")) && method.desc.equals("(L" + varEntity + ";)V"))
-			{
-				InsnList list = new InsnList();
+    public ClassTransformerEntityPlayer()
+    {
+        super("net.minecraft.entity.player.EntityPlayer");
+    }
 
-				for (int i = 0; i < method.instructions.size(); ++i)
-				{
-					AbstractInsnNode node = method.instructions.get(i);
+    @Override
+    public boolean processMethods(List<MethodNode> methods)
+    {
+        boolean flag = false;
 
-					if (node instanceof MethodInsnNode)
-					{
-						MethodInsnNode methodNode = (MethodInsnNode)node;
-						
-						if (methodNode.name.equals(ALTranslator.getMappedName("a", "attackEntityFrom")) && methodNode.desc.equals(ALTranslator.getMappedName("(Lro;F)Z", "(Lnet/minecraft/util/DamageSource;F)Z")))
-						{
-							list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ASMHooks.class), "attackEntityFrom", ALTranslator.getMappedName("(L" + varEntity + ";Lro;F)Z", "(L" + varEntity + ";Lnet/minecraft/util/DamageSource;F)Z"), false));
-							continue;
-						}
-					}
+        for (MethodNode method : methods)
+        {
+            if (method.name.equals(ALTranslator.getMappedName("r", "attackTargetEntityWithCurrentItem")) && method.desc.equals("(L" + varEntity + ";)V"))
+            {
+                InsnList list = new InsnList();
 
-					list.add(node);
-				}
+                for (int i = 0; i < method.instructions.size(); ++i)
+                {
+                    AbstractInsnNode node = method.instructions.get(i);
 
-				method.instructions.clear();
-				method.instructions.add(list);
-				flag = true;
-			}
-		}
+                    if (node instanceof MethodInsnNode)
+                    {
+                        MethodInsnNode methodNode = (MethodInsnNode) node;
 
-		return flag;
-	}
+                        if (methodNode.name.equals(ALTranslator.getMappedName("a", "attackEntityFrom")) && methodNode.desc.equals(ALTranslator.getMappedName("(Lro;F)Z", "(Lnet/minecraft/util/DamageSource;F)Z")))
+                        {
+                            list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ASMHooks.class), "attackEntityFrom", ALTranslator.getMappedName("(L" + varEntity + ";Lro;F)Z", "(L" + varEntity + ";Lnet/minecraft/util/DamageSource;F)Z"), false));
+                            continue;
+                        }
+                    }
 
-	@Override
-	public boolean processFields(List<FieldNode> fields)
-	{
-		return true;
-	}
+                    list.add(node);
+                }
 
-	@Override
-	public void setupMappings()
-	{
-		varPlayer = ALTranslator.getMappedName("yz", "net/minecraft/entity/player/EntityPlayer");
-		varEntity = ALTranslator.getMappedName("sa", "net/minecraft/entity/Entity");
-	}
+                method.instructions.clear();
+                method.instructions.add(list);
+                flag = true;
+            }
+        }
+
+        return flag;
+    }
+
+    @Override
+    public boolean processFields(List<FieldNode> fields)
+    {
+        return true;
+    }
+
+    @Override
+    public void setupMappings()
+    {
+        varPlayer = ALTranslator.getMappedName("yz", "net/minecraft/entity/player/EntityPlayer");
+        varEntity = ALTranslator.getMappedName("sa", "net/minecraft/entity/Entity");
+    }
 }

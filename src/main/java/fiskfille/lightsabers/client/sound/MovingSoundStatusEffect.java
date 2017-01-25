@@ -24,6 +24,7 @@ public class MovingSoundStatusEffect extends MovingSound
         volume = 1.0F;
     }
 
+    @Override
     public void update()
     {
         if (theEntity.isDead || DataManager.getEffect(theEntity, theEffect.id) == null)
@@ -32,9 +33,9 @@ public class MovingSoundStatusEffect extends MovingSound
         }
         else
         {
-            xPosF = (float)theEntity.posX;
-            yPosF = (float)theEntity.posY;
-            zPosF = (float)theEntity.posZ;
+            xPosF = (float) theEntity.posX;
+            yPosF = (float) theEntity.posY;
+            zPosF = (float) theEntity.posZ;
         }
     }
 }

@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -73,13 +74,14 @@ public abstract class ItemLightsaberBase extends ItemSword
         return itemstack.getTagCompound().getBoolean("active");
     }
 
+    @Override
     public boolean onEntitySwing(EntityLivingBase entity, ItemStack itemstack)
     {
         if (isActive(itemstack))
         {
             MovingObjectPosition mop = getMovingObjectPosition(entity.worldObj, entity, true);
 
-            if (mop == null || mop.typeOfHit != mop.typeOfHit.BLOCK)
+            if (mop == null || mop.typeOfHit != MovingObjectType.BLOCK)
             {
                 entity.playSound(entity instanceof EntityPlayer ? ALSounds.player_lightsaber_swing : ALSounds.mob_lightsaber_swing, 1.0F, 1.0F);
             }
@@ -94,7 +96,7 @@ public abstract class ItemLightsaberBase extends ItemSword
 
     public static void throwLightsaber(EntityLivingBase entity, ItemStack itemstack, int amplifier)
     {
-        Entity lightsaber = ((ItemLightsaberBase)itemstack.getItem()).getThrownLightsaberEntity(entity.worldObj, entity, itemstack, amplifier);
+        Entity lightsaber = ((ItemLightsaberBase) itemstack.getItem()).getThrownLightsaberEntity(entity.worldObj, entity, itemstack, amplifier);
         entity.worldObj.spawnEntityInWorld(lightsaber);
         entity.setCurrentItemOrArmor(0, null);
     }
@@ -116,7 +118,7 @@ public abstract class ItemLightsaberBase extends ItemSword
             Vec3 look = entity.getLook(0.0F);
             Vec3 lookPosition = position.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
             float expand = 1.0F;
-            List possibleEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach).expand((double)expand, (double)expand, (double)expand));
+            List possibleEntities = world.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach).expand(expand, expand, expand));
             double closestDistance = reach;
 
             for (Object possibleEntity : possibleEntities)
@@ -126,7 +128,7 @@ public abstract class ItemLightsaberBase extends ItemSword
                 if (selectingEntity.canBeCollidedWith())
                 {
                     float borderSize = selectingEntity.getCollisionBorderSize();
-                    AxisAlignedBB selectionBounds = selectingEntity.boundingBox.expand((double) borderSize, (double) borderSize, (double) borderSize);
+                    AxisAlignedBB selectionBounds = selectingEntity.boundingBox.expand(borderSize, borderSize, borderSize);
                     MovingObjectPosition entityMOP = selectionBounds.calculateIntercept(position, lookPosition);
 
                     if (entityMOP != null)
@@ -176,36 +178,42 @@ public abstract class ItemLightsaberBase extends ItemSword
         return false;
     }
 
+    @Override
     public boolean isFull3D()
     {
         return true;
     }
 
+    @Override
     public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player)
     {
-    	if (player.isSneaking() && !world.isRemote)
-    	{
-    		LightsaberHelper.igniteLightsaber(player, !isActive(itemstack));
-    	}
-    	
-    	return itemstack;
+        if (player.isSneaking() && !world.isRemote)
+        {
+            LightsaberHelper.igniteLightsaber(player, !isActive(itemstack));
+        }
+
+        return itemstack;
     }
 
+    @Override
     public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player, Entity entity)
     {
         return !isActive(itemstack);
     }
 
+    @Override
     public EnumAction getItemUseAction(ItemStack itemstack)
     {
         return EnumAction.block;
     }
 
+    @Override
     public int getMaxItemUseDuration(ItemStack itemstack)
     {
         return 72000;
     }
 
+    @Override
     public Multimap getAttributeModifiers(ItemStack stack)
     {
         Multimap multimap = super.getAttributeModifiers(stack);
@@ -214,6 +222,7 @@ public abstract class ItemLightsaberBase extends ItemSword
         return multimap;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IIconRegister)
     {

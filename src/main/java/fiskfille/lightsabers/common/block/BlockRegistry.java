@@ -33,23 +33,23 @@ public class BlockRegistry
 
         GameRegistry.registerBlock(block, clazz, unlocalizedName);
     }
-    
+
     public static void registerItemBlock(Block block, String name, ItemBlock item)
     {
         String unlocalizedName = name.toLowerCase().replaceAll(" ", "_").replaceAll("'", "");
-        registerItemBlock(block, name, (Class)null);
-        
+        registerItemBlock(block, name, (Class) null);
+
         Iterator iterator = Block.blockRegistry.getKeys().iterator();
 
         while (iterator.hasNext())
         {
-            String s = (String)iterator.next();
-            Block block1 = (Block)Block.blockRegistry.getObject(s);
+            String s = (String) iterator.next();
+            Block block1 = (Block) Block.blockRegistry.getObject(s);
 
             if (block == block1)
             {
-            	Item.itemRegistry.addObject(Block.getIdFromBlock(block), s, item.setUnlocalizedName(unlocalizedName));
-            	break;
+                Item.itemRegistry.addObject(Block.getIdFromBlock(block), s, item.setUnlocalizedName(unlocalizedName));
+                break;
             }
         }
     }
@@ -82,7 +82,7 @@ public class BlockRegistry
         registerItemBlock(block, name, clazz1);
         GameRegistry.registerTileEntity(clazz, name);
     }
-    
+
     public static void registerItemBlockAsTileEntity(Block block, String name, Class clazz)
     {
         registerItemBlock(block, name, ItemBlockWithMetadata.class);

@@ -6,10 +6,10 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 
 public class ALKeyBinds
 {
-	public static ALKeyBinding keyBindingSelectPower = new ALKeyBinding("key.selectPower", Keyboard.KEY_F);
+    public static ALKeyBinding keyBindingSelectPower = new ALKeyBinding("key.selectPower", Keyboard.KEY_F);
 
-	public static void register()
-	{
-		ClientRegistry.registerKeyBinding(keyBindingSelectPower);
-	}
+    public static void register()
+    {
+        ClientRegistry.registerKeyBinding(keyBindingSelectPower);
+    }
 }

@@ -45,10 +45,11 @@ public class ModelSithGhost extends ModelBiped
         bipedHead.addChild(hood);
     }
 
+    @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
-    	setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-    	ModelHelper.renderBipedPre(this, entity, f, f1, f2, f3, f4, f5);
+        setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+        ModelHelper.renderBipedPre(this, entity, f, f1, f2, f3, f4, f5);
         bipedBody.render(f5);
         bipedRightLeg.render(f5);
         bipedHead.render(f5);
@@ -58,17 +59,18 @@ public class ModelSithGhost extends ModelBiped
         ModelHelper.renderBipedPost(this, entity, f, f1, f2, f3, f4, f5);
     }
 
-	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
-	
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
+
+    @Override
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
     {
-    	super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-    	bipedRightArm.setRotationPoint(-4.0F, 2.0F, 0.0F);
-    	bipedLeftArm.setRotationPoint(4.0F, 2.0F, 0.0F);
-	}
+        super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+        bipedRightArm.setRotationPoint(-4.0F, 2.0F, 0.0F);
+        bipedLeftArm.setRotationPoint(4.0F, 2.0F, 0.0F);
+    }
 }

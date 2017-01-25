@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.client.model.entity.ModelSithGhost;
-import fiskfille.lightsabers.common.helper.LightsaberColors;
 
 @SideOnly(Side.CLIENT)
 public class RenderSithGhost extends RenderBiped
@@ -18,7 +17,8 @@ public class RenderSithGhost extends RenderBiped
     {
         super(new ModelSithGhost(), 0.5F);
     }
-    
+
+    @Override
     protected ResourceLocation getEntityTexture(Entity entity)
     {
         return textures;

@@ -15,84 +15,84 @@ import fiskfille.lightsabers.common.helper.ModelHelper;
 
 public class ClassTransformerModelBipedMultiLayer extends ClassTransformerBase
 {
-	public static String varPlayer;
-	public static String varEntity;
-	
-	public ClassTransformerModelBipedMultiLayer()
-	{
-		super("fiskfille.heroes.client.model.ModelBipedMultiLayer");
-	}
-	
-	@Override
-	public boolean processMethods(List<MethodNode> methods)
-	{
-		boolean flag = false;
+    public static String varPlayer;
+    public static String varEntity;
 
-		for (MethodNode method : methods)
-		{
-			if (method.name.equals(ALTranslator.getMappedName("func_78088_a", "render")) && method.desc.equals("(Lnet/minecraft/entity/Entity;FFFFFF)V"))
-			{
-				InsnList list = new InsnList();
+    public ClassTransformerModelBipedMultiLayer()
+    {
+        super("fiskfille.heroes.client.model.ModelBipedMultiLayer");
+    }
 
-				for (int i = 0; i < method.instructions.size(); ++i)
-				{
-					AbstractInsnNode node = method.instructions.get(i);
+    @Override
+    public boolean processMethods(List<MethodNode> methods)
+    {
+        boolean flag = false;
 
-					if (node instanceof MethodInsnNode)
-					{
-						MethodInsnNode methodNode = (MethodInsnNode)node;
-						
-						if (methodNode.name.equals("renderBipedPre") && methodNode.desc.equals("(Lnet/minecraft/client/model/ModelBiped;Lnet/minecraft/entity/Entity;FFFFFF)V"))
-						{
-							list.add(node);
-							list.add(new VarInsnNode(ALOAD, 0));
-							list.add(new VarInsnNode(ALOAD, 1));
-							list.add(new VarInsnNode(FLOAD, 2));
-							list.add(new VarInsnNode(FLOAD, 3));
-							list.add(new VarInsnNode(FLOAD, 4));
-							list.add(new VarInsnNode(FLOAD, 5));
-							list.add(new VarInsnNode(FLOAD, 6));
-							list.add(new VarInsnNode(FLOAD, 7));
-							list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ModelHelper.class), "renderBipedPre", "(Lnet/minecraft/client/model/ModelBiped;Lnet/minecraft/entity/Entity;FFFFFF)V", false));
-							continue;
-						}
-					}
-					
-					if (node.getOpcode() == RETURN)
-					{
-						list.add(new VarInsnNode(ALOAD, 0));
-						list.add(new VarInsnNode(ALOAD, 1));
-						list.add(new VarInsnNode(FLOAD, 2));
-						list.add(new VarInsnNode(FLOAD, 3));
-						list.add(new VarInsnNode(FLOAD, 4));
-						list.add(new VarInsnNode(FLOAD, 5));
-						list.add(new VarInsnNode(FLOAD, 6));
-						list.add(new VarInsnNode(FLOAD, 7));
-						list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ModelHelper.class), "renderBipedPost", "(Lnet/minecraft/client/model/ModelBiped;Lnet/minecraft/entity/Entity;FFFFFF)V", false));
-					}
+        for (MethodNode method : methods)
+        {
+            if (method.name.equals(ALTranslator.getMappedName("func_78088_a", "render")) && method.desc.equals("(Lnet/minecraft/entity/Entity;FFFFFF)V"))
+            {
+                InsnList list = new InsnList();
 
-					list.add(node);
-				}
+                for (int i = 0; i < method.instructions.size(); ++i)
+                {
+                    AbstractInsnNode node = method.instructions.get(i);
 
-				method.instructions.clear();
-				method.instructions.add(list);
-				flag = true;
-			}
-		}
+                    if (node instanceof MethodInsnNode)
+                    {
+                        MethodInsnNode methodNode = (MethodInsnNode) node;
 
-		return flag;
-	}
+                        if (methodNode.name.equals("renderBipedPre") && methodNode.desc.equals("(Lnet/minecraft/client/model/ModelBiped;Lnet/minecraft/entity/Entity;FFFFFF)V"))
+                        {
+                            list.add(node);
+                            list.add(new VarInsnNode(ALOAD, 0));
+                            list.add(new VarInsnNode(ALOAD, 1));
+                            list.add(new VarInsnNode(FLOAD, 2));
+                            list.add(new VarInsnNode(FLOAD, 3));
+                            list.add(new VarInsnNode(FLOAD, 4));
+                            list.add(new VarInsnNode(FLOAD, 5));
+                            list.add(new VarInsnNode(FLOAD, 6));
+                            list.add(new VarInsnNode(FLOAD, 7));
+                            list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ModelHelper.class), "renderBipedPre", "(Lnet/minecraft/client/model/ModelBiped;Lnet/minecraft/entity/Entity;FFFFFF)V", false));
+                            continue;
+                        }
+                    }
 
-	@Override
-	public boolean processFields(List<FieldNode> fields)
-	{
-		return true;
-	}
+                    if (node.getOpcode() == RETURN)
+                    {
+                        list.add(new VarInsnNode(ALOAD, 0));
+                        list.add(new VarInsnNode(ALOAD, 1));
+                        list.add(new VarInsnNode(FLOAD, 2));
+                        list.add(new VarInsnNode(FLOAD, 3));
+                        list.add(new VarInsnNode(FLOAD, 4));
+                        list.add(new VarInsnNode(FLOAD, 5));
+                        list.add(new VarInsnNode(FLOAD, 6));
+                        list.add(new VarInsnNode(FLOAD, 7));
+                        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ModelHelper.class), "renderBipedPost", "(Lnet/minecraft/client/model/ModelBiped;Lnet/minecraft/entity/Entity;FFFFFF)V", false));
+                    }
 
-	@Override
-	public void setupMappings()
-	{
-		varPlayer = ALTranslator.getMappedName("yz", "net/minecraft/entity/player/EntityPlayer");
-		varEntity = ALTranslator.getMappedName("sa", "net/minecraft/entity/Entity");
-	}
+                    list.add(node);
+                }
+
+                method.instructions.clear();
+                method.instructions.add(list);
+                flag = true;
+            }
+        }
+
+        return flag;
+    }
+
+    @Override
+    public boolean processFields(List<FieldNode> fields)
+    {
+        return true;
+    }
+
+    @Override
+    public void setupMappings()
+    {
+        varPlayer = ALTranslator.getMappedName("yz", "net/minecraft/entity/player/EntityPlayer");
+        varEntity = ALTranslator.getMappedName("sa", "net/minecraft/entity/Entity");
+    }
 }

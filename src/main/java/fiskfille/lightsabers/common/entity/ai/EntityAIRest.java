@@ -15,16 +15,19 @@ public class EntityAIRest extends EntityAIBase
         setMutexBits(1);
     }
 
+    @Override
     public boolean shouldExecute()
     {
         return continueExecuting();
     }
 
+    @Override
     public boolean continueExecuting()
     {
         return entity.taskFinished == 2 && entity.hasRestingPlace;
     }
 
+    @Override
     public void startExecuting()
     {
         entity.getNavigator().tryMoveToXYZ(entity.restingPlaceX, entity.restingPlaceY, entity.restingPlaceZ, speed);

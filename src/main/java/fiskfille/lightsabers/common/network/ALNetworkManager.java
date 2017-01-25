@@ -12,11 +12,11 @@ public class ALNetworkManager
 {
     public static SimpleNetworkWrapper networkWrapper;
     private static int packetId = 0;
-    
+
     public static void registerPackets()
     {
         networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Lightsabers.modid);
-        
+
         registerPacket(PacketPlayerJoin.Handler.class, PacketPlayerJoin.class);
         registerPacket(PacketBroadcastState.Handler.class, PacketBroadcastState.class);
         registerPacket(PacketPlayerData.Handler.class, PacketPlayerData.class);
@@ -31,7 +31,7 @@ public class ALNetworkManager
         registerPacket(PacketUpdateEffectsList.Handler.class, PacketUpdateEffectsList.class);
         registerPacket(AnimationMessage.class, AnimationMessage.class);
     }
-    
+
     private static <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType)
     {
         networkWrapper.registerMessage(messageHandler, requestMessageType, packetId++, Side.CLIENT);

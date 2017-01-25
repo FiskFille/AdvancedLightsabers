@@ -32,249 +32,262 @@ import fiskfille.lightsabers.common.tileentity.TileEntitySithStoneCoffin;
 
 public class EntitySithGhost extends EntityMob
 {
-	public boolean hasRestingPlace;
-	public int restingPlaceX;
-	public int restingPlaceY;
-	public int restingPlaceZ;
+    public boolean hasRestingPlace;
+    public int restingPlaceX;
+    public int restingPlaceY;
+    public int restingPlaceZ;
 
-	public int throwLightsaberCooldown;
-	public int swingItemCooldown;
-	public int strafeTimer;
-	public int strafe = 1;
-	public int taskFinished;
+    public int throwLightsaberCooldown;
+    public int swingItemCooldown;
+    public int strafeTimer;
+    public int strafe = 1;
+    public int taskFinished;
 
-	public EntitySithGhost(World world)
-	{
-		super(world);
-		getNavigator().setAvoidsWater(true);
-		getNavigator().setBreakDoors(true);
-		getNavigator().setEnterDoors(true);
-		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(0, new EntityAIBreakBlock(this));
-		tasks.addTask(1, new EntityAIAttackOnCollide(this, 0.5D, true));
-		tasks.addTask(2, new EntityAIRest(this, 0.4D));
-		tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 4F, 10F));
-		tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-		tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
-	}
+    public EntitySithGhost(World world)
+    {
+        super(world);
+        getNavigator().setAvoidsWater(true);
+        getNavigator().setBreakDoors(true);
+        getNavigator().setEnterDoors(true);
+        tasks.addTask(0, new EntityAISwimming(this));
+        tasks.addTask(0, new EntityAIBreakBlock(this));
+        tasks.addTask(1, new EntityAIAttackOnCollide(this, 0.5D, true));
+        tasks.addTask(2, new EntityAIRest(this, 0.4D));
+        tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 4F, 10F));
+        tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
+        tasks.addTask(4, new EntityAIOpenDoor(this, true));
+        tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+        targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+        targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
+    }
 
-	public boolean attackEntityAsMob(Entity entity)
-	{
-		if (entity instanceof EntitySithGhost)
-		{
-			return false;
-		}
+    @Override
+    public boolean attackEntityAsMob(Entity entity)
+    {
+        if (entity instanceof EntitySithGhost)
+        {
+            return false;
+        }
 
-		boolean flag = super.attackEntityAsMob(entity);
+        boolean flag = super.attackEntityAsMob(entity);
 
-		if (flag)
-		{
-			swingItem();
-		}
+        if (flag)
+        {
+            swingItem();
+        }
 
-		return flag;
-	}
+        return flag;
+    }
 
-	public boolean attackEntityFrom(DamageSource damageSource, float damage)
-	{
-		if (damageSource == DamageSource.inWall)
-		{
-			return false;
-		}
-		
-		return super.attackEntityFrom(damageSource, Math.min(damage, 10));
-	}
+    @Override
+    public boolean attackEntityFrom(DamageSource damageSource, float damage)
+    {
+        if (damageSource == DamageSource.inWall)
+        {
+            return false;
+        }
 
-	public void swingItem()
-	{
-		if (swingItemCooldown == 0)
-		{
-			swingItemCooldown = 5;
-			super.swingItem();
-		}
-	}
+        return super.attackEntityFrom(damageSource, Math.min(damage, 10));
+    }
 
-	protected void applyEntityAttributes()
-	{
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.6D);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1);
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(32);
-	}
+    @Override
+    public void swingItem()
+    {
+        if (swingItemCooldown == 0)
+        {
+            swingItemCooldown = 5;
+            super.swingItem();
+        }
+    }
 
-	public boolean isAIEnabled()
-	{
-		return true;
-	}
+    @Override
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60);
+        getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4);
+        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.6D);
+        getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1);
+        getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(32);
+    }
 
-	protected String getLivingSound()
-	{
-		return Lightsabers.modid + ":mob.sith_ghost.idle";
-	}
+    @Override
+    public boolean isAIEnabled()
+    {
+        return true;
+    }
 
-	protected String getHurtSound()
-	{
-		return null;
-	}
+    @Override
+    protected String getLivingSound()
+    {
+        return Lightsabers.modid + ":mob.sith_ghost.idle";
+    }
 
-	protected String getDeathSound()
-	{
-		return Lightsabers.modid + ":mob.sith_ghost.death";
-	}
+    @Override
+    protected String getHurtSound()
+    {
+        return null;
+    }
 
-	public void onUpdate()
-	{
-		super.onUpdate();
-		EntityLivingBase entity = getAttackTarget();
-		ItemStack itemstack = getHeldItem();
+    @Override
+    protected String getDeathSound()
+    {
+        return Lightsabers.modid + ":mob.sith_ghost.death";
+    }
 
-		if (throwLightsaberCooldown > 0)
-		{
-			--throwLightsaberCooldown;
-		}
+    @Override
+    public void onUpdate()
+    {
+        super.onUpdate();
+        EntityLivingBase entity = getAttackTarget();
+        ItemStack itemstack = getHeldItem();
 
-		if (swingItemCooldown > 0)
-		{
-			--swingItemCooldown;
-		}
+        if (throwLightsaberCooldown > 0)
+        {
+            --throwLightsaberCooldown;
+        }
 
-		++strafeTimer;
+        if (swingItemCooldown > 0)
+        {
+            --swingItemCooldown;
+        }
 
-		if (strafeTimer > 100 + rand.nextInt(1000))
-		{
-			strafe *= -1;
-			strafeTimer = 0;
-		}
+        ++strafeTimer;
 
-		if (itemstack != null)
-		{
-			if (ticksExisted > 5)
-			{
-				LightsaberHelper.igniteLightsaber(this, true);
-			}
+        if (strafeTimer > 100 + rand.nextInt(1000))
+        {
+            strafe *= -1;
+            strafeTimer = 0;
+        }
 
-			if (entity != null && entity.isEntityAlive())
-			{
-				faceEntity(entity, 100, 100);
+        if (itemstack != null)
+        {
+            if (ticksExisted > 5)
+            {
+                LightsaberHelper.igniteLightsaber(this, true);
+            }
 
-				if (ItemLightsaberBase.isActive(itemstack) && getDistanceToEntity(entity) > 5 && canEntityBeSeen(entity) && throwLightsaberCooldown == 0)
-				{
-					throwLightsaberCooldown = 40 + rand.nextInt(60);
-					swingItem();
-					ALNetworkManager.networkWrapper.sendToServer(new PacketThrowLightsaber(this, itemstack));
-				}
+            if (entity != null && entity.isEntityAlive())
+            {
+                faceEntity(entity, 100, 100);
 
-				if (getDistanceToEntity(entity) < 5 && canEntityBeSeen(entity))
-				{
-					moveEntityWithHeading(0.3F * strafe, 0);
-				}
-			}
-		}
+                if (ItemLightsaberBase.isActive(itemstack) && getDistanceToEntity(entity) > 5 && canEntityBeSeen(entity) && throwLightsaberCooldown == 0)
+                {
+                    throwLightsaberCooldown = 40 + rand.nextInt(60);
+                    swingItem();
+                    ALNetworkManager.networkWrapper.sendToServer(new PacketThrowLightsaber(this, itemstack));
+                }
 
-		if (getHealth() <= 0)
-		{
-			for (int i = 0; i < 128; ++i)
-			{
-				double d0 = (double)(rand.nextFloat() * 2 - 1) * 1.2F;
-				double d1 = (double)(rand.nextFloat() * 2.4F - 1);
-				double d2 = (double)(rand.nextFloat() * 2 - 1) * 1.2F;
-				double d3 = posX + d0 * width;
-				double d4 = boundingBox.minY + d1 * (double)height;
-				double d5 = posZ + d2 * width;
-				worldObj.spawnParticle("largesmoke", d3, d4, d5, 0, 0, 0);
-			}
+                if (getDistanceToEntity(entity) < 5 && canEntityBeSeen(entity))
+                {
+                    moveEntityWithHeading(0.3F * strafe, 0);
+                }
+            }
+        }
 
-			setDead();
-		}
+        if (getHealth() <= 0)
+        {
+            for (int i = 0; i < 128; ++i)
+            {
+                double d0 = (double) (rand.nextFloat() * 2 - 1) * 1.2F;
+                double d1 = rand.nextFloat() * 2.4F - 1;
+                double d2 = (double) (rand.nextFloat() * 2 - 1) * 1.2F;
+                double d3 = posX + d0 * width;
+                double d4 = boundingBox.minY + d1 * height;
+                double d5 = posZ + d2 * width;
+                worldObj.spawnParticle("largesmoke", d3, d4, d5, 0, 0, 0);
+            }
 
-		if (entity instanceof EntitySithGhost)
-		{
-			setAttackTarget(worldObj.getClosestVulnerablePlayerToEntity(this, 32));
-		}
+            setDead();
+        }
 
-		if (entity != null)
-		{
-			taskFinished = 1;
-		}
-		else if (taskFinished == 1)
-		{
-			taskFinished = 2;
-		}
+        if (entity instanceof EntitySithGhost)
+        {
+            setAttackTarget(worldObj.getClosestVulnerablePlayerToEntity(this, 32));
+        }
 
-		if (taskFinished == 2)
-		{
-			int x = MathHelper.floor_double(posX);
-			int y = MathHelper.floor_double(posY);
-			int z = MathHelper.floor_double(posZ);
+        if (entity != null)
+        {
+            taskFinished = 1;
+        }
+        else if (taskFinished == 1)
+        {
+            taskFinished = 2;
+        }
 
-			if (getDistance(restingPlaceX, restingPlaceY, restingPlaceZ) <= 2D)
-			{
-				taskFinished = 3;
+        if (taskFinished == 2)
+        {
+            int x = MathHelper.floor_double(posX);
+            int y = MathHelper.floor_double(posY);
+            int z = MathHelper.floor_double(posZ);
 
-				if (worldObj.getTileEntity(restingPlaceX, restingPlaceY, restingPlaceZ) instanceof TileEntitySithStoneCoffin)
-				{
-					TileEntitySithStoneCoffin tile = (TileEntitySithStoneCoffin)worldObj.getTileEntity(restingPlaceX, restingPlaceY, restingPlaceZ);
-					tile.equipment = getEquipmentInSlot(0);
-					worldObj.playAuxSFXAtEntity(null, 1017, x, y, z, 0);
-					setDead();
-					ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(this, restingPlaceX, restingPlaceY, restingPlaceZ, 0));
-				}
-			}
-		}
-	}
+            if (getDistance(restingPlaceX, restingPlaceY, restingPlaceZ) <= 2D)
+            {
+                taskFinished = 3;
 
-	public void readEntityFromNBT(NBTTagCompound nbt)
-	{
-		super.readEntityFromNBT(nbt);
-		hasRestingPlace = nbt.getBoolean("HasRestingPlace");
-		restingPlaceX = nbt.getInteger("RestX");
-		restingPlaceY = nbt.getInteger("RestY");
-		restingPlaceZ = nbt.getInteger("RestZ");
-		throwLightsaberCooldown = nbt.getInteger("ThrowCooldown");
-		swingItemCooldown = nbt.getInteger("SwingCooldown");
-		strafeTimer = nbt.getInteger("StrafeTimer");
-		strafe = nbt.getInteger("Strafe");
-		taskFinished = nbt.getInteger("TaskFinished");
-	}
+                if (worldObj.getTileEntity(restingPlaceX, restingPlaceY, restingPlaceZ) instanceof TileEntitySithStoneCoffin)
+                {
+                    TileEntitySithStoneCoffin tile = (TileEntitySithStoneCoffin) worldObj.getTileEntity(restingPlaceX, restingPlaceY, restingPlaceZ);
+                    tile.equipment = getEquipmentInSlot(0);
+                    worldObj.playAuxSFXAtEntity(null, 1017, x, y, z, 0);
+                    setDead();
+                    ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(this, restingPlaceX, restingPlaceY, restingPlaceZ, 0));
+                }
+            }
+        }
+    }
 
-	public void writeEntityToNBT(NBTTagCompound nbt)
-	{
-		super.writeEntityToNBT(nbt);
-		nbt.setBoolean("HasRestingPlace", hasRestingPlace);
-		nbt.setInteger("RestX", restingPlaceX);
-		nbt.setInteger("RestY", restingPlaceY);
-		nbt.setInteger("RestZ", restingPlaceZ);
-		nbt.setInteger("ThrowCooldown", throwLightsaberCooldown);
-		nbt.setInteger("SwingCooldown", swingItemCooldown);
-		nbt.setInteger("StrafeTimer", strafeTimer);
-		nbt.setInteger("Strafe", strafe);
-		nbt.setInteger("TaskFinished", taskFinished);
-	}
+    @Override
+    public void readEntityFromNBT(NBTTagCompound nbt)
+    {
+        super.readEntityFromNBT(nbt);
+        hasRestingPlace = nbt.getBoolean("HasRestingPlace");
+        restingPlaceX = nbt.getInteger("RestX");
+        restingPlaceY = nbt.getInteger("RestY");
+        restingPlaceZ = nbt.getInteger("RestZ");
+        throwLightsaberCooldown = nbt.getInteger("ThrowCooldown");
+        swingItemCooldown = nbt.getInteger("SwingCooldown");
+        strafeTimer = nbt.getInteger("StrafeTimer");
+        strafe = nbt.getInteger("Strafe");
+        taskFinished = nbt.getInteger("TaskFinished");
+    }
 
-	protected boolean canTriggerWalking()
-	{
-		return false;
-	}
+    @Override
+    public void writeEntityToNBT(NBTTagCompound nbt)
+    {
+        super.writeEntityToNBT(nbt);
+        nbt.setBoolean("HasRestingPlace", hasRestingPlace);
+        nbt.setInteger("RestX", restingPlaceX);
+        nbt.setInteger("RestY", restingPlaceY);
+        nbt.setInteger("RestZ", restingPlaceZ);
+        nbt.setInteger("ThrowCooldown", throwLightsaberCooldown);
+        nbt.setInteger("SwingCooldown", swingItemCooldown);
+        nbt.setInteger("StrafeTimer", strafeTimer);
+        nbt.setInteger("Strafe", strafe);
+        nbt.setInteger("TaskFinished", taskFinished);
+    }
 
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData entityData)
-	{
-		if (getEquipmentInSlot(0) == null)
-		{
-			setCurrentItemOrArmor(0, LightsaberHelper.createRandomLightsaber(rand, LightsaberHelper.getCrystalIdFromColor(LightsaberColors.RED)));
-		}
+    @Override
+    protected boolean canTriggerWalking()
+    {
+        return false;
+    }
 
-		for (int i = 0; i < equipmentDropChances.length; ++i)
-		{
-			equipmentDropChances[i] = 0;
-		}
+    @Override
+    public IEntityLivingData onSpawnWithEgg(IEntityLivingData entityData)
+    {
+        if (getEquipmentInSlot(0) == null)
+        {
+            setCurrentItemOrArmor(0, LightsaberHelper.createRandomLightsaber(rand, LightsaberHelper.getCrystalIdFromColor(LightsaberColors.RED)));
+        }
 
-		return super.onSpawnWithEgg(entityData);
-	}
+        for (int i = 0; i < equipmentDropChances.length; ++i)
+        {
+            equipmentDropChances[i] = 0;
+        }
+
+        return super.onSpawnWithEgg(entityData);
+    }
 
 //	public void moveEntity(double offsetX, double offsetY, double offsetZ)
 //	{

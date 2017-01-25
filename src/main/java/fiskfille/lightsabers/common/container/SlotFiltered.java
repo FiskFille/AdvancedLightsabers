@@ -7,16 +7,17 @@ import net.minecraft.item.ItemStack;
 
 public class SlotFiltered extends Slot
 {
-	public Item filteredItem;
-	
-	public SlotFiltered(IInventory inventory, int id, int x, int y, Item item)
-	{
-		super(inventory, id, x, y);
-		filteredItem = item;
-	}
-	
-	public boolean isItemValid(ItemStack itemstack)
-	{
-		return itemstack.getItem() == filteredItem;
-	}
+    public Item filteredItem;
+
+    public SlotFiltered(IInventory inventory, int id, int x, int y, Item item)
+    {
+        super(inventory, id, x, y);
+        filteredItem = item;
+    }
+
+    @Override
+    public boolean isItemValid(ItemStack itemstack)
+    {
+        return itemstack.getItem() == filteredItem;
+    }
 }

@@ -21,186 +21,186 @@ import fiskfille.lightsabers.client.particle.ALParticles;
 
 public class ClassTransformerEffectRenderer extends ClassTransformerBase
 {
-	public static String varPlayer;
-	public static String varEntity;
+    public static String varPlayer;
+    public static String varEntity;
 
-	public ClassTransformerEffectRenderer()
-	{
-		super("net.minecraft.client.particle.EffectRenderer");
-	}
-	
-	public static int plus(int i)
-	{
-		++i;
-		
-		if (i == 3)
-		{
-			++i;
-		}
-		
-		return i;
-	}
+    public ClassTransformerEffectRenderer()
+    {
+        super("net.minecraft.client.particle.EffectRenderer");
+    }
 
-	@Override
-	public boolean processMethods(List<MethodNode> methods)
-	{
-		String[] names = {"<init>", ALTranslator.getMappedName("a", "updateEffects"), ALTranslator.getMappedName("a", "renderParticles"), ALTranslator.getMappedName("b", "renderLitParticles"), ALTranslator.getMappedName("a", "clearEffects")};
-		String[] descs = {ALTranslator.getMappedName("(Lahb;Lbqf;)V", "(Lnet/minecraft/world/World;Lnet/minecraft/client/renderer/texture/TextureManager;)V"), "()V", ALTranslator.getMappedName("(Lsa;F)V", "(Lnet/minecraft/entity/Entity;F)V"), ALTranslator.getMappedName("(Lsa;F)V", "(Lnet/minecraft/entity/Entity;F)V"), ALTranslator.getMappedName("(Lahb;)V", "(Lnet/minecraft/world/World;)V")};
-		boolean flag = false;
+    public static int plus(int i)
+    {
+        ++i;
 
-		for (MethodNode method : methods)
-		{
-			for (int i = 0; i < names.length; ++i)
-			{
-				String name = names[i];
-				String desc = descs[i];
-				
-				if (method.name.equals(name) && method.desc.equals(desc))
-				{
-					InsnList list = new InsnList();
+        if (i == 3)
+        {
+            ++i;
+        }
 
-					for (int j = 0; j < method.instructions.size(); ++j)
-					{
-						AbstractInsnNode node = method.instructions.get(j);
+        return i;
+    }
 
-						if (node instanceof InsnNode)
-						{
-							InsnNode insnNode = (InsnNode)node;
+    @Override
+    public boolean processMethods(List<MethodNode> methods)
+    {
+        String[] names = {"<init>", ALTranslator.getMappedName("a", "updateEffects"), ALTranslator.getMappedName("a", "renderParticles"), ALTranslator.getMappedName("b", "renderLitParticles"), ALTranslator.getMappedName("a", "clearEffects")};
+        String[] descs = {ALTranslator.getMappedName("(Lahb;Lbqf;)V", "(Lnet/minecraft/world/World;Lnet/minecraft/client/renderer/texture/TextureManager;)V"), "()V", ALTranslator.getMappedName("(Lsa;F)V", "(Lnet/minecraft/entity/Entity;F)V"), ALTranslator.getMappedName("(Lsa;F)V", "(Lnet/minecraft/entity/Entity;F)V"), ALTranslator.getMappedName("(Lahb;)V", "(Lnet/minecraft/world/World;)V")};
+        boolean flag = false;
 
-							if (insnNode.getOpcode() == ICONST_3)
-							{
-								if (method.name.equals(names[2]) && method.desc.equals(descs[2]))
-								{
-									list.add(new FieldInsnNode(GETSTATIC, Type.getInternalName(ALParticles.class), "fxLayersSize", "I"));
-									continue;
-								}
-							}
-							else if (insnNode.getOpcode() == ICONST_4)
-							{
-								list.add(new FieldInsnNode(GETSTATIC, Type.getInternalName(ALParticles.class), "fxLayersSize", "I"));
-								continue;
-							}
-						}
+        for (MethodNode method : methods)
+        {
+            for (int i = 0; i < names.length; ++i)
+            {
+                String name = names[i];
+                String desc = descs[i];
 
-						list.add(node);
-					}
+                if (method.name.equals(name) && method.desc.equals(desc))
+                {
+                    InsnList list = new InsnList();
 
-					method.instructions.clear();
-					method.instructions.add(list);
-					flag = true;
-				}
-			}
-			
-			if (method.name.equals(names[2]) && method.desc.equals(descs[2]))
-			{
-				InsnList list = new InsnList();
-				int line = 0;
+                    for (int j = 0; j < method.instructions.size(); ++j)
+                    {
+                        AbstractInsnNode node = method.instructions.get(j);
 
-				for (int j = 0; j < method.instructions.size(); ++j)
-				{
-					AbstractInsnNode node = method.instructions.get(j);
-					
-					if (node instanceof LineNumberNode)
-					{
-						LineNumberNode lineNode = (LineNumberNode)node;
-						line = lineNode.line;
-					}
-					
-					if (node instanceof MethodInsnNode)
-					{
-						MethodInsnNode methodNode = (MethodInsnNode)node;
-						
-						if (node.getOpcode() == INVOKEVIRTUAL && methodNode.owner.equals(ALTranslator.getMappedName("bmh", "net/minecraft/client/renderer/Tessellator")) && methodNode.name.equals(ALTranslator.getMappedName("b", "startDrawingQuads")) && methodNode.desc.equals("()V"))
-						{
-							list.add(node);
-							
-							LabelNode labelNode = new LabelNode();
-							list.add(labelNode);
-							list.add(new LineNumberNode(line + 1, labelNode));
-							list.add(new VarInsnNode(ILOAD, 9));
-							list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ALParticles.class), "bindParticleTextures", "(I)V", false));
-							continue;
-						}
-					}
-					
-					if (node instanceof IincInsnNode)
-					{
-						IincInsnNode iincNode = (IincInsnNode)node;
-						
-						if (iincNode.var == 8 && iincNode.incr == 1)
-						{
-							list.add(new VarInsnNode(ILOAD, 8));
-							list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ClassTransformerEffectRenderer.class), "plus", "(I)I", false));
-							list.add(new VarInsnNode(ISTORE, 8));
-							continue;
-						}
-					}
-					
-					list.add(node);
-				}
+                        if (node instanceof InsnNode)
+                        {
+                            InsnNode insnNode = (InsnNode) node;
 
-				method.instructions.clear();
-				method.instructions.add(list);
-				flag = true;
-			}
-			
-			if (method.name.equals(ALTranslator.getMappedName("b", "getStatistics")) && method.desc.equals("()Ljava/lang/String;"))
-			{
-				InsnList list = new InsnList();
-				boolean open = false;
+                            if (insnNode.getOpcode() == ICONST_3)
+                            {
+                                if (method.name.equals(names[2]) && method.desc.equals(descs[2]))
+                                {
+                                    list.add(new FieldInsnNode(GETSTATIC, Type.getInternalName(ALParticles.class), "fxLayersSize", "I"));
+                                    continue;
+                                }
+                            }
+                            else if (insnNode.getOpcode() == ICONST_4)
+                            {
+                                list.add(new FieldInsnNode(GETSTATIC, Type.getInternalName(ALParticles.class), "fxLayersSize", "I"));
+                                continue;
+                            }
+                        }
 
-				for (int i = 0; i < method.instructions.size(); ++i)
-				{
-					AbstractInsnNode node = method.instructions.get(i);
+                        list.add(node);
+                    }
 
-					if (node.getOpcode() == ARETURN)
-					{
-						open = false;
-					}
+                    method.instructions.clear();
+                    method.instructions.add(list);
+                    flag = true;
+                }
+            }
 
-					if (open)
-					{
-						continue;
-					}
+            if (method.name.equals(names[2]) && method.desc.equals(descs[2]))
+            {
+                InsnList list = new InsnList();
+                int line = 0;
 
-					if (node instanceof TypeInsnNode)
-					{
-						TypeInsnNode typeNode = (TypeInsnNode)node;
+                for (int j = 0; j < method.instructions.size(); ++j)
+                {
+                    AbstractInsnNode node = method.instructions.get(j);
 
-						if (node.getOpcode() == NEW && typeNode.desc.equals("java/lang/StringBuilder"))
-						{
-							open = true;
-							list.add(new VarInsnNode(ALOAD, 0));
-							list.add(new FieldInsnNode(GETFIELD, ALTranslator.getMappedName("bkn", "net/minecraft/client/particle/EffectRenderer"), ALTranslator.getMappedName("c", "fxLayers"), "[Ljava/util/List;"));
-							list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ALParticles.class), "getParticlesInWorld", "([Ljava/util/List;)I", false));
-							list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(String.class), "valueOf", "(I)Ljava/lang/String;", false));
-							continue;
-						}
-					}
+                    if (node instanceof LineNumberNode)
+                    {
+                        LineNumberNode lineNode = (LineNumberNode) node;
+                        line = lineNode.line;
+                    }
 
-					list.add(node);
-				}
+                    if (node instanceof MethodInsnNode)
+                    {
+                        MethodInsnNode methodNode = (MethodInsnNode) node;
 
-				method.instructions.clear();
-				method.instructions.add(list);
-				method.visitMaxs(1, 1);
-				flag = true;
-			}
-		}
+                        if (node.getOpcode() == INVOKEVIRTUAL && methodNode.owner.equals(ALTranslator.getMappedName("bmh", "net/minecraft/client/renderer/Tessellator")) && methodNode.name.equals(ALTranslator.getMappedName("b", "startDrawingQuads")) && methodNode.desc.equals("()V"))
+                        {
+                            list.add(node);
 
-		return flag;
-	}
+                            LabelNode labelNode = new LabelNode();
+                            list.add(labelNode);
+                            list.add(new LineNumberNode(line + 1, labelNode));
+                            list.add(new VarInsnNode(ILOAD, 9));
+                            list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ALParticles.class), "bindParticleTextures", "(I)V", false));
+                            continue;
+                        }
+                    }
 
-	@Override
-	public boolean processFields(List<FieldNode> fields)
-	{
-		return true;
-	}
+                    if (node instanceof IincInsnNode)
+                    {
+                        IincInsnNode iincNode = (IincInsnNode) node;
 
-	@Override
-	public void setupMappings()
-	{
-		varPlayer = ALTranslator.getMappedName("yz", "net/minecraft/entity/player/EntityPlayer");
-		varEntity = ALTranslator.getMappedName("sa", "net/minecraft/entity/Entity");
-	}
+                        if (iincNode.var == 8 && iincNode.incr == 1)
+                        {
+                            list.add(new VarInsnNode(ILOAD, 8));
+                            list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ClassTransformerEffectRenderer.class), "plus", "(I)I", false));
+                            list.add(new VarInsnNode(ISTORE, 8));
+                            continue;
+                        }
+                    }
+
+                    list.add(node);
+                }
+
+                method.instructions.clear();
+                method.instructions.add(list);
+                flag = true;
+            }
+
+            if (method.name.equals(ALTranslator.getMappedName("b", "getStatistics")) && method.desc.equals("()Ljava/lang/String;"))
+            {
+                InsnList list = new InsnList();
+                boolean open = false;
+
+                for (int i = 0; i < method.instructions.size(); ++i)
+                {
+                    AbstractInsnNode node = method.instructions.get(i);
+
+                    if (node.getOpcode() == ARETURN)
+                    {
+                        open = false;
+                    }
+
+                    if (open)
+                    {
+                        continue;
+                    }
+
+                    if (node instanceof TypeInsnNode)
+                    {
+                        TypeInsnNode typeNode = (TypeInsnNode) node;
+
+                        if (node.getOpcode() == NEW && typeNode.desc.equals("java/lang/StringBuilder"))
+                        {
+                            open = true;
+                            list.add(new VarInsnNode(ALOAD, 0));
+                            list.add(new FieldInsnNode(GETFIELD, ALTranslator.getMappedName("bkn", "net/minecraft/client/particle/EffectRenderer"), ALTranslator.getMappedName("c", "fxLayers"), "[Ljava/util/List;"));
+                            list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ALParticles.class), "getParticlesInWorld", "([Ljava/util/List;)I", false));
+                            list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(String.class), "valueOf", "(I)Ljava/lang/String;", false));
+                            continue;
+                        }
+                    }
+
+                    list.add(node);
+                }
+
+                method.instructions.clear();
+                method.instructions.add(list);
+                method.visitMaxs(1, 1);
+                flag = true;
+            }
+        }
+
+        return flag;
+    }
+
+    @Override
+    public boolean processFields(List<FieldNode> fields)
+    {
+        return true;
+    }
+
+    @Override
+    public void setupMappings()
+    {
+        varPlayer = ALTranslator.getMappedName("yz", "net/minecraft/entity/player/EntityPlayer");
+        varEntity = ALTranslator.getMappedName("sa", "net/minecraft/entity/Entity");
+    }
 }

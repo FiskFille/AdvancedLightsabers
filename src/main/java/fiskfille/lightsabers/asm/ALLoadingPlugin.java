@@ -16,22 +16,14 @@ import fiskfille.lightsabers.asm.transformers.ClassTransformerModelBipedMultiLay
 @TransformerExclusions("fiskfille.lightsabers.asm")
 public class ALLoadingPlugin implements IFMLLoadingPlugin
 {
-    private static final String[] transformers = new String[]
-    {
-    	ClassTransformerModelBiped.class.getName(),
-    	ClassTransformerModelBipedMultiLayer.class.getName(),
-    	ClassTransformerEffectRenderer.class.getName(),
-    	ClassTransformerColor.class.getName(),
-    	ClassTransformerEntityMob.class.getName(),
-    	ClassTransformerEntityPlayer.class.getName()
-    };
-    
+    private static final String[] transformers = new String[] {ClassTransformerModelBiped.class.getName(), ClassTransformerModelBipedMultiLayer.class.getName(), ClassTransformerEffectRenderer.class.getName(), ClassTransformerColor.class.getName(), ClassTransformerEntityMob.class.getName(), ClassTransformerEntityPlayer.class.getName()};
+
     @Override
     public String[] getASMTransformerClass()
     {
         return transformers;
     }
-    
+
     @Override
     public String getAccessTransformerClass()
     {

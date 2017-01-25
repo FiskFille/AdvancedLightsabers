@@ -21,83 +21,86 @@ import fiskfille.lightsabers.asm.ASMHooksClient;
 
 public class ClassTransformerColor implements IClassTransformer, Opcodes
 {
-	@Override
-	public byte[] transform(String name, String transformedName, byte[] bytes)
-	{
-		try
-		{
-			ClassReader cr = new ClassReader(bytes);
-			ClassNode cn = new ClassNode();
-			cr.accept(cn, 0);
+    @Override
+    public byte[] transform(String name, String transformedName, byte[] bytes)
+    {
+        try
+        {
+            ClassReader cr = new ClassReader(bytes);
+            ClassNode cn = new ClassNode();
+            cr.accept(cn, 0);
 
-			boolean success = processMethods(cn.methods);
+            boolean success = processMethods(cn.methods);
 
-			ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			cn.accept(cw);
+            ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            cn.accept(cw);
 
 //			if (success)
 //			{
 //				writeClassFile(cw, transformedName.substring(transformedName.lastIndexOf('.') + 1) + " (" + name + ")");
 //			}
 
-			return cw.toByteArray();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+            return cw.toByteArray();
+        }
+        catch (Exception e)
+        {
+            if (!(e instanceof NullPointerException))
+            {
+                e.printStackTrace();
+            }
+        }
 
-		return bytes;
-	}
+        return bytes;
+    }
 
-	public boolean processMethods(List<MethodNode> methods)
-	{
-		boolean flag = false;
+    public boolean processMethods(List<MethodNode> methods)
+    {
+        boolean flag = false;
 
-		for (MethodNode method : methods)
-		{
-			InsnList list = new InsnList();
+        for (MethodNode method : methods)
+        {
+            InsnList list = new InsnList();
 
-			for (int j = 0; j < method.instructions.size(); ++j)
-			{
-				AbstractInsnNode node = method.instructions.get(j);
+            for (int j = 0; j < method.instructions.size(); ++j)
+            {
+                AbstractInsnNode node = method.instructions.get(j);
 
-				if (node instanceof MethodInsnNode)
-				{
-					MethodInsnNode methodNode = (MethodInsnNode)node;
+                if (node instanceof MethodInsnNode)
+                {
+                    MethodInsnNode methodNode = (MethodInsnNode) node;
 
-					if (node.getOpcode() == INVOKESTATIC && methodNode.owner.equals("org/lwjgl/opengl/GL11") && (methodNode.name.startsWith("glColor3") || methodNode.name.startsWith("glColor4")))
-					{
-						list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ASMHooksClient.class), methodNode.name, methodNode.desc, false));
-						flag = true;
-						continue;
-					}
-				}
+                    if (node.getOpcode() == INVOKESTATIC && methodNode.owner.equals("org/lwjgl/opengl/GL11") && (methodNode.name.startsWith("glColor3") || methodNode.name.startsWith("glColor4")))
+                    {
+                        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(ASMHooksClient.class), methodNode.name, methodNode.desc, false));
+                        flag = true;
+                        continue;
+                    }
+                }
 
-				list.add(node);
-			}
+                list.add(node);
+            }
 
-			method.instructions.clear();
-			method.instructions.add(list);
-		}
+            method.instructions.clear();
+            method.instructions.add(list);
+        }
 
-		return flag;
-	}
+        return flag;
+    }
 
-	public static void writeClassFile(ClassWriter cw, String name)
-	{
-		try
-		{
-			File outDir = new File("debug/glColor/");
-			outDir.mkdirs();
-			DataOutputStream dout = new DataOutputStream(new FileOutputStream(new File(outDir, name + ".class")));
-			dout.write(cw.toByteArray());
-			dout.flush();
-			dout.close();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+    public static void writeClassFile(ClassWriter cw, String name)
+    {
+        try
+        {
+            File outDir = new File("debug/glColor/");
+            outDir.mkdirs();
+            DataOutputStream dout = new DataOutputStream(new FileOutputStream(new File(outDir, name + ".class")));
+            dout.write(cw.toByteArray());
+            dout.flush();
+            dout.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

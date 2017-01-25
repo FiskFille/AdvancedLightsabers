@@ -24,8 +24,8 @@ public class ModelSithStoneCoffin extends ModelBase
     }
 
     public void render(TileEntitySithStoneCoffin tile)
-    { 
-    	coffin.isHidden = tile.baseplateOnly;
+    {
+        coffin.isHidden = tile.baseplateOnly;
         base.render(0.0625F);
     }
 

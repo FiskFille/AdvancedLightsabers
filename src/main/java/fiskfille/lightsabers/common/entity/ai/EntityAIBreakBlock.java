@@ -14,34 +14,39 @@ public class EntityAIBreakBlock extends EntityAIBlockInteract
         super(entity);
     }
 
+    @Override
     public boolean shouldExecute()
     {
         return super.shouldExecute() && theEntity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
     }
 
+    @Override
     public void startExecuting()
     {
         super.startExecuting();
         breakingTime = 0;
     }
 
+    @Override
     public boolean continueExecuting()
     {
-        double d0 = theEntity.getDistanceSq((double)entityPosX, (double)entityPosY, (double)entityPosZ);
+        double d0 = theEntity.getDistanceSq(entityPosX, entityPosY, entityPosZ);
         return breakingTime <= 60;
     }
 
+    @Override
     public void resetTask()
     {
         super.resetTask();
         theEntity.worldObj.destroyBlockInWorldPartially(theEntity.getEntityId(), entityPosX, entityPosY, entityPosZ, -1);
     }
 
+    @Override
     public void updateTask()
     {
         super.updateTask();
         ++breakingTime;
-        int i = (int)((float)breakingTime / 60.0F * 10.0F);
+        int i = (int) (breakingTime / 60.0F * 10.0F);
 
         if (i != field_75358_j)
         {

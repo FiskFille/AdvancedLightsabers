@@ -5,24 +5,26 @@ import net.minecraft.world.World;
 
 public class EntityALFX extends EntityFX
 {
-	protected EntityALFX(World world, double x, double y, double z)
-	{
-		super(world, x, y, z);
-	}
-	
-	public EntityALFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ)
+    protected EntityALFX(World world, double x, double y, double z)
     {
-    	super(world, x, y, z, motionX, motionY, motionZ);
+        super(world, x, y, z);
     }
-	
-	public int getFXLayer()
+
+    public EntityALFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ)
     {
-    	return 9;
+        super(world, x, y, z, motionX, motionY, motionZ);
     }
-	
-	public void setParticleTextureIndex(int index)
+
+    @Override
+    public int getFXLayer()
     {
-		particleTextureIndexX = index % 16;
+        return 9;
+    }
+
+    @Override
+    public void setParticleTextureIndex(int index)
+    {
+        particleTextureIndexX = index % 16;
         particleTextureIndexY = index / 16;
     }
 }

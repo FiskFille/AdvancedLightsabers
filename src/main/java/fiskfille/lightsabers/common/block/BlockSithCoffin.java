@@ -24,49 +24,56 @@ import fiskfille.lightsabers.common.tileentity.TileEntitySithCoffin;
 
 public class BlockSithCoffin extends BlockDirectional implements ITileEntityProvider
 {
-	public static final int[][] directions = new int[][] {{0, 1}, {-1, 0}, {0, -1}, {1, 0}};
+    public static final int[][] directions = new int[][] { {0, 1}, {-1, 0}, {0, -1}, {1, 0}};
     private Random rand = new Random();
-    
+
     public BlockSithCoffin()
     {
         super(Material.rock);
         setHardness(50.0F);
-		setResistance(2000.0F);
+        setResistance(2000.0F);
     }
-    
+
+    @Override
     public boolean canHarvestBlock(EntityPlayer player, int meta)
-	{
-		return false;
-	}
-    
+    {
+        return false;
+    }
+
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public int getRenderType()
     {
         return -1;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
-    
+
+    @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB aabb, List list, Entity entity)
-	{
-    	setBounds(world.getBlockMetadata(x, y, z));
-    	super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
-	}
-    
+    {
+        setBounds(world.getBlockMetadata(x, y, z));
+        super.addCollisionBoxesToList(world, x, y, z, aabb, list, entity);
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
     {
-    	setBounds(world.getBlockMetadata(x, y, z));
+        setBounds(world.getBlockMetadata(x, y, z));
         return super.getSelectedBoundingBoxFromPool(world, x, y, z);
     }
 
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         setBounds(world.getBlockMetadata(x, y, z));
@@ -74,29 +81,30 @@ public class BlockSithCoffin extends BlockDirectional implements ITileEntityProv
 
     public void setBounds(int metadata)
     {
-    	int direction = getDirection(metadata);
-		int i = isBlockFrontOfCoffin(metadata) ? 1 : 0;
-		float f = 0.9575F;
-		float height = 0.0625F * 15;
+        int direction = getDirection(metadata);
+        int i = isBlockFrontOfCoffin(metadata) ? 1 : 0;
+        float f = 0.9575F;
+        float height = 0.0625F * 15;
 
-		if (direction == 0)
-		{
-			setBlockBounds(0, 0, -i, 1, height, 2 - i);
-		}
-		else if (direction == 1)
-		{
-			setBlockBounds(i - 1, 0, 0, 1 + i, height, 1);
-		}
-		else if (direction == 2)
-		{
-			setBlockBounds(0, 0, i - 1, 1, height, 1 + i);
-		}
-		else if (direction == 3)
-		{
-			setBlockBounds(-i, 0, 0, 2 - i, height, 1);
-		}
+        if (direction == 0)
+        {
+            setBlockBounds(0, 0, -i, 1, height, 2 - i);
+        }
+        else if (direction == 1)
+        {
+            setBlockBounds(i - 1, 0, 0, 1 + i, height, 1);
+        }
+        else if (direction == 2)
+        {
+            setBlockBounds(0, 0, i - 1, 1, height, 1 + i);
+        }
+        else if (direction == 3)
+        {
+            setBlockBounds(-i, 0, 0, 2 - i, height, 1);
+        }
     }
 
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         int metadata = world.getBlockMetadata(x, y, z);
@@ -119,45 +127,47 @@ public class BlockSithCoffin extends BlockDirectional implements ITileEntityProv
             }
         }
     }
-    
+
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-    	int metadata = world.getBlockMetadata(x, y, z);
-    	int direction = getDirection(metadata);
-    	
-    	if (isBlockFrontOfCoffin(metadata))
-    	{
-    		x -= directions[direction][0];
-    		z -= directions[direction][1];
-    	}
-    	
-    	TileEntitySithCoffin tile = (TileEntitySithCoffin)world.getTileEntity(x, y, z);
-		
-		if (tile != null)
-		{
-			if (!tile.hasBeenOpened || tile.lidOpenTimer == 0 || player.isSneaking())
-			{
-				sendActionPacket(tile, player, 0);
-				return true;
-			}
-			else if (tile.lidOpenTimer == tile.lidOpenTimerMax)
-			{
-				player.openGui(Lightsabers.instance, 1, world, x, y, z);
-				return true;
-			}
-		}
-		
-		return false;
-    }
-    
-    public void sendActionPacket(TileEntitySithCoffin tile, EntityPlayer player, int action)
-    {
-    	if (player.worldObj.isRemote)
-    	{
-    		ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
-    	}
+        int metadata = world.getBlockMetadata(x, y, z);
+        int direction = getDirection(metadata);
+
+        if (isBlockFrontOfCoffin(metadata))
+        {
+            x -= directions[direction][0];
+            z -= directions[direction][1];
+        }
+
+        TileEntitySithCoffin tile = (TileEntitySithCoffin) world.getTileEntity(x, y, z);
+
+        if (tile != null)
+        {
+            if (!tile.hasBeenOpened || tile.lidOpenTimer == 0 || player.isSneaking())
+            {
+                sendActionPacket(tile, player, 0);
+                return true;
+            }
+            else if (tile.lidOpenTimer == TileEntitySithCoffin.lidOpenTimerMax)
+            {
+                player.openGui(Lightsabers.instance, 1, world, x, y, z);
+                return true;
+            }
+        }
+
+        return false;
     }
 
+    public void sendActionPacket(TileEntitySithCoffin tile, EntityPlayer player, int action)
+    {
+        if (player.worldObj.isRemote)
+        {
+            ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(player, tile.xCoord, tile.yCoord, tile.zCoord, action));
+        }
+    }
+
+    @Override
     public Item getItemDropped(int metadata, Random rand, int fortune)
     {
         return isBlockFrontOfCoffin(metadata) ? Item.getItemById(0) : super.getItemDropped(metadata, rand, fortune);
@@ -168,6 +178,7 @@ public class BlockSithCoffin extends BlockDirectional implements ITileEntityProv
         return (metadata & 8) != 0;
     }
 
+    @Override
     public void dropBlockAsItemWithChance(World world, int x, int y, int z, int metadata, float dropChance, int fortune)
     {
         if (!isBlockFrontOfCoffin(metadata))
@@ -176,11 +187,13 @@ public class BlockSithCoffin extends BlockDirectional implements ITileEntityProv
         }
     }
 
+    @Override
     public int getMobilityFlag()
     {
         return 1;
     }
 
+    @Override
     public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player)
     {
         if (player.capabilities.isCreativeMode && isBlockFrontOfCoffin(metadata))
@@ -195,12 +208,13 @@ public class BlockSithCoffin extends BlockDirectional implements ITileEntityProv
             }
         }
     }
-    
+
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileEntitySithCoffin();
     }
-    
+
     @Override
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {

@@ -11,9 +11,9 @@ import fiskfille.lightsabers.Lightsabers;
 
 public class ALParticles
 {
-	private static final ResourceLocation texture = new ResourceLocation(Lightsabers.modid, "textures/particle/particles.png");
+    private static final ResourceLocation texture = new ResourceLocation(Lightsabers.modid, "textures/particle/particles.png");
     private static Minecraft mc = Minecraft.getMinecraft();
-    
+
     public static final int fxLayersSize = 16;
 
     public static EntityFX spawnParticle(ALParticleType particleType, double x, double y, double z, double motionX, double motionY, double motionZ)
@@ -36,7 +36,7 @@ public class ALParticles
                 EntityFX particle = null;
                 double maxRenderDistance = 16.0D;
                 boolean flag = false;
-                
+
                 if (diffX * diffX + diffY * diffY + diffZ * diffZ > maxRenderDistance * maxRenderDistance && flag)
                 {
                     return null;
@@ -68,24 +68,24 @@ public class ALParticles
 
         return null;
     }
-    
+
     public static int getParticlesInWorld(List[] list)
     {
-    	int i = 0;
-    	
-    	for (int j = 0; j < list.length - 1; ++j)
-    	{
-    		i += list[j].size();
-    	}
-    	
-    	return i;
+        int i = 0;
+
+        for (int j = 0; j < list.length - 1; ++j)
+        {
+            i += list[j].size();
+        }
+
+        return i;
     }
-    
+
     public static void bindParticleTextures(int layer)
     {
-    	if (layer == 9)
-    	{
-    		mc.getTextureManager().bindTexture(texture);
-    	}
+        if (layer == 9)
+        {
+            mc.getTextureManager().bindTexture(texture);
+        }
     }
 }

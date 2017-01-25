@@ -25,39 +25,40 @@ public class MovingSoundLightning extends MovingSound
         volume = 1.0F;
     }
 
+    @Override
     public void update()
     {
-    	float f = 0;
-    	
-    	if (caster instanceof EntityPlayer)
-    	{
-    		EntityPlayer player = (EntityPlayer)caster;
-    		f = ALRenderHelper.median(ALData.getFloat(player, ALData.RIGHT_ARM_TIMER), ALData.getFloat(player, ALData.PREV_RIGHT_ARM_TIMER));
-    	}
-    	
+        float f = 0;
+
+        if (caster instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) caster;
+            f = ALRenderHelper.median(ALData.getFloat(player, ALData.RIGHT_ARM_TIMER), ALData.getFloat(player, ALData.PREV_RIGHT_ARM_TIMER));
+        }
+
         if (caster.isDead || f <= 0)
         {
             donePlaying = true;
         }
         else
         {
-        	EntityLivingBase target = ALHelper.getForceLightningTarget(caster);
-        	
-        	if (Minecraft.getMinecraft().thePlayer == target)
-        	{
-        		xPosF = (float)target.posX;
-                yPosF = (float)target.posY;
-                zPosF = (float)target.posZ;
-        	}
-        	else
-        	{
-        		xPosF = (float)caster.posX;
-                yPosF = (float)caster.posY;
-                zPosF = (float)caster.posZ;
-        	}
-        	
-        	volume = f;
-        	field_147663_c = 0.75F + (float)Math.random() * 0.25F;
+            EntityLivingBase target = ALHelper.getForceLightningTarget(caster);
+
+            if (Minecraft.getMinecraft().thePlayer == target)
+            {
+                xPosF = (float) target.posX;
+                yPosF = (float) target.posY;
+                zPosF = (float) target.posZ;
+            }
+            else
+            {
+                xPosF = (float) caster.posX;
+                yPosF = (float) caster.posY;
+                zPosF = (float) caster.posZ;
+            }
+
+            volume = f;
+            field_147663_c = 0.75F + (float) Math.random() * 0.25F;
         }
     }
 }

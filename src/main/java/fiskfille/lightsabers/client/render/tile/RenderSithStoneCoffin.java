@@ -12,7 +12,7 @@ import fiskfille.lightsabers.common.tileentity.TileEntitySithStoneCoffin;
 
 public class RenderSithStoneCoffin extends TileEntitySpecialRenderer
 {
-	private ResourceLocation texture = new ResourceLocation(Lightsabers.modid, "textures/models/sith_stone_coffin.png");
+    private ResourceLocation texture = new ResourceLocation(Lightsabers.modid, "textures/models/sith_stone_coffin.png");
     private ModelSithStoneCoffin model = new ModelSithStoneCoffin();
 
     public void render(TileEntitySithStoneCoffin tileentity, double x, double y, double z, float partialTicks)
@@ -38,8 +38,9 @@ public class RenderSithStoneCoffin extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
 
+    @Override
     public void renderTileEntityAt(TileEntity tileentity, double d, double d1, double d2, float f)
     {
-        render((TileEntitySithStoneCoffin)tileentity, d, d1, d2, f);
+        render((TileEntitySithStoneCoffin) tileentity, d, d1, d2, f);
     }
 }

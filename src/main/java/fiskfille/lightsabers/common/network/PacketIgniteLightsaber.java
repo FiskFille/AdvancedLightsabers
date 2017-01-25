@@ -12,37 +12,40 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketIgniteLightsaber implements IMessage
 {
-	public int id;
-	private boolean active;
+    public int id;
+    private boolean active;
 
-	public PacketIgniteLightsaber()
-	{
+    public PacketIgniteLightsaber()
+    {
 
-	}
+    }
 
-	public PacketIgniteLightsaber(EntityLivingBase entity, boolean b)
-	{
-		id = entity.getEntityId();
-		active = b;
-	}
+    public PacketIgniteLightsaber(EntityLivingBase entity, boolean b)
+    {
+        id = entity.getEntityId();
+        active = b;
+    }
 
-	public void fromBytes(ByteBuf buf)
-	{
-		id = buf.readInt();
-		active = buf.readBoolean();
-	}
+    @Override
+    public void fromBytes(ByteBuf buf)
+    {
+        id = buf.readInt();
+        active = buf.readBoolean();
+    }
 
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(id);
-		buf.writeBoolean(active);
-	}
+    @Override
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeInt(id);
+        buf.writeBoolean(active);
+    }
 
-	public static class Handler implements IMessageHandler<PacketIgniteLightsaber, IMessage>
-	{
-		public IMessage onMessage(PacketIgniteLightsaber message, MessageContext ctx)
-		{
-			if (ctx.side.isClient())
+    public static class Handler implements IMessageHandler<PacketIgniteLightsaber, IMessage>
+    {
+        @Override
+        public IMessage onMessage(PacketIgniteLightsaber message, MessageContext ctx)
+        {
+            if (ctx.side.isClient())
             {
                 EntityPlayer player = Lightsabers.proxy.getPlayer();
                 Entity entity = player.worldObj.getEntityByID(message.id);
@@ -62,12 +65,12 @@ public class PacketIgniteLightsaber implements IMessage
 
                     if (entity instanceof EntityLivingBase)
                     {
-                    	LightsaberHelper.igniteLightsaber((EntityLivingBase) entity, message.active);
+                        LightsaberHelper.igniteLightsaber((EntityLivingBase) entity, message.active);
                     }
                 }
             }
-			
-			return null;
-		}
-	}
+
+            return null;
+        }
+    }
 }

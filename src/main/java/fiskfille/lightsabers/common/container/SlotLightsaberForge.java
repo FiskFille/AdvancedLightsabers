@@ -10,31 +10,32 @@ import fiskfille.lightsabers.common.helper.LightsaberHelper;
 public class SlotLightsaberForge extends Slot
 {
     private final InventoryLightsaberForge craftMatrix;
-    private EntityPlayer thePlayer;
     private int amountCrafted;
 
     public SlotLightsaberForge(EntityPlayer player, InventoryLightsaberForge inventory1, IInventory inventory2, int id, int x, int y)
     {
         super(inventory2, id, x, y);
-        thePlayer = player;
         craftMatrix = inventory1;
     }
-    
+
+    @Override
     public boolean canTakeStack(EntityPlayer player)
     {
-    	if (getStack() == null || LightsaberHelper.getLightsaberHeightCm(getStack()) < LightsaberHelper.MIN_LENGTH_CM)
-    	{
-    		return false;
-    	}
-    	
-    	return true;
+        if (getStack() == null || LightsaberHelper.getLightsaberHeightCm(getStack()) < LightsaberHelper.MIN_LENGTH_CM)
+        {
+            return false;
+        }
+
+        return true;
     }
 
+    @Override
     public boolean isItemValid(ItemStack itemstack)
     {
         return false;
     }
 
+    @Override
     public ItemStack decrStackSize(int amount)
     {
         if (getHasStack())
@@ -45,12 +46,14 @@ public class SlotLightsaberForge extends Slot
         return super.decrStackSize(amount);
     }
 
+    @Override
     protected void onCrafting(ItemStack itemstack, int amount)
     {
         amountCrafted += amount;
         onCrafting(itemstack);
     }
 
+    @Override
     public void onPickupFromSlot(EntityPlayer player, ItemStack itemstack)
     {
         FMLCommonHandler.instance().firePlayerCraftingEvent(player, itemstack, craftMatrix);

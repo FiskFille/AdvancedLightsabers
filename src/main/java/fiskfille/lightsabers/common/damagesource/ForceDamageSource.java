@@ -5,8 +5,8 @@ import net.minecraft.util.EntityDamageSource;
 
 public class ForceDamageSource extends EntityDamageSource
 {
-	public ForceDamageSource(String name, Entity entity)
-	{
-		super(name, entity);
-	}
+    public ForceDamageSource(String name, Entity entity)
+    {
+        super(name, entity);
+    }
 }

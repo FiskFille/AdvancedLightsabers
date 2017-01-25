@@ -28,15 +28,17 @@ public class ContainerSithCoffin extends ContainerBasic
         addPlayerInventory(inventoryPlayer, 2 + (numRows - 3) * 18);
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer player)
     {
         return tileentity.isUseableByPlayer(player);
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int id)
     {
         ItemStack itemstack = null;
-        Slot slot = (Slot)inventorySlots.get(id);
+        Slot slot = (Slot) inventorySlots.get(id);
 
         if (slot != null && slot.getHasStack())
         {
@@ -57,7 +59,7 @@ public class ContainerSithCoffin extends ContainerBasic
 
             if (itemstack1.stackSize == 0)
             {
-                slot.putStack((ItemStack)null);
+                slot.putStack((ItemStack) null);
             }
             else
             {
@@ -68,6 +70,7 @@ public class ContainerSithCoffin extends ContainerBasic
         return itemstack;
     }
 
+    @Override
     public void onContainerClosed(EntityPlayer player)
     {
         super.onContainerClosed(player);

@@ -15,12 +15,14 @@ public class BlockPillar extends BlockRotatedPillar
         super(Material.rock);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     protected IIcon getSideIcon(int i)
     {
         return blockIcon;
     }
 
+    @Override
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {
         field_150164_N = par1IIconRegister.registerIcon(Lightsabers.modid + ":" + getUnlocalizedName().substring(5) + "_top");

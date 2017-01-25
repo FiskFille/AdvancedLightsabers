@@ -17,25 +17,25 @@ import fiskfille.lightsabers.common.lightsaber.Lightsaber.EnumPartType;
 public class LightsaberAPIClient
 {
     private static Map<List<Object>, ModelBase> lightsaberModels = Maps.newHashMap();
-    
+
     public static void registerLightsaberModel(Lightsaber lightsaber, EnumPartType type, ModelBase model)
     {
-    	List list = Lists.newArrayList();
-    	list.add(lightsaber);
-    	list.add(type);
-    	lightsaberModels.put(list, model);
+        List list = Lists.newArrayList();
+        list.add(lightsaber);
+        list.add(type);
+        lightsaberModels.put(list, model);
     }
-    
+
     public static ModelBase getModelFor(Lightsaber lightsaber, EnumPartType type)
     {
-    	for (Map.Entry<List<Object>, ModelBase> e : lightsaberModels.entrySet())
-    	{
-    		if (e.getKey().get(0) == lightsaber && e.getKey().get(1) == type)
-    		{
-    			return e.getValue();
-    		}
-    	}
-    	
-    	return null;
+        for (Map.Entry<List<Object>, ModelBase> e : lightsaberModels.entrySet())
+        {
+            if (e.getKey().get(0) == lightsaber && e.getKey().get(1) == type)
+            {
+                return e.getValue();
+            }
+        }
+
+        return null;
     }
 }

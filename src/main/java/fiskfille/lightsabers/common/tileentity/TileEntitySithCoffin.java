@@ -2,6 +2,7 @@ package fiskfille.lightsabers.common.tileentity;
 
 import java.util.Random;
 
+import net.minecraft.block.BlockDirectional;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -18,84 +19,89 @@ public class TileEntitySithCoffin extends TileEntity implements IInventory
 {
     private ItemStack[] itemStacks = new ItemStack[28];
     public static final int lidOpenTimerMax = 60;
-	public boolean isLidOpen = false;
-	public int lidOpenTimer = 0;
-	public int prevLidOpenTimer = 0;
-	public boolean hasBeenOpened = false;
+    public boolean isLidOpen = false;
+    public int lidOpenTimer = 0;
+    public int prevLidOpenTimer = 0;
+    public boolean hasBeenOpened = false;
 
+    @Override
     public void updateEntity()
     {
-    	prevLidOpenTimer = lidOpenTimer;
-    	
-    	if (!isLidOpen)
-    	{
-    		if (lidOpenTimer > 0)
-    		{
-    			--lidOpenTimer;
-    		}
-    	}
-    	else
-    	{
-    		if (lidOpenTimer < lidOpenTimerMax)
-    		{
-    			++lidOpenTimer;
-    		}
-    	}
-    	
-    	int metadata = getBlockMetadata();
-    	int dir = BlockSithCoffin.getDirection(metadata);
-    	
-    	if (!BlockSithCoffin.isBlockFrontOfCoffin(metadata))
-    	{
-    		if (!hasBeenOpened)
-    		{
-    			if (lidOpenTimer < lidOpenTimerMax)
-    			{
-    				double radius = 0.5D;
+        prevLidOpenTimer = lidOpenTimer;
 
-            		for (double y = 0; y <= (double)lidOpenTimer / 5; y += 0.025)
-            		{
-            			Random rand = new Random();
-            			double d = Math.cos(y * 2D);
-            			double x = radius * Math.cos(y + ((double)lidOpenTimer / 2)) * d;
-            			double z = radius * Math.sin(y + ((double)lidOpenTimer / 2)) * d;
-            			double motionX = (rand.nextFloat() - 0.5F) * 0.5F * d;
-            			double motionY = (rand.nextFloat() - 0.5F) * 0.1F;
-            			double motionZ = (rand.nextFloat() - 0.5F) * 0.5F * d;
-            			worldObj.spawnParticle("smoke", xCoord + 0.5F + x + BlockSithCoffin.directions[dir][0] * 0.5F, yCoord + 0.8F + y, zCoord + 0.5F + z + BlockSithCoffin.directions[dir][1] * 0.5F, motionX, motionY, motionZ);
-            		}
-    			}
-    			else
-    			{
-    				hasBeenOpened = true;
-    			}
-    		}
-    	}
+        if (!isLidOpen)
+        {
+            if (lidOpenTimer > 0)
+            {
+                --lidOpenTimer;
+            }
+        }
+        else
+        {
+            if (lidOpenTimer < lidOpenTimerMax)
+            {
+                ++lidOpenTimer;
+            }
+        }
+
+        int metadata = getBlockMetadata();
+        int dir = BlockDirectional.getDirection(metadata);
+
+        if (!BlockSithCoffin.isBlockFrontOfCoffin(metadata))
+        {
+            if (!hasBeenOpened)
+            {
+                if (lidOpenTimer < lidOpenTimerMax)
+                {
+                    double radius = 0.5D;
+
+                    for (double y = 0; y <= (double) lidOpenTimer / 5; y += 0.025)
+                    {
+                        Random rand = new Random();
+                        double d = Math.cos(y * 2D);
+                        double x = radius * Math.cos(y + ((double) lidOpenTimer / 2)) * d;
+                        double z = radius * Math.sin(y + ((double) lidOpenTimer / 2)) * d;
+                        double motionX = (rand.nextFloat() - 0.5F) * 0.5F * d;
+                        double motionY = (rand.nextFloat() - 0.5F) * 0.1F;
+                        double motionZ = (rand.nextFloat() - 0.5F) * 0.5F * d;
+                        worldObj.spawnParticle("smoke", xCoord + 0.5F + x + BlockSithCoffin.directions[dir][0] * 0.5F, yCoord + 0.8F + y, zCoord + 0.5F + z + BlockSithCoffin.directions[dir][1] * 0.5F, motionX, motionY, motionZ);
+                    }
+                }
+                else
+                {
+                    hasBeenOpened = true;
+                }
+            }
+        }
     }
-    
+
     public float getLidOpenTimer(float partialTicks)
     {
         float f = lidOpenTimer - prevLidOpenTimer;
-        return (float)(prevLidOpenTimer + f * partialTicks) / lidOpenTimerMax;
-    }
-    
-    public AxisAlignedBB getRenderBoundingBox()
-    {
-    	int metadata = getBlockMetadata();
-    	int direction = BlockSithCoffin.getDirection(metadata);
-    	return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(1, 0, 1);
+        return (prevLidOpenTimer + f * partialTicks) / lidOpenTimerMax;
     }
 
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        int metadata = getBlockMetadata();
+        int direction = BlockDirectional.getDirection(metadata);
+        return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(1, 0, 1);
+    }
+
+    @Override
     public int getSizeInventory()
     {
         return itemStacks.length;
     }
 
+    @Override
     public ItemStack getStackInSlot(int slot)
     {
         return itemStacks[slot];
     }
 
+    @Override
     public ItemStack decrStackSize(int slot, int amount)
     {
         if (itemStacks[slot] != null)
@@ -126,6 +132,7 @@ public class TileEntitySithCoffin extends TileEntity implements IInventory
         }
     }
 
+    @Override
     public ItemStack getStackInSlotOnClosing(int slot)
     {
         if (itemStacks[slot] != null)
@@ -140,6 +147,7 @@ public class TileEntitySithCoffin extends TileEntity implements IInventory
         }
     }
 
+    @Override
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
         itemStacks[slot] = itemstack;
@@ -150,16 +158,19 @@ public class TileEntitySithCoffin extends TileEntity implements IInventory
         }
     }
 
+    @Override
     public String getInventoryName()
     {
         return "gui.sith_coffin";
     }
 
+    @Override
     public boolean hasCustomInventoryName()
     {
         return false;
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
@@ -176,12 +187,13 @@ public class TileEntitySithCoffin extends TileEntity implements IInventory
                 itemStacks[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
-        
+
         hasBeenOpened = nbt.getBoolean("HasBeenOpened");
         isLidOpen = nbt.getBoolean("IsLidOpen");
         lidOpenTimer = nbt.getInteger("LidOpenTimer");
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
@@ -204,20 +216,29 @@ public class TileEntitySithCoffin extends TileEntity implements IInventory
         nbt.setInteger("LidOpenTimer", lidOpenTimer);
     }
 
+    @Override
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
+    @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) != this ? false : player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64.0D;
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) != this ? false : player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
     }
 
-    public void openInventory() {}
+    @Override
+    public void openInventory()
+    {
+    }
 
-    public void closeInventory() {}
+    @Override
+    public void closeInventory()
+    {
+    }
 
+    @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return true;

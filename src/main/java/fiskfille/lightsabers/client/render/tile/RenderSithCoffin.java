@@ -10,15 +10,15 @@ import fiskfille.lightsabers.Lightsabers;
 import fiskfille.lightsabers.client.model.tile.ModelSithCoffin;
 import fiskfille.lightsabers.common.block.BlockSithCoffin;
 import fiskfille.lightsabers.common.tileentity.TileEntitySithCoffin;
- 
+
 public class RenderSithCoffin extends TileEntitySpecialRenderer
 {
-	private ResourceLocation texture = new ResourceLocation(Lightsabers.modid, "textures/models/sith_coffin.png");
-	private ModelSithCoffin model = new ModelSithCoffin();
-       
+    private ResourceLocation texture = new ResourceLocation(Lightsabers.modid, "textures/models/sith_coffin.png");
+    private ModelSithCoffin model = new ModelSithCoffin();
+
     public void render(TileEntitySithCoffin tileentity, double x, double y, double z, float partialTicks)
     {
-    	int metadata = 0;
+        int metadata = 0;
 
         if (tileentity.getWorldObj() != null)
         {
@@ -38,9 +38,10 @@ public class RenderSithCoffin extends TileEntitySpecialRenderer
 
         GL11.glPopMatrix();
     }
-    
+
+    @Override
     public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTicks)
     {
-    	render((TileEntitySithCoffin)tileentity, x, y, z, partialTicks);
-    } 
+        render((TileEntitySithCoffin) tileentity, x, y, z, partialTicks);
+    }
 }

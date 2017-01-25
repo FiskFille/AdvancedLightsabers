@@ -5,9 +5,9 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityLightsaberForge extends TileEntity
 {
-	@Override
-	public AxisAlignedBB getRenderBoundingBox()
-	{
-		return INFINITE_EXTENT_AABB;
-	}
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return INFINITE_EXTENT_AABB;
+    }
 }

@@ -2,7 +2,6 @@ package fiskfille.lightsabers.common.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
@@ -38,45 +37,50 @@ public class ContainerLightsaberForge extends ContainerBasic
         addSlotToContainer(new SlotLightsaberPart(EnumPartType.BODY, craftMatrix, 2, 20, 53));
         addSlotToContainer(new SlotLightsaberPart(EnumPartType.POMMEL, craftMatrix, 3, 20, 71));
         addSlotToContainer(new Slot(craftMatrix, 4, 43, 71));
-        
+
         addSlotToContainer(new SlotFiltered(craftMatrix, 5, 66, 71, Item.getItemFromBlock(ModBlocks.lightsaberCrystal))
         {
-        	@SideOnly(Side.CLIENT)
+            @Override
+            @SideOnly(Side.CLIENT)
             public IIcon getBackgroundIconIndex()
             {
-        		return ItemLightsaberBase.crystalEmptySlotIcon;
+                return ItemLightsaberBase.crystalEmptySlotIcon;
             }
         });
-        
+
         addSlotToContainer(new SlotFiltered(craftMatrix, 6, 89, 71, ModItems.focusingCrystal)
         {
-        	@SideOnly(Side.CLIENT)
+            @Override
+            @SideOnly(Side.CLIENT)
             public IIcon getBackgroundIconIndex()
             {
-        		return ItemLightsaberBase.focusingCrystalEmptySlotIcon;
+                return ItemLightsaberBase.focusingCrystalEmptySlotIcon;
             }
         });
-        
+
         addSlotToContainer(new SlotFiltered(craftMatrix, 7, 107, 71, ModItems.focusingCrystal)
         {
-        	@SideOnly(Side.CLIENT)
+            @Override
+            @SideOnly(Side.CLIENT)
             public IIcon getBackgroundIconIndex()
             {
-        		return ItemLightsaberBase.focusingCrystalEmptySlotIcon;
+                return ItemLightsaberBase.focusingCrystalEmptySlotIcon;
             }
         });
-        
+
         addSlotToContainer(new SlotLightsaberForge(inventoryPlayer.player, craftMatrix, craftResult, 0, 136, 87));
-        
+
         addPlayerInventory(inventoryPlayer, 38);
         onCraftMatrixChanged(craftMatrix);
     }
 
+    @Override
     public void onCraftMatrixChanged(IInventory inventory)
     {
         craftResult.setInventorySlotContents(0, LightsaberHelper.getLightsaberForgeResult(craftMatrix, worldObj));
     }
 
+    @Override
     public void onContainerClosed(EntityPlayer player)
     {
         super.onContainerClosed(player);
@@ -95,14 +99,16 @@ public class ContainerLightsaberForge extends ContainerBasic
         }
     }
 
+    @Override
     public boolean canInteractWith(EntityPlayer player)
     {
         return (worldObj.getBlock(posX, posY, posZ) == ModBlocks.lightsaberForgeLight || worldObj.getBlock(posX, posY, posZ) == ModBlocks.lightsaberForgeDark) && player.getDistanceSq(posX + 0.5D, posY + 0.5D, posZ + 0.5D) <= 64.0D;
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
     {
-    	ItemStack itemstack = null;
+        ItemStack itemstack = null;
         Slot slot = (Slot) inventorySlots.get(slotId);
         int EMITTER = 0;
         int SWITCH_SECTION = 1;
@@ -167,20 +173,20 @@ public class ContainerLightsaberForge extends ContainerBasic
                 }
                 else if (itemstack1.getItem() == Item.getItemFromBlock(ModBlocks.lightsaberCrystal))
                 {
-                	if (!mergeItemStack(itemstack1, CRYSTAL, CRYSTAL + 1, false))
-                	{
-                		return null;
-                	}
+                    if (!mergeItemStack(itemstack1, CRYSTAL, CRYSTAL + 1, false))
+                    {
+                        return null;
+                    }
                 }
                 else if (itemstack1.getItem() == ModItems.focusingCrystal)
                 {
-                	if (!mergeItemStack(itemstack1, FOCUSING_CRYSTAL_1, FOCUSING_CRYSTAL_1 + 1, false))
-                	{
-                		if (!mergeItemStack(itemstack1, FOCUSING_CRYSTAL_2, FOCUSING_CRYSTAL_2 + 1, false))
-                    	{
-                			return null;
-                    	}
-                	}
+                    if (!mergeItemStack(itemstack1, FOCUSING_CRYSTAL_1, FOCUSING_CRYSTAL_1 + 1, false))
+                    {
+                        if (!mergeItemStack(itemstack1, FOCUSING_CRYSTAL_2, FOCUSING_CRYSTAL_2 + 1, false))
+                        {
+                            return null;
+                        }
+                    }
                 }
                 else if (slotId >= OUTPUT + 1 && slotId < OUTPUT + 28)
                 {
@@ -219,6 +225,7 @@ public class ContainerLightsaberForge extends ContainerBasic
         return itemstack;
     }
 
+    @Override
     public boolean func_94530_a(ItemStack itemstack, Slot slot)
     {
         return slot.inventory != craftResult && super.func_94530_a(itemstack, slot);

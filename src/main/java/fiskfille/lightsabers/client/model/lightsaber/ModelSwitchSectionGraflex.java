@@ -22,81 +22,81 @@ public class ModelSwitchSectionGraflex extends ModelBase
 
     public ModelSwitchSectionGraflex()
     {
-        this.textureWidth = 64;
-        this.textureHeight = 32;
-        this.body5 = new ModelRenderer(this, 0, 0);
-        this.body5.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body5.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
-        this.setRotateAngle(body5, 0.0F, 3.141592653589793F, 0.0F);
-        this.body2 = new ModelRenderer(this, 0, 0);
-        this.body2.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body2.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
-        this.setRotateAngle(body2, 0.0F, 0.7853981633974483F, 0.0F);
-        this.body6 = new ModelRenderer(this, 0, 0);
-        this.body6.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body6.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
-        this.setRotateAngle(body6, 0.0F, -2.356194490192345F, 0.0F);
-        this.body4 = new ModelRenderer(this, 0, 0);
-        this.body4.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body4.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
-        this.setRotateAngle(body4, 0.0F, 2.356194490192345F, 0.0F);
-        this.switch2 = new ModelRenderer(this, 8, 3);
-        this.switch2.setRotationPoint(0.0F, 0.0F, -0.8F);
-        this.switch2.addBox(-1.0F, -1.5F, -1.0F, 2, 9, 1, 0.0F);
-        this.setRotateAngle(switch2, 0.10471975511965977F, 0.0F, 0.0F);
-        this.body3 = new ModelRenderer(this, 0, 0);
-        this.body3.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body3.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
-        this.setRotateAngle(body3, 0.0F, 1.5707963267948966F, 0.0F);
-        this.body7 = new ModelRenderer(this, 0, 0);
-        this.body7.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body7.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
-        this.setRotateAngle(body7, 0.0F, -1.5707963267948966F, 0.0F);
-        this.body8 = new ModelRenderer(this, 0, 11);
-        this.body8.setRotationPoint(0.0F, -4.0F, 3.0F);
-        this.body8.addBox(-1.5F, -4.0F, 0.0F, 3, 8, 2, 0.0F);
-        this.switch1 = new ModelRenderer(this, 8, 0);
-        this.switch1.setRotationPoint(-4.7F, -6.0F, -1.4F);
-        this.switch1.addBox(-1.0F, -1.0F, -1.0F, 2, 2, 1, 0.0F);
-        this.body9 = new ModelRenderer(this, 0, 0);
-        this.body9.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body9.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
-        this.setRotateAngle(body9, 0.0F, -0.7853981633974483F, 0.0F);
-        this.body1 = new ModelRenderer(this, 0, 0);
-        this.body1.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.body1.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
-        this.body1.addChild(this.body5);
-        this.body1.addChild(this.body2);
-        this.body1.addChild(this.body6);
-        this.body1.addChild(this.body4);
-        this.switch1.addChild(this.switch2);
-        this.body1.addChild(this.body3);
-        this.body1.addChild(this.body7);
-        this.body7.addChild(this.body8);
-        this.body1.addChild(this.body9);
+        textureWidth = 64;
+        textureHeight = 32;
+        body5 = new ModelRenderer(this, 0, 0);
+        body5.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body5.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
+        setRotateAngle(body5, 0.0F, 3.141592653589793F, 0.0F);
+        body2 = new ModelRenderer(this, 0, 0);
+        body2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body2.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
+        setRotateAngle(body2, 0.0F, 0.7853981633974483F, 0.0F);
+        body6 = new ModelRenderer(this, 0, 0);
+        body6.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body6.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
+        setRotateAngle(body6, 0.0F, -2.356194490192345F, 0.0F);
+        body4 = new ModelRenderer(this, 0, 0);
+        body4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body4.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
+        setRotateAngle(body4, 0.0F, 2.356194490192345F, 0.0F);
+        switch2 = new ModelRenderer(this, 8, 3);
+        switch2.setRotationPoint(0.0F, 0.0F, -0.8F);
+        switch2.addBox(-1.0F, -1.5F, -1.0F, 2, 9, 1, 0.0F);
+        setRotateAngle(switch2, 0.10471975511965977F, 0.0F, 0.0F);
+        body3 = new ModelRenderer(this, 0, 0);
+        body3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body3.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
+        setRotateAngle(body3, 0.0F, 1.5707963267948966F, 0.0F);
+        body7 = new ModelRenderer(this, 0, 0);
+        body7.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body7.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
+        setRotateAngle(body7, 0.0F, -1.5707963267948966F, 0.0F);
+        body8 = new ModelRenderer(this, 0, 11);
+        body8.setRotationPoint(0.0F, -4.0F, 3.0F);
+        body8.addBox(-1.5F, -4.0F, 0.0F, 3, 8, 2, 0.0F);
+        switch1 = new ModelRenderer(this, 8, 0);
+        switch1.setRotationPoint(-4.7F, -6.0F, -1.4F);
+        switch1.addBox(-1.0F, -1.0F, -1.0F, 2, 2, 1, 0.0F);
+        body9 = new ModelRenderer(this, 0, 0);
+        body9.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body9.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
+        setRotateAngle(body9, 0.0F, -0.7853981633974483F, 0.0F);
+        body1 = new ModelRenderer(this, 0, 0);
+        body1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body1.addBox(-1.5F, -8.0F, 2.62F, 3, 8, 1, 0.0F);
+        body1.addChild(body5);
+        body1.addChild(body2);
+        body1.addChild(body6);
+        body1.addChild(body4);
+        switch1.addChild(switch2);
+        body1.addChild(body3);
+        body1.addChild(body7);
+        body7.addChild(body8);
+        body1.addChild(body9);
     }
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    { 
+    {
         GL11.glPushMatrix();
-        GL11.glTranslatef(this.switch1.offsetX, this.switch1.offsetY, this.switch1.offsetZ);
-        GL11.glTranslatef(this.switch1.rotationPointX * f5, this.switch1.rotationPointY * f5, this.switch1.rotationPointZ * f5);
+        GL11.glTranslatef(switch1.offsetX, switch1.offsetY, switch1.offsetZ);
+        GL11.glTranslatef(switch1.rotationPointX * f5, switch1.rotationPointY * f5, switch1.rotationPointZ * f5);
         GL11.glScaled(0.6D, 0.6D, 0.6D);
-        GL11.glTranslatef(-this.switch1.offsetX, -this.switch1.offsetY, -this.switch1.offsetZ);
-        GL11.glTranslatef(-this.switch1.rotationPointX * f5, -this.switch1.rotationPointY * f5, -this.switch1.rotationPointZ * f5);
-        this.switch1.render(f5);
+        GL11.glTranslatef(-switch1.offsetX, -switch1.offsetY, -switch1.offsetZ);
+        GL11.glTranslatef(-switch1.rotationPointX * f5, -switch1.rotationPointY * f5, -switch1.rotationPointZ * f5);
+        switch1.render(f5);
         GL11.glPopMatrix();
         GL11.glPushMatrix();
-        GL11.glTranslatef(this.body1.offsetX, this.body1.offsetY, this.body1.offsetZ);
-        GL11.glTranslatef(this.body1.rotationPointX * f5, this.body1.rotationPointY * f5, this.body1.rotationPointZ * f5);
+        GL11.glTranslatef(body1.offsetX, body1.offsetY, body1.offsetZ);
+        GL11.glTranslatef(body1.rotationPointX * f5, body1.rotationPointY * f5, body1.rotationPointZ * f5);
         GL11.glScaled(1.1D, 1.1D, 1.1D);
-        GL11.glTranslatef(-this.body1.offsetX, -this.body1.offsetY, -this.body1.offsetZ);
-        GL11.glTranslatef(-this.body1.rotationPointX * f5, -this.body1.rotationPointY * f5, -this.body1.rotationPointZ * f5);
-        this.body1.render(f5);
+        GL11.glTranslatef(-body1.offsetX, -body1.offsetY, -body1.offsetZ);
+        GL11.glTranslatef(-body1.rotationPointX * f5, -body1.rotationPointY * f5, -body1.rotationPointZ * f5);
+        body1.render(f5);
         GL11.glPopMatrix();
     }
-    
+
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
     {
         modelRenderer.rotateAngleX = x;

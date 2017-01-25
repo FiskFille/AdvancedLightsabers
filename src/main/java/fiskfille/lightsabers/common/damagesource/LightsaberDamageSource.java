@@ -5,8 +5,8 @@ import net.minecraft.util.EntityDamageSource;
 
 public class LightsaberDamageSource extends EntityDamageSource
 {
-	public LightsaberDamageSource(String name, Entity entity)
-	{
-		super(name, entity);
-	}
+    public LightsaberDamageSource(String name, Entity entity)
+    {
+        super(name, entity);
+    }
 }

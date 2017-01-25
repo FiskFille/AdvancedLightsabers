@@ -1,9 +1,6 @@
 package fiskfille.lightsabers.common.block;
 
-import static net.minecraftforge.common.util.ForgeDirection.EAST;
-import static net.minecraftforge.common.util.ForgeDirection.NORTH;
-import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
-import static net.minecraftforge.common.util.ForgeDirection.WEST;
+import static net.minecraftforge.common.util.ForgeDirection.*;
 
 import java.util.List;
 import java.util.Random;
@@ -29,57 +26,64 @@ import fiskfille.lightsabers.common.helper.LightsaberHelper;
 import fiskfille.lightsabers.common.tileentity.TileEntityCrystal;
 
 public class BlockCrystal extends BlockBasic implements ITileEntityProvider
-{	
-	private Random rand = new Random();
-	
-	public BlockCrystal()
-	{
-		super(Material.glass);
-		setLightLevel(0.25F);
-		setHardness(2.0F);
-		setResistance(10.0F);
-		setStepSound(Block.soundTypeGlass);
-	}
-	
-	public boolean canHarvestBlock(EntityPlayer player, int meta)
-	{
-		return false;
-	}
-	
-	@SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs tab, List subBlocks)
+{
+    private Random rand = new Random();
+
+    public BlockCrystal()
     {
-		for (int i = 0; i < LightsaberColors.getColors().length; ++i)
-		{
-			subBlocks.add(LightsaberHelper.createCrystal(i));
-		}
+        super(Material.glass);
+        setLightLevel(0.25F);
+        setHardness(2.0F);
+        setResistance(10.0F);
+        setStepSound(Block.soundTypeGlass);
     }
-    
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
-        return null;
-    }
-	
-	public boolean renderAsNormalBlock()
+
+    @Override
+    public boolean canHarvestBlock(EntityPlayer player, int meta)
     {
         return false;
     }
-	
-	public int getRenderType()
-	{
-		return -1;
-	}
-	
-	public boolean isOpaqueCube()
-	{
-		return false;
-	}
-	
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(Item item, CreativeTabs tab, List subBlocks)
+    {
+        for (int i = 0; i < LightsaberColors.getColors().length; ++i)
+        {
+            subBlocks.add(LightsaberHelper.createCrystal(i));
+        }
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+
+    @Override
+    public int getRenderType()
+    {
+        return -1;
+    }
+
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+
+    @Override
     public boolean hasTileEntity()
     {
         return true;
     }
-    
+
     private boolean func_150107_m(World world, int x, int y, int z)
     {
         if (World.doesBlockHaveSolidTopSurface(world, x, y, z))
@@ -92,17 +96,14 @@ public class BlockCrystal extends BlockBasic implements ITileEntityProvider
             return block.canPlaceTorchOnTop(world, x, y, z);
         }
     }
-    
+
+    @Override
     public boolean canPlaceBlockAt(World world, int x, int y, int z)
     {
-        return world.isSideSolid(x - 1, y, z, EAST,  true) ||
-               world.isSideSolid(x + 1, y, z, WEST,  true) ||
-               world.isSideSolid(x, y, z - 1, SOUTH, true) ||
-               world.isSideSolid(x, y, z + 1, NORTH, true) ||
-               func_150107_m(world, x, y - 1, z) ||
-               func_150107_m(world, x, y + 1, z);
+        return world.isSideSolid(x - 1, y, z, EAST, true) || world.isSideSolid(x + 1, y, z, WEST, true) || world.isSideSolid(x, y, z - 1, SOUTH, true) || world.isSideSolid(x, y, z + 1, NORTH, true) || func_150107_m(world, x, y - 1, z) || func_150107_m(world, x, y + 1, z);
     }
-    
+
+    @Override
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
         int j1 = metadata;
@@ -111,7 +112,7 @@ public class BlockCrystal extends BlockBasic implements ITileEntityProvider
         {
             j1 = 6;
         }
-        
+
         if (side == 1 && func_150107_m(world, x, y - 1, z))
         {
             j1 = 5;
@@ -136,10 +137,11 @@ public class BlockCrystal extends BlockBasic implements ITileEntityProvider
         {
             j1 = 1;
         }
-        
+
         return j1;
     }
-    
+
+    @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         super.updateTick(world, x, y, z, rand);
@@ -149,7 +151,8 @@ public class BlockCrystal extends BlockBasic implements ITileEntityProvider
             onBlockAdded(world, x, y, z);
         }
     }
-    
+
+    @Override
     public void onBlockAdded(World world, int x, int y, int z)
     {
         if (world.getBlockMetadata(x, y, z) == 0)
@@ -182,7 +185,8 @@ public class BlockCrystal extends BlockBasic implements ITileEntityProvider
 
         func_150109_e(world, x, y, z);
     }
-    
+
+    @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
         func_150108_b(world, x, y, z, block);
@@ -219,7 +223,7 @@ public class BlockCrystal extends BlockBasic implements ITileEntityProvider
             {
                 flag = true;
             }
-            
+
             if (!func_150107_m(world, x, y + 1, z) && l == 6)
             {
                 flag = true;
@@ -259,93 +263,99 @@ public class BlockCrystal extends BlockBasic implements ITileEntityProvider
             return true;
         }
     }
-    
+
+    @Override
     public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 vec3, Vec3 vec31)
     {
-    	int l = world.getBlockMetadata(x, y, z);
-    	float f = 0.0625F;
-    	float width = f * 6;
-    	float height = f * 6;
-    	
-    	if (l == 1)
-    	{
-    		setBlockBounds(0, 0.5F - width / 2, 0.5F - width / 2, height, 0.5F + width / 2, 0.5F + width / 2);
-    	}
-    	else if (l == 2)
-    	{
-    		setBlockBounds(1 - height, 0.5F - width / 2, 0.5F - width / 2, 1, 0.5F + width / 2, 0.5F + width / 2);
-    	}
-    	else if (l == 3)
-    	{
-    		setBlockBounds(0.5F - width / 2, 0.5F - width / 2, 0, 0.5F + width / 2, 0.5F + width / 2, height);
-    	}
-    	else if (l == 4)
-    	{
-    		setBlockBounds(0.5F - width / 2, 0.5F - width / 2, 1 - height, 0.5F + width / 2, 0.5F + width / 2, 1);
-    	}
-    	else if (l == 5)
-    	{
-    		setBlockBounds(0.5F - width / 2, 0, 0.5F - width / 2, 0.5F + width / 2, height, 0.5F + width / 2);
-    	}
-    	else
-    	{
-    		setBlockBounds(0.5F - width / 2, 1 - height, 0.5F - width / 2, 0.5F + width / 2, 1, 0.5F + width / 2);
-    	}
-    	
+        int l = world.getBlockMetadata(x, y, z);
+        float f = 0.0625F;
+        float width = f * 6;
+        float height = f * 6;
+
+        if (l == 1)
+        {
+            setBlockBounds(0, 0.5F - width / 2, 0.5F - width / 2, height, 0.5F + width / 2, 0.5F + width / 2);
+        }
+        else if (l == 2)
+        {
+            setBlockBounds(1 - height, 0.5F - width / 2, 0.5F - width / 2, 1, 0.5F + width / 2, 0.5F + width / 2);
+        }
+        else if (l == 3)
+        {
+            setBlockBounds(0.5F - width / 2, 0.5F - width / 2, 0, 0.5F + width / 2, 0.5F + width / 2, height);
+        }
+        else if (l == 4)
+        {
+            setBlockBounds(0.5F - width / 2, 0.5F - width / 2, 1 - height, 0.5F + width / 2, 0.5F + width / 2, 1);
+        }
+        else if (l == 5)
+        {
+            setBlockBounds(0.5F - width / 2, 0, 0.5F - width / 2, 0.5F + width / 2, height, 0.5F + width / 2);
+        }
+        else
+        {
+            setBlockBounds(0.5F - width / 2, 1 - height, 0.5F - width / 2, 0.5F + width / 2, 1, 0.5F + width / 2);
+        }
+
         return super.collisionRayTrace(world, x, y, z, vec3, vec31);
     }
-	
-	public TileEntity createNewTileEntity(World world, int metadata)
-	{
-		return new TileEntityCrystal();
-	}
-	
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
-	{
-		super.onBlockPlacedBy(world, x, y, z, entity, itemstack);
-		
-		TileEntityCrystal tile = (TileEntityCrystal)world.getTileEntity(x, y, z);
-		
-		if (tile != null)
-		{
-			tile.setColor(LightsaberHelper.getCrystalColorId(itemstack));
-		}
-	}
-	
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player)
-	{
-		return super.getPickBlock(target, world, x, y, z, player);
-	}
-	
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
-	{
-		TileEntityCrystal tile = (TileEntityCrystal)world.getTileEntity(x, y, z);
-		
-		if (tile != null)
-		{
-	        return LightsaberHelper.createCrystal(tile.colorId);
-		}
-		
-		return super.getPickBlock(target, world, x, y, z);
-	}
-	
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ)
-	{
-		TileEntityCrystal tile = (TileEntityCrystal)world.getTileEntity(x, y, z);
 
-		if (tile != null && !player.capabilities.isCreativeMode)
-		{
-			dropBlockAsItem(world, x, y, z, LightsaberHelper.createCrystal(tile.colorId));
-			world.setBlock(x, y, z, Blocks.air);
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public int quantityDropped(int meta, int fortune, Random random)
-	{
-		return 0;
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata)
+    {
+        return new TileEntityCrystal();
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemstack)
+    {
+        super.onBlockPlacedBy(world, x, y, z, entity, itemstack);
+
+        TileEntityCrystal tile = (TileEntityCrystal) world.getTileEntity(x, y, z);
+
+        if (tile != null)
+        {
+            tile.setColor(LightsaberHelper.getCrystalColorId(itemstack));
+        }
+    }
+
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player)
+    {
+        return super.getPickBlock(target, world, x, y, z, player);
+    }
+
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+    {
+        TileEntityCrystal tile = (TileEntityCrystal) world.getTileEntity(x, y, z);
+
+        if (tile != null)
+        {
+            return LightsaberHelper.createCrystal(tile.colorId);
+        }
+
+        return super.getPickBlock(target, world, x, y, z);
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ)
+    {
+        TileEntityCrystal tile = (TileEntityCrystal) world.getTileEntity(x, y, z);
+
+        if (tile != null && !player.capabilities.isCreativeMode)
+        {
+            dropBlockAsItem(world, x, y, z, LightsaberHelper.createCrystal(tile.colorId));
+            world.setBlock(x, y, z, Blocks.air);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public int quantityDropped(int meta, int fortune, Random random)
+    {
+        return 0;
+    }
 }

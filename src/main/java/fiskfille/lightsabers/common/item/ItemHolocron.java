@@ -11,36 +11,37 @@ import fiskfille.lightsabers.Lightsabers;
 
 public class ItemHolocron extends ItemBlockWithMetadata
 {
-	private IIcon[] icons;
-	
-	public ItemHolocron(Block block)
-	{
-		super(block);
-	}
+    private IIcon[] icons;
 
-	@Override
-	public String getUnlocalizedName(ItemStack itemstack)
+    public ItemHolocron(Block block)
+    {
+        super(block);
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack itemstack)
     {
         return "tile." + (itemstack.getItemDamage() == 0 ? "jedi" : "sith") + "_holocron";
     }
-	
-	@Override
-	public IIcon getIconFromDamage(int damage)
-	{
-		return icons[MathHelper.clamp_int(damage, 0, 1)];
-	}
-	
-	@SideOnly(Side.CLIENT)
+
+    @Override
+    public IIcon getIconFromDamage(int damage)
+    {
+        return icons[MathHelper.clamp_int(damage, 0, 1)];
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public int getSpriteNumber()
     {
-		return 1;
+        return 1;
     }
-	
-	@Override
-	public void registerIcons(IIconRegister par1IIconRegister)
-	{
-		icons = new IIcon[2];
+
+    @Override
+    public void registerIcons(IIconRegister par1IIconRegister)
+    {
+        icons = new IIcon[2];
         icons[0] = par1IIconRegister.registerIcon(Lightsabers.modid + ":jedi_holocron");
         icons[1] = par1IIconRegister.registerIcon(Lightsabers.modid + ":sith_holocron");
-	}
+    }
 }

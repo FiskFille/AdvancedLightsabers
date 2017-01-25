@@ -9,123 +9,123 @@ import fiskfille.lightsabers.common.network.PacketUnlockPower;
 
 public class PowerManager
 {
-	private final EntityPlayer player;
+    private final EntityPlayer player;
 
-	public PowerManager(EntityPlayer e)
-	{
-		player = e;
-	}
+    public PowerManager(EntityPlayer e)
+    {
+        player = e;
+    }
 
-	public int getHierarchy(Power power)
-	{
-		if (hasPowerUnlocked(power))
-		{
-			return 0;
-		}
-		else
-		{
-			int i = 0;
+    public int getHierarchy(Power power)
+    {
+        if (hasPowerUnlocked(power))
+        {
+            return 0;
+        }
+        else
+        {
+            int i = 0;
 
-			for (Power power1 = power.parent; power1 != null && !hasPowerUnlocked(power1); ++i)
-			{
-				power1 = power1.parent;
-			}
+            for (Power power1 = power.parent; power1 != null && !hasPowerUnlocked(power1); ++i)
+            {
+                power1 = power1.parent;
+            }
 
-			return i;
-		}
-	}
+            return i;
+        }
+    }
 
-	public static void unlockPower(EntityPlayer player, Power power)
-	{
-		if (power != null && !hasPowerUnlocked(player, power) && (power.parent == null || hasPowerUnlocked(player, power.parent)))
-		{
-			if (player.worldObj.isRemote)
-			{
-				ALNetworkManager.networkWrapper.sendToServer(new PacketUnlockPower(player, power));
-			}
-			else
-			{
-				ALNetworkManager.networkWrapper.sendToAll(new PacketUnlockPower(player, power));
-			}
+    public static void unlockPower(EntityPlayer player, Power power)
+    {
+        if (power != null && !hasPowerUnlocked(player, power) && (power.parent == null || hasPowerUnlocked(player, power.parent)))
+        {
+            if (player.worldObj.isRemote)
+            {
+                ALNetworkManager.networkWrapper.sendToServer(new PacketUnlockPower(player, power));
+            }
+            else
+            {
+                ALNetworkManager.networkWrapper.sendToAll(new PacketUnlockPower(player, power));
+            }
 
-			getPowerData(player, power).unlocked = true;
-			
-			if (power == Power.forceSensitivity)
-			{
-				PowerManager.getPowerData(player, Power.lightSide).unlocked = true;
-				PowerManager.getPowerData(player, Power.darkSide).unlocked = true;
-				PowerManager.getPowerData(player, Power.neutral).unlocked = true;
-			}
-		}
-	}
+            getPowerData(player, power).unlocked = true;
 
-	public static boolean hasPowerUnlocked(EntityPlayer player, Power power)
-	{
-		List<PowerData> list = ALPlayerData.getData(player).powers;
+            if (power == Power.forceSensitivity)
+            {
+                PowerManager.getPowerData(player, Power.lightSide).unlocked = true;
+                PowerManager.getPowerData(player, Power.darkSide).unlocked = true;
+                PowerManager.getPowerData(player, Power.neutral).unlocked = true;
+            }
+        }
+    }
 
-		for (PowerData data : list)
-		{
-			if (data.power.getName().equals(power.getName()) && data.unlocked)
-			{
-				return true;
-			}
-		}
+    public static boolean hasPowerUnlocked(EntityPlayer player, Power power)
+    {
+        List<PowerData> list = ALPlayerData.getData(player).powers;
 
-		return false;
-	}
+        for (PowerData data : list)
+        {
+            if (data.power.getName().equals(power.getName()) && data.unlocked)
+            {
+                return true;
+            }
+        }
 
-	public static boolean canUnlockPower(EntityPlayer player, Power power)
-	{
-		return power.parent == null || hasPowerUnlocked(player, power.parent);
-	}
-	
-	public static PowerData getPowerData(EntityPlayer player, Power power)
-	{
-		List<PowerData> list = ALPlayerData.getData(player).powers;
+        return false;
+    }
 
-		for (PowerData data : list)
-		{
-			if (data.power.getName().equals(power.getName()))
-			{
-				return data;
-			}
-		}
+    public static boolean canUnlockPower(EntityPlayer player, Power power)
+    {
+        return power.parent == null || hasPowerUnlocked(player, power.parent);
+    }
 
-		return null;
-	}
+    public static PowerData getPowerData(EntityPlayer player, Power power)
+    {
+        List<PowerData> list = ALPlayerData.getData(player).powers;
 
-	public boolean hasPowerUnlocked(Power power)
-	{
-		List<PowerData> list = ALPlayerData.getData(player).powers;
+        for (PowerData data : list)
+        {
+            if (data.power.getName().equals(power.getName()))
+            {
+                return data;
+            }
+        }
 
-		for (PowerData data : list)
-		{
-			if (data.power.getName().equals(power.getName()) && data.unlocked)
-			{
-				return true;
-			}
-		}
+        return null;
+    }
 
-		return false;
-	}
+    public boolean hasPowerUnlocked(Power power)
+    {
+        List<PowerData> list = ALPlayerData.getData(player).powers;
 
-	public boolean canUnlockPower(Power power)
-	{
-		return power.parent == null || hasPowerUnlocked(player, power.parent);
-	}
-	
-	public PowerData getPowerData(Power power)
-	{
-		List<PowerData> list = ALPlayerData.getData(player).powers;
+        for (PowerData data : list)
+        {
+            if (data.power.getName().equals(power.getName()) && data.unlocked)
+            {
+                return true;
+            }
+        }
 
-		for (PowerData data : list)
-		{
-			if (data.power.getName().equals(power.getName()))
-			{
-				return data;
-			}
-		}
+        return false;
+    }
 
-		return null;
-	}
+    public boolean canUnlockPower(Power power)
+    {
+        return power.parent == null || hasPowerUnlocked(player, power.parent);
+    }
+
+    public PowerData getPowerData(Power power)
+    {
+        List<PowerData> list = ALPlayerData.getData(player).powers;
+
+        for (PowerData data : list)
+        {
+            if (data.power.getName().equals(power.getName()))
+            {
+                return data;
+            }
+        }
+
+        return null;
+    }
 }

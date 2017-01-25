@@ -4,5 +4,5 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public abstract class BiomePredicate
 {
-	public abstract boolean matches(BiomeGenBase biome);
+    public abstract boolean matches(BiomeGenBase biome);
 }

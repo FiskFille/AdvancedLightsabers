@@ -13,10 +13,11 @@ public class ItemSithCoffin extends ItemBlock
 {
     public ItemSithCoffin(Block block)
     {
-		super(block);
-	}
+        super(block);
+    }
 
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float f, float f1, float f2)
+    @Override
+    public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float f, float f1, float f2)
     {
         if (world.isRemote)
         {
@@ -29,8 +30,8 @@ public class ItemSithCoffin extends ItemBlock
         else
         {
             ++y;
-            BlockSithCoffin block = (BlockSithCoffin)ModBlocks.sithCoffin;
-            int i1 = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+            BlockSithCoffin block = (BlockSithCoffin) ModBlocks.sithCoffin;
+            int i1 = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
             byte b0 = 0;
             byte b1 = 0;
 

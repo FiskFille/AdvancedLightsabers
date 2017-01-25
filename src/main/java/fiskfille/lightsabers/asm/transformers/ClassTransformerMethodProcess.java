@@ -15,7 +15,7 @@ public abstract class ClassTransformerMethodProcess extends ClassTransformerBase
     private final String methodDescDev;
     private String methName;
     private String methDesc;
-    
+
     public static String varPlayer;
 
     public ClassTransformerMethodProcess(String classPath, String methodName, String methodNameDev, String methodDesc, String methodDescDev)
@@ -38,7 +38,7 @@ public abstract class ClassTransformerMethodProcess extends ClassTransformerBase
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -55,7 +55,7 @@ public abstract class ClassTransformerMethodProcess extends ClassTransformerBase
     {
         methName = ALTranslator.getMappedName(methodName, methodNameDev);
         methDesc = ALTranslator.getMappedName(methodDesc, methodDescDev);
-        
+
         varPlayer = ALTranslator.getMappedName("yz", "net/minecraft/entity/player/EntityPlayer");
     }
 }

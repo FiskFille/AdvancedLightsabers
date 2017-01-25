@@ -1,9 +1,9 @@
 package fiskfille.lightsabers.client.model.tile;
 
-import fiskfille.lightsabers.common.event.ClientEventHandler;
-import fiskfille.lightsabers.common.tileentity.TileEntitySithCoffin;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import fiskfille.lightsabers.common.event.ClientEventHandler;
+import fiskfille.lightsabers.common.tileentity.TileEntitySithCoffin;
 
 public class ModelSithCoffin extends ModelBase
 {
@@ -130,12 +130,12 @@ public class ModelSithCoffin extends ModelBase
 
     public void render(TileEntitySithCoffin tile)
     {
-    	float f = tile.getLidOpenTimer(ClientEventHandler.RENDER_TICK);
-    	float f1 = f > 0.5F ? (1 - f) * 2 : 1;
-    	float f2 = 1 - f1;
-    	lid1.setRotationPoint(-9.0F + 16 * f, 11.5F - 3 * f2, 8.0F);
-    	lid1.rotateAngleZ = f2;
-    	
+        float f = tile.getLidOpenTimer(ClientEventHandler.RENDER_TICK);
+        float f1 = f > 0.5F ? (1 - f) * 2 : 1;
+        float f2 = 1 - f1;
+        lid1.setRotationPoint(-9.0F + 16 * f, 11.5F - 3 * f2, 8.0F);
+        lid1.rotateAngleZ = f2;
+
         lid1.render(0.0625F);
         base1.render(0.0625F);
     }

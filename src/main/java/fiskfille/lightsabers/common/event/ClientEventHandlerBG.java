@@ -7,17 +7,17 @@ import fiskfille.lightsabers.common.item.ModItems;
 
 public class ClientEventHandlerBG
 {
-	@SubscribeEvent
-	public void onPreRenderSheathed(PreRenderSheathed event)
-	{
-		ItemStack itemstack = event.element;
+    @SubscribeEvent
+    public void onPreRenderSheathed(PreRenderSheathed event)
+    {
+        ItemStack itemstack = event.element;
 
-		if (itemstack != null)
-		{
-			if (itemstack.getItem() == ModItems.lightsaber || itemstack.getItem() == ModItems.doubleLightsaber)
-			{
-				event.setCanceled(true);
-			}
-		}
-	}
+        if (itemstack != null)
+        {
+            if (itemstack.getItem() == ModItems.lightsaber || itemstack.getItem() == ModItems.doubleLightsaber)
+            {
+                event.setCanceled(true);
+            }
+        }
+    }
 }

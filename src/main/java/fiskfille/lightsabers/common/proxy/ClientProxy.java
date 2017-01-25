@@ -100,90 +100,95 @@ import fiskfille.lightsabers.common.tileentity.TileEntitySithStoneCoffin;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
-{	
-	public void preInit()
-	{
-		super.preInit();
-		ALKeyBinds.register();
-		
-		registerEventHandler(new ClientEventHandler());
-		registerEventHandler(new GuiOverlay());
-		
-		if (Lightsabers.isBattlegearLoaded)
-		{
-			BattlegearUtils.RENDER_BUS.register(new fiskfille.lightsabers.common.event.ClientEventHandlerBG());
-		}
-	}
-	
-	public void init()
-	{
-		super.init();
-		
-		registerLightsaberModels(LightsaberManager.lightsaberGraflex, new ModelEmitterGraflex(), new ModelSwitchSectionGraflex(), new ModelBodyGraflex(), new ModelPommelGraflex());
-		registerLightsaberModels(LightsaberManager.lightsaberRedeemer, new ModelEmitterRedeemer(), new ModelSwitchSectionRedeemer(), new ModelBodyRedeemer(), new ModelPommelRedeemer());
-		registerLightsaberModels(LightsaberManager.lightsaberMauler, new ModelEmitterMauler(), new ModelSwitchSectionMauler(), new ModelBodyMauler(), new ModelPommelMauler());
-		registerLightsaberModels(LightsaberManager.lightsaberProdigalSon, new ModelEmitterProdigalSon(), new ModelSwitchSectionProdigalSon(), new ModelBodyProdigalSon(), new ModelPommelProdigalSon());
-		registerLightsaberModels(LightsaberManager.lightsaberKnighted, new ModelEmitterKnighted(), new ModelSwitchSectionKnighted(), new ModelBodyKnighted(), new ModelPommelKnighted());
-		registerLightsaberModels(LightsaberManager.lightsaberVaidAncient, new ModelEmitterVaid(), new ModelSwitchSectionVaid(), new ModelBodyVaid(), new ModelPommelVaid());
-		registerLightsaberModels(LightsaberManager.lightsaberVaidModern, new ModelEmitterVaid(), new ModelSwitchSectionVaid(), new ModelBodyVaid(), new ModelPommelVaid());
-		registerLightsaberModels(LightsaberManager.lightsaberDroideka, new ModelEmitterDroideka(), new ModelSwitchSectionDroideka(), new ModelBodyDroideka(), new ModelPommelDroideka());
-		registerLightsaberModels(LightsaberManager.lightsaberFulcrum, new ModelEmitterFulcrum(), new ModelSwitchSectionFulcrum(), new ModelBodyFulcrum(), new ModelPommelFulcrum());
-		registerLightsaberModels(LightsaberManager.lightsaberJuggernaut, new ModelEmitterJuggernaut(), new ModelSwitchSectionJuggernaut(), new ModelBodyJuggernaut(), new ModelPommelJuggernaut());
-		registerLightsaberModels(LightsaberManager.lightsaberMechanical, new ModelEmitterMechanical(), new ModelSwitchSectionMechanical(), new ModelBodyMechanical(), new ModelPommelMechanical());
-		registerLightsaberModels(LightsaberManager.lightsaberMandalorian, new ModelEmitterMandalorian(), new ModelSwitchSectionMandalorian(), new ModelBodyMandalorian(), new ModelPommelMandalorian());
-		registerLightsaberModels(LightsaberManager.lightsaberFury, new ModelEmitterFury(), new ModelSwitchSectionFury(), new ModelBodyFury(), new ModelPommelFury());
-		
-		MinecraftForgeClient.registerItemRenderer(ModItems.lightsaber, new RenderLightsaber());
-		MinecraftForgeClient.registerItemRenderer(ModItems.doubleLightsaber, new RenderDoubleLightsaber());
-		MinecraftForgeClient.registerItemRenderer(ModItems.lightsaberEmitter, new RenderLightsaberPart(EnumPartType.EMITTER));
-		MinecraftForgeClient.registerItemRenderer(ModItems.lightsaberSwitchSection, new RenderLightsaberPart(EnumPartType.SWITCH_SECTION));
-		MinecraftForgeClient.registerItemRenderer(ModItems.lightsaberBody, new RenderLightsaberPart(EnumPartType.BODY));
-		MinecraftForgeClient.registerItemRenderer(ModItems.lightsaberPommel, new RenderLightsaberPart(EnumPartType.POMMEL));
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.lightsaberForgeLight), new RenderItemLightsaberForge());
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.lightsaberForgeDark), new RenderItemLightsaberForge());
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.sithCoffin), new RenderItemSithCoffin());
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.sithStoneCoffin), new RenderItemSithStoneCoffin());
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.holocron), new RenderItemHolocron());
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityLightsaber.class, new RenderLightsaberEntity());
-		RenderingRegistry.registerEntityRenderingHandler(EntityDoubleLightsaber.class, new RenderDoubleLightsaberEntity());
-		RenderingRegistry.registerEntityRenderingHandler(EntitySithGhost.class, new RenderSithGhost());
-		RenderingRegistry.registerEntityRenderingHandler(EntityForceLightning.class, new RenderForceLightning());
-		RenderingRegistry.registerEntityRenderingHandler(EntityGrievous.class, new RenderGrievous());
-		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLightsaberForge.class, new RenderLightsaberForge());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySithCoffin.class, new RenderSithCoffin());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySithStoneCoffin.class, new RenderSithStoneCoffin());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHolocron.class, new RenderHolocron());
-	}
-	
-	public void registerLightsaberModels(Lightsaber lightsaber, ModelBase emitter, ModelBase switchSection, ModelBase body, ModelBase pommel)
-	{
-		LightsaberAPIClient.registerLightsaberModel(lightsaber, EnumPartType.EMITTER, emitter);
-		LightsaberAPIClient.registerLightsaberModel(lightsaber, EnumPartType.SWITCH_SECTION, switchSection);
-		LightsaberAPIClient.registerLightsaberModel(lightsaber, EnumPartType.BODY, body);
-		LightsaberAPIClient.registerLightsaberModel(lightsaber, EnumPartType.POMMEL, pommel);
-	}
-	
-	public EntityPlayer getPlayer()
-	{
-		return Minecraft.getMinecraft().thePlayer;
-	}
-	
-	public boolean isClientPlayer(EntityPlayer player)
-	{
-		return player == getPlayer();
-	}
-	
-	public float getPartialTicks()
-	{
-		return ClientEventHandler.RENDER_TICK;
-	}
-	
-	@Override
+{
+    @Override
+    public void preInit()
+    {
+        super.preInit();
+        ALKeyBinds.register();
+
+        registerEventHandler(new ClientEventHandler());
+        registerEventHandler(new GuiOverlay());
+
+        if (Lightsabers.isBattlegearLoaded)
+        {
+            BattlegearUtils.RENDER_BUS.register(new fiskfille.lightsabers.common.event.ClientEventHandlerBG());
+        }
+    }
+
+    @Override
+    public void init()
+    {
+        super.init();
+
+        registerLightsaberModels(LightsaberManager.lightsaberGraflex, new ModelEmitterGraflex(), new ModelSwitchSectionGraflex(), new ModelBodyGraflex(), new ModelPommelGraflex());
+        registerLightsaberModels(LightsaberManager.lightsaberRedeemer, new ModelEmitterRedeemer(), new ModelSwitchSectionRedeemer(), new ModelBodyRedeemer(), new ModelPommelRedeemer());
+        registerLightsaberModels(LightsaberManager.lightsaberMauler, new ModelEmitterMauler(), new ModelSwitchSectionMauler(), new ModelBodyMauler(), new ModelPommelMauler());
+        registerLightsaberModels(LightsaberManager.lightsaberProdigalSon, new ModelEmitterProdigalSon(), new ModelSwitchSectionProdigalSon(), new ModelBodyProdigalSon(), new ModelPommelProdigalSon());
+        registerLightsaberModels(LightsaberManager.lightsaberKnighted, new ModelEmitterKnighted(), new ModelSwitchSectionKnighted(), new ModelBodyKnighted(), new ModelPommelKnighted());
+        registerLightsaberModels(LightsaberManager.lightsaberVaidAncient, new ModelEmitterVaid(), new ModelSwitchSectionVaid(), new ModelBodyVaid(), new ModelPommelVaid());
+        registerLightsaberModels(LightsaberManager.lightsaberVaidModern, new ModelEmitterVaid(), new ModelSwitchSectionVaid(), new ModelBodyVaid(), new ModelPommelVaid());
+        registerLightsaberModels(LightsaberManager.lightsaberDroideka, new ModelEmitterDroideka(), new ModelSwitchSectionDroideka(), new ModelBodyDroideka(), new ModelPommelDroideka());
+        registerLightsaberModels(LightsaberManager.lightsaberFulcrum, new ModelEmitterFulcrum(), new ModelSwitchSectionFulcrum(), new ModelBodyFulcrum(), new ModelPommelFulcrum());
+        registerLightsaberModels(LightsaberManager.lightsaberJuggernaut, new ModelEmitterJuggernaut(), new ModelSwitchSectionJuggernaut(), new ModelBodyJuggernaut(), new ModelPommelJuggernaut());
+        registerLightsaberModels(LightsaberManager.lightsaberMechanical, new ModelEmitterMechanical(), new ModelSwitchSectionMechanical(), new ModelBodyMechanical(), new ModelPommelMechanical());
+        registerLightsaberModels(LightsaberManager.lightsaberMandalorian, new ModelEmitterMandalorian(), new ModelSwitchSectionMandalorian(), new ModelBodyMandalorian(), new ModelPommelMandalorian());
+        registerLightsaberModels(LightsaberManager.lightsaberFury, new ModelEmitterFury(), new ModelSwitchSectionFury(), new ModelBodyFury(), new ModelPommelFury());
+
+        MinecraftForgeClient.registerItemRenderer(ModItems.lightsaber, new RenderLightsaber());
+        MinecraftForgeClient.registerItemRenderer(ModItems.doubleLightsaber, new RenderDoubleLightsaber());
+        MinecraftForgeClient.registerItemRenderer(ModItems.lightsaberEmitter, new RenderLightsaberPart(EnumPartType.EMITTER));
+        MinecraftForgeClient.registerItemRenderer(ModItems.lightsaberSwitchSection, new RenderLightsaberPart(EnumPartType.SWITCH_SECTION));
+        MinecraftForgeClient.registerItemRenderer(ModItems.lightsaberBody, new RenderLightsaberPart(EnumPartType.BODY));
+        MinecraftForgeClient.registerItemRenderer(ModItems.lightsaberPommel, new RenderLightsaberPart(EnumPartType.POMMEL));
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.lightsaberForgeLight), new RenderItemLightsaberForge());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.lightsaberForgeDark), new RenderItemLightsaberForge());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.sithCoffin), new RenderItemSithCoffin());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.sithStoneCoffin), new RenderItemSithStoneCoffin());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.holocron), new RenderItemHolocron());
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityLightsaber.class, new RenderLightsaberEntity());
+        RenderingRegistry.registerEntityRenderingHandler(EntityDoubleLightsaber.class, new RenderDoubleLightsaberEntity());
+        RenderingRegistry.registerEntityRenderingHandler(EntitySithGhost.class, new RenderSithGhost());
+        RenderingRegistry.registerEntityRenderingHandler(EntityForceLightning.class, new RenderForceLightning());
+        RenderingRegistry.registerEntityRenderingHandler(EntityGrievous.class, new RenderGrievous());
+
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystal.class, new RenderCrystal());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLightsaberForge.class, new RenderLightsaberForge());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySithCoffin.class, new RenderSithCoffin());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySithStoneCoffin.class, new RenderSithStoneCoffin());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHolocron.class, new RenderHolocron());
+    }
+
+    public void registerLightsaberModels(Lightsaber lightsaber, ModelBase emitter, ModelBase switchSection, ModelBase body, ModelBase pommel)
+    {
+        LightsaberAPIClient.registerLightsaberModel(lightsaber, EnumPartType.EMITTER, emitter);
+        LightsaberAPIClient.registerLightsaberModel(lightsaber, EnumPartType.SWITCH_SECTION, switchSection);
+        LightsaberAPIClient.registerLightsaberModel(lightsaber, EnumPartType.BODY, body);
+        LightsaberAPIClient.registerLightsaberModel(lightsaber, EnumPartType.POMMEL, pommel);
+    }
+
+    @Override
+    public EntityPlayer getPlayer()
+    {
+        return Minecraft.getMinecraft().thePlayer;
+    }
+
+    @Override
+    public boolean isClientPlayer(EntityPlayer player)
+    {
+        return player == getPlayer();
+    }
+
+    @Override
+    public float getPartialTicks()
+    {
+        return ClientEventHandler.RENDER_TICK;
+    }
+
+    @Override
     public <T extends AbstractMessage<T>> void handleMessage(final T message, final MessageContext messageContext)
-	{
+    {
         if (messageContext.side.isServer())
         {
             super.handleMessage(message, messageContext);

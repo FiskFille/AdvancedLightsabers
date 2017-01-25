@@ -15,7 +15,7 @@ public class LightsaberAPI
 
     /**
      * Used to register the specified Lightsaber.
-     *
+     * 
      * @param lightsaber The Lightsaber registered.
      */
     public static void registerLightsaber(Lightsaber lightsaber)
@@ -40,7 +40,7 @@ public class LightsaberAPI
 
     /**
      * Gets an instance of a Lightsaber by name.
-     *
+     * 
      * @param name The name of the Lightsaber
      * @return the Lightsaber with the specified name, or null if there is none.
      */

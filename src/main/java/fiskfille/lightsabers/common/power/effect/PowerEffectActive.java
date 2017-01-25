@@ -6,19 +6,19 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class PowerEffectActive extends PowerEffect
 {
-	public void start(EntityPlayer player, Side side, Object... args)
-	{
-		
-	}
-	
-	public void stop(EntityPlayer player, Side side, Object... args)
-	{
-		
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void render(EntityPlayer player, float partialTicks, Object... args)
-	{
-		
-	}
+    public void start(EntityPlayer player, Side side, Object... args)
+    {
+
+    }
+
+    public void stop(EntityPlayer player, Side side, Object... args)
+    {
+
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void render(EntityPlayer player, float partialTicks, Object... args)
+    {
+
+    }
 }

@@ -14,82 +14,82 @@ import com.google.common.collect.Lists;
 
 public abstract class Structure
 {
-	protected final World worldObj;
-	protected int xCoord;
-	protected int yCoord;
-	protected int zCoord;
-	
-	protected boolean mirrorX;
-	protected boolean mirrorZ;
-	
-	protected int maxY;
-	protected boolean simulate = false;
-	protected List<StructurePoint> coverage = Lists.newArrayList();
-	
-	public Structure(World world, int x, int y, int z)
-	{
-		worldObj = world;
-		xCoord = x;
-		yCoord = y;
-		zCoord = z;
-	}
+    protected final World worldObj;
+    protected int xCoord;
+    protected int yCoord;
+    protected int zCoord;
 
-	public abstract void spawnStructure(Random random);
-	
-	public void setBlock(Block block, int metadata, int x, int y, int z)
-	{
-		if (yCoord + y > 4)
-		{
-			if (mirrorX && x > 0)
-			{
-				setBlock(xCoord - x, yCoord + y, zCoord + z, block, StructureHelper.mirrorMetadata(block, metadata));
-			}
-			
-			if (mirrorZ && z > 0)
-			{
-				setBlock(xCoord + x, yCoord + y, zCoord - z, block, StructureHelper.mirrorMetadata(block, metadata));
-			}
-			
-			setBlock(xCoord + x, yCoord + y, zCoord + z, block, metadata);
-		}
-	}
-	
-	private void setBlock(int x, int y, int z, Block block, int metadata)
-	{
-		if (simulate || worldObj.getBlock(x, y, z) != block || worldObj.getBlockMetadata(x, y, z) != metadata)
-		{
-			if (simulate)
-			{
-				maxY = Math.max(maxY, y);
-				
-				StructurePoint p = new StructurePoint(x, y, z);
-				
-				if (coverage.contains(p))
-				{
-					for (int i = 0; i < coverage.size(); ++i)
-					{
-						StructurePoint p1 = coverage.get(i);
-						
-						if (p.equals(p1))
-						{
-							p1.posY = Math.min(p1.posY, y);
-							break;
-						}
-					}
-				}
-				else
-				{
-					coverage.add(p);
-				}
-			}
-			else
-			{
-				worldObj.setBlock(x, y, z, block, metadata, 3);
-			}
-		}
-	}
-	
-	protected boolean generateStructureChestContents(Random random, int x, int y, int z, WeightedRandomChestContent[] chestContent, int itemsToGenerate)
+    protected boolean mirrorX;
+    protected boolean mirrorZ;
+
+    protected int maxY;
+    protected boolean simulate = false;
+    protected List<StructurePoint> coverage = Lists.newArrayList();
+
+    public Structure(World world, int x, int y, int z)
+    {
+        worldObj = world;
+        xCoord = x;
+        yCoord = y;
+        zCoord = z;
+    }
+
+    public abstract void spawnStructure(Random random);
+
+    public void setBlock(Block block, int metadata, int x, int y, int z)
+    {
+        if (yCoord + y > 4)
+        {
+            if (mirrorX && x > 0)
+            {
+                setBlock(xCoord - x, yCoord + y, zCoord + z, block, StructureHelper.mirrorMetadata(block, metadata));
+            }
+
+            if (mirrorZ && z > 0)
+            {
+                setBlock(xCoord + x, yCoord + y, zCoord - z, block, StructureHelper.mirrorMetadata(block, metadata));
+            }
+
+            setBlock(xCoord + x, yCoord + y, zCoord + z, block, metadata);
+        }
+    }
+
+    private void setBlock(int x, int y, int z, Block block, int metadata)
+    {
+        if (simulate || worldObj.getBlock(x, y, z) != block || worldObj.getBlockMetadata(x, y, z) != metadata)
+        {
+            if (simulate)
+            {
+                maxY = Math.max(maxY, y);
+
+                StructurePoint p = new StructurePoint(x, y, z);
+
+                if (coverage.contains(p))
+                {
+                    for (int i = 0; i < coverage.size(); ++i)
+                    {
+                        StructurePoint p1 = coverage.get(i);
+
+                        if (p.equals(p1))
+                        {
+                            p1.posY = Math.min(p1.posY, y);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    coverage.add(p);
+                }
+            }
+            else
+            {
+                worldObj.setBlock(x, y, z, block, metadata, 3);
+            }
+        }
+    }
+
+    protected boolean generateStructureChestContents(Random random, int x, int y, int z, WeightedRandomChestContent[] chestContent, int itemsToGenerate)
     {
         int i = xCoord + x;
         int j = yCoord + y;
@@ -98,7 +98,7 @@ public abstract class Structure
         if (worldObj.getBlock(i, j, k) != Blocks.chest)
         {
             worldObj.setBlock(i, j, k, Blocks.chest, 0, 2);
-            TileEntityChest tile = (TileEntityChest)worldObj.getTileEntity(i, j, k);
+            TileEntityChest tile = (TileEntityChest) worldObj.getTileEntity(i, j, k);
 
             if (tile != null)
             {
@@ -112,8 +112,8 @@ public abstract class Structure
             return false;
         }
     }
-	
-	protected boolean fillStructureInventory(Block block, Random random, int x, int y, int z, WeightedRandomChestContent[] chestContent, int itemsToGenerate)
+
+    protected boolean fillStructureInventory(Block block, Random random, int x, int y, int z, WeightedRandomChestContent[] chestContent, int itemsToGenerate)
     {
         int i = xCoord + x;
         int j = yCoord + y;
@@ -121,7 +121,7 @@ public abstract class Structure
 
         if (worldObj.getBlock(i, j, k) == block)
         {
-            IInventory inventory = (IInventory)worldObj.getTileEntity(i, j, k);
+            IInventory inventory = (IInventory) worldObj.getTileEntity(i, j, k);
 
             if (inventory != null)
             {

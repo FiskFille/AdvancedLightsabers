@@ -16,53 +16,53 @@ import fiskfille.lightsabers.common.recipe.ModRecipes;
 
 public class CommonProxy
 {
-	public void preInit()
-	{
-		LightsaberManager.register();
-		ModItems.register();
-		ModBlocks.register();
-		ModRecipes.register();
-		ModEntities.register();
-		ModChestGen.register();
-		
-		registerEventHandler(new CommonEventHandler());
-		
-		if (Lightsabers.isDynamicLightsLoaded)
-		{
-			fiskfille.lightsabers.common.event.CommonEventHandlerDL eventHandler = new fiskfille.lightsabers.common.event.CommonEventHandlerDL();
-			eventHandler.load();
-			registerEventHandler(eventHandler);
-		}
-	}
+    public void preInit()
+    {
+        LightsaberManager.register();
+        ModItems.register();
+        ModBlocks.register();
+        ModRecipes.register();
+        ModEntities.register();
+        ModChestGen.register();
 
-	public void init()
-	{
-		
-	}
-	
-	public void registerEventHandler(Object obj)
+        registerEventHandler(new CommonEventHandler());
+
+        if (Lightsabers.isDynamicLightsLoaded)
+        {
+            fiskfille.lightsabers.common.event.CommonEventHandlerDL eventHandler = new fiskfille.lightsabers.common.event.CommonEventHandlerDL();
+            eventHandler.load();
+            registerEventHandler(eventHandler);
+        }
+    }
+
+    public void init()
+    {
+
+    }
+
+    public void registerEventHandler(Object obj)
     {
         MinecraftForge.EVENT_BUS.register(obj);
         FMLCommonHandler.instance().bus().register(obj);
     }
 
-	public EntityPlayer getPlayer()
-	{
-		return null;
-	}
+    public EntityPlayer getPlayer()
+    {
+        return null;
+    }
 
-	public boolean isClientPlayer(EntityPlayer player)
-	{
-		return false;
-	}
-	
-	public float getPartialTicks()
-	{
-		return 0;
-	}
-	
-	public <T extends AbstractMessage<T>> void handleMessage(final T message, final MessageContext messageContext)
-	{
+    public boolean isClientPlayer(EntityPlayer player)
+    {
+        return false;
+    }
+
+    public float getPartialTicks()
+    {
+        return 0;
+    }
+
+    public <T extends AbstractMessage<T>> void handleMessage(final T message, final MessageContext messageContext)
+    {
         message.onServerReceived(FMLCommonHandler.instance().getMinecraftServerInstance(), message, messageContext.getServerHandler().playerEntity, messageContext);
     }
 }

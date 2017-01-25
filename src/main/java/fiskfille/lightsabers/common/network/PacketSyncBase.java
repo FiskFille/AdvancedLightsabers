@@ -8,41 +8,43 @@ import fiskfille.lightsabers.common.data.ALPlayerData;
 
 public abstract class PacketSyncBase implements IMessage
 {
-	public Object[] playerData;
-    
+    public Object[] playerData;
+
     public PacketSyncBase()
     {
-    	
-	}
-    
-    public PacketSyncBase(EntityPlayer player)
-    {
-    	playerData = ALPlayerData.getData(player).data;
-	}
 
-	public void fromBytes(ByteBuf buf)
-    {
-		playerData = new Object[buf.readInt()];
-		
-		for (int i = 0; i < playerData.length; ++i)
-		{
-			if (ALData.shouldSave[i])
-			{
-				playerData[i] = ALData.fromBytes(buf, i);
-			}
-		}
     }
 
+    public PacketSyncBase(EntityPlayer player)
+    {
+        playerData = ALPlayerData.getData(player).data;
+    }
+
+    @Override
+    public void fromBytes(ByteBuf buf)
+    {
+        playerData = new Object[buf.readInt()];
+
+        for (int i = 0; i < playerData.length; ++i)
+        {
+            if (ALData.shouldSave[i])
+            {
+                playerData[i] = ALData.fromBytes(buf, i);
+            }
+        }
+    }
+
+    @Override
     public void toBytes(ByteBuf buf)
     {
-    	buf.writeInt(playerData.length);
-    	
-    	for (int i = 0; i < playerData.length; ++i)
-    	{
-    		if (ALData.shouldSave[i])
-			{
-    			ALData.toBytes(buf, i, playerData[i]);
-			}
-    	}
+        buf.writeInt(playerData.length);
+
+        for (int i = 0; i < playerData.length; ++i)
+        {
+            if (ALData.shouldSave[i])
+            {
+                ALData.toBytes(buf, i, playerData[i]);
+            }
+        }
     }
 }

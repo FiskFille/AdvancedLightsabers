@@ -26,21 +26,22 @@ public class MovingSoundHum extends MovingSound
         volume = 0.25F;
     }
 
+    @Override
     public void update()
     {
-    	boolean flag = false;
-    	
-    	if (theEntity instanceof EntityLivingBase)
-    	{
-    		EntityLivingBase entity = (EntityLivingBase)theEntity;
-    		ItemStack itemstack = entity.getHeldItem();
-    		flag = itemstack == null || !(itemstack.getItem() instanceof ItemLightsaberBase) || !ItemLightsaberBase.isActive(itemstack);
-    	}
-    	else if (theEntity instanceof EntityLightsaber)
-    	{
-    		
-    	}
-    	
+        boolean flag = false;
+
+        if (theEntity instanceof EntityLivingBase)
+        {
+            EntityLivingBase entity = (EntityLivingBase) theEntity;
+            ItemStack itemstack = entity.getHeldItem();
+            flag = itemstack == null || !(itemstack.getItem() instanceof ItemLightsaberBase) || !ItemLightsaberBase.isActive(itemstack);
+        }
+        else if (theEntity instanceof EntityLightsaber)
+        {
+
+        }
+
         if (theEntity.isDead || flag)
         {
             donePlaying = true;
@@ -48,9 +49,9 @@ public class MovingSoundHum extends MovingSound
         }
         else
         {
-            xPosF = (float)theEntity.posX;
-            yPosF = (float)theEntity.posY;
-            zPosF = (float)theEntity.posZ;
+            xPosF = (float) theEntity.posX;
+            yPosF = (float) theEntity.posY;
+            zPosF = (float) theEntity.posZ;
         }
     }
 }

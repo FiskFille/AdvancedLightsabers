@@ -19,45 +19,50 @@ import fiskfille.lightsabers.common.helper.LightsaberHelper;
 
 public class ItemFocusingCrystal extends ItemBasic
 {
-	public IIcon[] icons = new IIcon[64];
-	
-	public ItemFocusingCrystal()
-	{
-		super();
-		setHasSubtypes(true);
-	}
-	
-	public WeightedRandomChestContent getChestGenBase(ChestGenHooks chest, Random rand, WeightedRandomChestContent original)
-	{
-		ItemStack itemstack = LightsaberHelper.createFocusingCrystal(rand.nextInt(FocusingCrystals.getFocusingCrystals().length));
-		return new WeightedRandomChestContent(itemstack, original.theMinimumChanceToGenerateItem, original.theMaximumChanceToGenerateItem, original.itemWeight);
-	}
-	
-	public String getItemStackDisplayName(ItemStack itemstack)
+    public IIcon[] icons = new IIcon[64];
+
+    public ItemFocusingCrystal()
     {
-    	return FocusingCrystals.getFocusingCrystalName(LightsaberHelper.getFocusingCrystalId(itemstack));
-    }
-    
-    public void getSubItems(Item item, CreativeTabs tab, List list)
-    {
-    	for (int i = 0; i < FocusingCrystals.getFocusingCrystals().length; ++i)
-    	{
-    		list.add(LightsaberHelper.createFocusingCrystal(i));
-    	}
+        super();
+        setHasSubtypes(true);
     }
 
+    @Override
+    public WeightedRandomChestContent getChestGenBase(ChestGenHooks chest, Random rand, WeightedRandomChestContent original)
+    {
+        ItemStack itemstack = LightsaberHelper.createFocusingCrystal(rand.nextInt(FocusingCrystals.getFocusingCrystals().length));
+        return new WeightedRandomChestContent(itemstack, original.theMinimumChanceToGenerateItem, original.theMaximumChanceToGenerateItem, original.itemWeight);
+    }
+
+    @Override
+    public String getItemStackDisplayName(ItemStack itemstack)
+    {
+        return FocusingCrystals.getFocusingCrystalName(LightsaberHelper.getFocusingCrystalId(itemstack));
+    }
+
+    @Override
+    public void getSubItems(Item item, CreativeTabs tab, List list)
+    {
+        for (int i = 0; i < FocusingCrystals.getFocusingCrystals().length; ++i)
+        {
+            list.add(LightsaberHelper.createFocusingCrystal(i));
+        }
+    }
+
+    @Override
     public IIcon getIconFromDamage(int damage)
     {
         int i = MathHelper.clamp_int(damage, 0, FocusingCrystals.getFocusingCrystals().length);
         return icons[i];
     }
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IIconRegister)
-	{
-    	for (int i = 0; i < FocusingCrystals.getFocusingCrystals().length; ++i)
-    	{
-    		icons[i] = par1IIconRegister.registerIcon(Lightsabers.modid + ":" + FocusingCrystals.getFocusingCrystals()[i]);
-    	}
-	}
+    {
+        for (int i = 0; i < FocusingCrystals.getFocusingCrystals().length; ++i)
+        {
+            icons[i] = par1IIconRegister.registerIcon(Lightsabers.modid + ":" + FocusingCrystals.getFocusingCrystals()[i]);
+        }
+    }
 }

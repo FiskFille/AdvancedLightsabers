@@ -7,17 +7,17 @@ import fiskfille.lightsabers.common.data.Effect;
 
 public class PowerEffectInstant extends PowerEffect
 {
-	public Effect effect;
+    public Effect effect;
 
-	public PowerEffectInstant(Effect effect)
-	{
-		this.effect = effect;
-	}
+    public PowerEffectInstant(Effect effect)
+    {
+        this.effect = effect;
+    }
 
-	@Override
-	public boolean execute(EntityPlayer player, Side side, Object... args)
-	{
-		DataManager.addEffect(player, effect.id, (int)((Float)args[0] * 20), (Integer)args[1]);
-		return true;
-	}
+    @Override
+    public boolean execute(EntityPlayer player, Side side, Object... args)
+    {
+        DataManager.addEffect(player, effect.id, (int) ((Float) args[0] * 20), (Integer) args[1]);
+        return true;
+    }
 }

@@ -14,17 +14,19 @@ public class TileEntityCrystal extends TileEntity
     {
         if (color != colorId)
         {
-        	worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             colorId = color;
         }
     }
 
+    @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
         colorId = nbt.getInteger("color");
     }
 
+    @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);

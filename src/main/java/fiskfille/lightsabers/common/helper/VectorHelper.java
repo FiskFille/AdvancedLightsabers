@@ -14,7 +14,7 @@ import fiskfille.lightsabers.Lightsabers;
 
 public class VectorHelper
 {
-	public static Vec3 getOffsetCoords(EntityLivingBase entity, double xOffset, double yOffset, double zOffset, float partialTicks)
+    public static Vec3 getOffsetCoords(EntityLivingBase entity, double xOffset, double yOffset, double zOffset, float partialTicks)
     {
         Vec3 vec3 = Vec3.createVectorHelper(xOffset, yOffset, zOffset);
         vec3.rotateAroundX(-(entity.rotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks) * (float) Math.PI / 180.0F);
@@ -22,7 +22,7 @@ public class VectorHelper
 
         return Vec3.createVectorHelper(entity.posX + vec3.xCoord, getAccuratePlayerY(entity) + vec3.yCoord, entity.posZ + vec3.zCoord);
     }
-	
+
     public static Vec3 getOffsetCoords(EntityLivingBase entity, double xOffset, double yOffset, double zOffset)
     {
         return getOffsetCoords(entity, xOffset, yOffset, zOffset, 1.0F);
@@ -32,7 +32,7 @@ public class VectorHelper
     {
         return Vec3.createVectorHelper(vec3.xCoord, vec3.yCoord, vec3.zCoord);
     }
-    
+
     public static Vec3 add(Vec3 vec3, Vec3 vec31)
     {
         return vec3.addVector(vec31.xCoord, vec31.yCoord, vec31.zCoord);
@@ -169,7 +169,7 @@ public class VectorHelper
 
     public static double getAccuratePlayerY(EntityLivingBase entity)
     {
-        return (entity.posY + (entity instanceof EntityPlayer && Lightsabers.proxy.isClientPlayer((EntityPlayer)entity) ? 0 : -0.2)) + entity.getEyeHeight();
+        return (entity.posY + (entity instanceof EntityPlayer && Lightsabers.proxy.isClientPlayer((EntityPlayer) entity) ? 0 : -0.2)) + entity.getEyeHeight();
     }
 
     public static List<EntityLivingBase> getEntitiesNear(World world, double x, double y, double z, double amount)

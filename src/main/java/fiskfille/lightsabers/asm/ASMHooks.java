@@ -8,18 +8,18 @@ import fiskfille.lightsabers.common.item.ItemLightsaber;
 
 public class ASMHooks
 {
-	public static boolean attackEntityFrom(Entity entity, DamageSource source, float damage)
-	{
-		if (source.getEntity() instanceof EntityLivingBase)
-		{
-			EntityLivingBase attacker = (EntityLivingBase)source.getEntity();
+    public static boolean attackEntityFrom(Entity entity, DamageSource source, float damage)
+    {
+        if (source.getEntity() instanceof EntityLivingBase)
+        {
+            EntityLivingBase attacker = (EntityLivingBase) source.getEntity();
 
-			if (attacker.getHeldItem() != null && attacker.getHeldItem().getItem() instanceof ItemLightsaber)
-			{
-				return entity.attackEntityFrom(ModDamageSources.causeLightsaberDamage(attacker), damage);
-			}
-		}
+            if (attacker.getHeldItem() != null && attacker.getHeldItem().getItem() instanceof ItemLightsaber)
+            {
+                return entity.attackEntityFrom(ModDamageSources.causeLightsaberDamage(attacker), damage);
+            }
+        }
 
-		return entity.attackEntityFrom(source, damage);
-	}
+        return entity.attackEntityFrom(source, damage);
+    }
 }

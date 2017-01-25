@@ -10,66 +10,67 @@ import net.minecraft.util.MathHelper;
 
 public class TileEntityHolocron extends TileEntity
 {
-	public int playersUsing;
-	public float openTimer;
-	public float prevOpenTimer;
-	public int openTicks;
-	public int prevOpenTicks;
-	
-	public void updateEntity()
+    public int playersUsing;
+    public float openTimer;
+    public float prevOpenTimer;
+    public int openTicks;
+    public int prevOpenTicks;
+
+    @Override
+    public void updateEntity()
     {
-    	prevOpenTimer = openTimer;
-    	prevOpenTicks = openTicks;
-    	
-    	if (playersUsing <= 0)
-    	{
-    		openTimer *= 0.85F;
-    	}
-    	else if (openTimer < 1)
-    	{
-    		openTimer += 0.05F;
-    		openTimer *= 1.05F;
-    	}
-    	
-    	if (openTimer < 1E-6)
-    	{
-    		openTimer = 0;
-    	}
-    	
-    	if (openTimer == 0)
-    	{
-    		openTicks = 0;
-    	}
-    	else if (openTimer >= 1)
-    	{
-    		++openTicks;
-    	}
-    	
-    	openTimer = MathHelper.clamp_float(openTimer, 0, 1);
-    	playersUsing = Math.max(playersUsing, 0);
+        prevOpenTimer = openTimer;
+        prevOpenTicks = openTicks;
+
+        if (playersUsing <= 0)
+        {
+            openTimer *= 0.85F;
+        }
+        else if (openTimer < 1)
+        {
+            openTimer += 0.05F;
+            openTimer *= 1.05F;
+        }
+
+        if (openTimer < 1E-6)
+        {
+            openTimer = 0;
+        }
+
+        if (openTimer == 0)
+        {
+            openTicks = 0;
+        }
+        else if (openTimer >= 1)
+        {
+            ++openTicks;
+        }
+
+        openTimer = MathHelper.clamp_float(openTimer, 0, 1);
+        playersUsing = Math.max(playersUsing, 0);
     }
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
-	{
-		super.readFromNBT(nbttagcompound);
-		
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
-	{
-		super.writeToNBT(nbttagcompound);
-		
-	}
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox()
-	{
-		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
-	}
-	
-	@Override
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbttagcompound)
+    {
+        super.readFromNBT(nbttagcompound);
+
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbttagcompound)
+    {
+        super.writeToNBT(nbttagcompound);
+
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+    }
+
+    @Override
     public Packet getDescriptionPacket()
     {
         NBTTagCompound syncData = new NBTTagCompound();

@@ -4,7 +4,8 @@ package net.ilexiconn.llibrary.server.animation;
  * @author iLexiconn
  * @since 1.0.0
  */
-public interface IAnimatedEntity {
+public interface IAnimatedEntity
+{
     /**
      * An empty animation container.
      */
@@ -17,7 +18,7 @@ public interface IAnimatedEntity {
 
     /**
      * Sets the current animation tick to the given value
-     *
+     * 
      * @param tick the new tick
      */
     void setAnimationTick(int tick);
@@ -29,7 +30,7 @@ public interface IAnimatedEntity {
 
     /**
      * Sets the currently playing animation
-     *
+     * 
      * @param animation the new animation
      */
     void setAnimation(Animation animation);

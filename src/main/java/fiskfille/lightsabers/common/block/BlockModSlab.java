@@ -29,6 +29,7 @@ public class BlockModSlab extends BlockSlab
         useNeighborBrightness = true;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata)
     {
@@ -42,16 +43,19 @@ public class BlockModSlab extends BlockSlab
         return k == 0 ? ModBlocks.lightForcestone.getBlockTextureFromSide(side) : ModBlocks.darkForcestone.getBlockTextureFromSide(side);
     }
 
+    @Override
     public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.forcestoneSlab);
     }
 
+    @Override
     protected ItemStack createStackedBlock(int p_149644_1_)
     {
         return new ItemStack(Item.getItemFromBlock(ModBlocks.forcestoneSlab), 2, p_149644_1_ & 7);
     }
 
+    @Override
     public String func_150002_b(int p_150002_1_)
     {
         if (p_150002_1_ < 0 || p_150002_1_ >= field_150006_b.length)
@@ -62,6 +66,7 @@ public class BlockModSlab extends BlockSlab
         return super.getUnlocalizedName() + "." + field_150006_b[p_150002_1_];
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List list)
     {
@@ -69,21 +74,23 @@ public class BlockModSlab extends BlockSlab
         {
             for (int i = 0; i < field_150006_b.length; ++i)
             {
-            	list.add(new ItemStack(item, 1, i));
+                list.add(new ItemStack(item, 1, i));
             }
         }
     }
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Item.getItemFromBlock(ModBlocks.forcestoneSlab);
     }
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
-        if (this.field_150004_a)
+        if (field_150004_a)
         {
             return super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
         }
@@ -106,7 +113,8 @@ public class BlockModSlab extends BlockSlab
     {
         return p_150003_0_ == ModBlocks.forcestoneSlab;
     }
-    
+
+    @Override
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {
     }

@@ -11,16 +11,16 @@ public class BlockBasic extends Block
     {
         super(material);
     }
-    
+
     public Block setHarvestLvl(String tool, int level)
     {
-    	this.setHarvestLevel(tool, level);
-    	return this;
+        this.setHarvestLevel(tool, level);
+        return this;
     }
-    
+
     @Override
     public void registerBlockIcons(IIconRegister par1IIconRegister)
     {
-    	blockIcon = par1IIconRegister.registerIcon(Lightsabers.modid + ":" + getUnlocalizedName().substring(5));
+        blockIcon = par1IIconRegister.registerIcon(Lightsabers.modid + ":" + getUnlocalizedName().substring(5));
     }
 }

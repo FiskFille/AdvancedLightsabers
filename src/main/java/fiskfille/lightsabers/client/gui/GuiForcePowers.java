@@ -65,9 +65,8 @@ public class GuiForcePowers extends GuiScreen
     private int field_146554_D;
     private PowerManager powerManager;
 
-    private GuiButton button;
     private LinkedList<Power> powers = new LinkedList<Power>();
-    
+
     public final TileEntityHolocron tile;
 
     public GuiForcePowers(GuiScreen gui, EntityPlayer player, TileEntityHolocron tileentity)
@@ -77,30 +76,33 @@ public class GuiForcePowers extends GuiScreen
         powerManager = new PowerManager(player);
         short short1 = 141;
         short short2 = 141;
-        field_146569_s = field_146567_u = field_146565_w = (double)(AchievementList.openInventory.displayColumn * 24 - short1 / 2 - 12);
-        field_146568_t = field_146566_v = field_146573_x = (double)(AchievementList.openInventory.displayRow * 24 - short2 / 2);
+        field_146569_s = field_146567_u = field_146565_w = AchievementList.openInventory.displayColumn * 24 - short1 / 2 - 12;
+        field_146568_t = field_146566_v = field_146573_x = AchievementList.openInventory.displayRow * 24 - short2 / 2;
         powers.clear();
-        
+
         for (Object power : Power.powers)
         {
-        	powers.add((Power)power);
+            powers.add((Power) power);
         }
     }
 
+    @Override
     public void initGui()
     {
         buttonList.clear();
         buttonList.add(new GuiOptionButton(1, width / 2 + 24, height / 2 + 74, 80, 20, I18n.format("gui.done")));
     }
 
+    @Override
     public void onGuiClosed()
     {
-    	if (tile != null)
-    	{
-    		ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(mc.thePlayer, tile.xCoord, tile.yCoord, tile.zCoord, 1));
-    	}
+        if (tile != null)
+        {
+            ALNetworkManager.networkWrapper.sendToServer(new PacketTileAction(mc.thePlayer, tile.xCoord, tile.yCoord, tile.zCoord, 1));
+        }
     }
 
+    @Override
     protected void actionPerformed(GuiButton button)
     {
         if (button.id == 1)
@@ -109,11 +111,12 @@ public class GuiForcePowers extends GuiScreen
         }
     }
 
+    @Override
     protected void keyTyped(char c, int key)
     {
         if (key == mc.gameSettings.keyBindInventory.getKeyCode())
         {
-            mc.displayGuiScreen((GuiScreen)null);
+            mc.displayGuiScreen((GuiScreen) null);
             mc.setIngameFocus();
         }
         else
@@ -122,6 +125,7 @@ public class GuiForcePowers extends GuiScreen
         }
     }
 
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         int k;
@@ -141,8 +145,8 @@ public class GuiForcePowers extends GuiScreen
                 }
                 else
                 {
-                    field_146567_u -= (double)((float)(mouseX - prevMouseX) * zoom);
-                    field_146566_v -= (double)((float)(mouseY - prevMouseY) * zoom);
+                    field_146567_u -= (mouseX - prevMouseX) * zoom;
+                    field_146566_v -= (mouseY - prevMouseY) * zoom;
                     field_146565_w = field_146569_s = field_146567_u;
                     field_146573_x = field_146568_t = field_146566_v;
                 }
@@ -173,40 +177,41 @@ public class GuiForcePowers extends GuiScreen
         if (zoom != f4)
         {
             float f6 = f4 - zoom;
-            float f5 = f4 * (float)xSize;
-            float f1 = f4 * (float)ySize;
-            float f2 = zoom * (float)xSize;
-            float f3 = zoom * (float)ySize;
-            field_146567_u -= (double)((f2 - f5) * 0.5F);
-            field_146566_v -= (double)((f3 - f1) * 0.5F);
+            float f5 = f4 * xSize;
+            float f1 = f4 * ySize;
+            float f2 = zoom * xSize;
+            float f3 = zoom * ySize;
+            field_146567_u -= (f2 - f5) * 0.5F;
+            field_146566_v -= (f3 - f1) * 0.5F;
             field_146565_w = field_146569_s = field_146567_u;
             field_146573_x = field_146568_t = field_146566_v;
         }
 
-        if (field_146565_w < (double)field_146572_y)
+        if (field_146565_w < field_146572_y)
         {
-            field_146565_w = (double)field_146572_y;
+            field_146565_w = field_146572_y;
         }
 
-        if (field_146573_x < (double)field_146571_z)
+        if (field_146573_x < field_146571_z)
         {
-            field_146573_x = (double)field_146571_z;
+            field_146573_x = field_146571_z;
         }
 
-        if (field_146565_w >= (double)field_146559_A)
+        if (field_146565_w >= field_146559_A)
         {
-            field_146565_w = (double)(field_146559_A - 1);
+            field_146565_w = field_146559_A - 1;
         }
 
-        if (field_146573_x >= (double)field_146560_B)
+        if (field_146573_x >= field_146560_B)
         {
-            field_146573_x = (double)(field_146560_B - 1);
+            field_146573_x = field_146560_B - 1;
         }
 
         drawDefaultBackground();
         drawBackground(mouseX, mouseY, partialTicks);
     }
 
+    @Override
     public void updateScreen()
     {
         field_146569_s = field_146567_u;
@@ -237,10 +242,10 @@ public class GuiForcePowers extends GuiScreen
         drawOutlinedString(StatCollector.translateToLocalFormatted("gui.forcePowers.xp", MathHelper.floor_float(ALData.getFloat(mc.thePlayer, ALData.FORCE_XP))), x, y, MathHelper.floor_float(ALData.getFloat(mc.thePlayer, ALData.FORCE_XP)) > 0 ? 8453920 : 0xD74848);
         drawOutlinedString(StatCollector.translateToLocalFormatted("gui.forcePowers.basePower", ALHelper.getBasePower(mc.thePlayer)), x, y + 10, ALHelper.getBasePower(mc.thePlayer) > 0 ? 8453920 : 0xD74848);
     }
-    
+
     public void drawOutlinedString(String s, int x, int y, int color)
     {
-    	fontRendererObj.drawString(s, x + 1, y, 0);
+        fontRendererObj.drawString(s, x + 1, y, 0);
         fontRendererObj.drawString(s, x - 1, y, 0);
         fontRendererObj.drawString(s, x, y + 1, 0);
         fontRendererObj.drawString(s, x, y - 1, 0);
@@ -249,8 +254,8 @@ public class GuiForcePowers extends GuiScreen
 
     protected void drawBackground(int mouseX, int mouseY, float partialTicks)
     {
-        int k = MathHelper.floor_double(field_146569_s + (field_146567_u - field_146569_s) * (double)partialTicks);
-        int l = MathHelper.floor_double(field_146568_t + (field_146566_v - field_146568_t) * (double)partialTicks);
+        int k = MathHelper.floor_double(field_146569_s + (field_146567_u - field_146569_s) * partialTicks);
+        int l = MathHelper.floor_double(field_146568_t + (field_146566_v - field_146568_t) * partialTicks);
 
         if (k < field_146572_y)
         {
@@ -279,7 +284,7 @@ public class GuiForcePowers extends GuiScreen
         zLevel = 0;
         GL11.glDepthFunc(GL11.GL_GEQUAL);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)k1, (float)l1, -200);
+        GL11.glTranslatef(k1, l1, -200);
         // FIXES models rendering weirdly in the acheivements pane
         // see https://github.com/MinecraftForge/MinecraftForge/commit/1b7ce7592caafb760ec93066184182ae0711e793#commitcomment-10512284
         GL11.glScalef(1 / zoom, 1 / zoom, 1);
@@ -303,25 +308,25 @@ public class GuiForcePowers extends GuiScreen
         int j3;
         int k3;
 
-        for (i3 = 0; (float)i3 * f1 - (float)l2 < 155; ++i3)
+        for (i3 = 0; i3 * f1 - l2 < 155; ++i3)
         {
-            float f3 = 0.6F - (float)(j2 + i3) / 25 * 0.3F;
+            float f3 = 0.6F - (float) (j2 + i3) / 25 * 0.3F;
             GL11.glColor4f(f3, f3, f3, 1);
 
-            for (j3 = 0; (float)j3 * f2 - (float)k2 < 224; ++j3)
+            for (j3 = 0; j3 * f2 - k2 < 224; ++j3)
             {
-            	Block block = ModBlocks.lightForcestone;
-                random.setSeed((long)(mc.getSession().getPlayerID().hashCode() + i2 + j3 + (j2 + i3) * 16));
+                Block block = ModBlocks.lightForcestone;
+                random.setSeed(mc.getSession().getPlayerID().hashCode() + i2 + j3 + (j2 + i3) * 16);
                 k3 = random.nextInt(Math.max(1 + (i2 + j3 + 10) / 6, 0)) + (i2 + j3 + 10) / 1 - 11;
-                
+
                 if (k3 < 20)
                 {
-                	block = ModBlocks.darkForcestone;
+                    block = ModBlocks.darkForcestone;
                 }
-                
+
                 k3 = random.nextInt(50);
                 IIcon iicon = block.getIcon(random.nextInt(6), k3 > 32 ? (k3 > 40 ? 2 : 1) : 0);
-                
+
                 mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
                 drawTexturedModelRectFromIcon(j3 * 16 - k2, i3 * 16 - l2, iicon, 16, 16);
             }
@@ -367,10 +372,10 @@ public class GuiForcePowers extends GuiScreen
                     GL11.glEnable(GL11.GL_BLEND);
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
                     OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-                    float f5 = (float)(j4 >> 24 & 255) / 255.0F;
-                    float f = (float)(j4 >> 16 & 255) / 255.0F;
-                    float f3 = (float)(j4 >> 8 & 255) / 255.0F;
-                    float f4 = (float)(j4 & 255) / 255.0F;
+                    float f5 = (j4 >> 24 & 255) / 255.0F;
+                    float f = (j4 >> 16 & 255) / 255.0F;
+                    float f3 = (j4 >> 8 & 255) / 255.0F;
+                    float f4 = (j4 & 255) / 255.0F;
                     GL11.glColor4f(f, f3, f4, f5);
                     tessellator.startDrawing(3);
                     tessellator.addVertex(j3, k3, 0);
@@ -384,8 +389,8 @@ public class GuiForcePowers extends GuiScreen
         }
 
         Power power = null;
-        float f4 = (float)(mouseX - k1) * zoom;
-        float f5 = (float)(mouseY - l1) * zoom;
+        float f4 = (mouseX - k1) * zoom;
+        float f5 = (mouseY - l1) * zoom;
         RenderHelper.enableGUIStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -395,11 +400,11 @@ public class GuiForcePowers extends GuiScreen
 
         for (l4 = 0; l4 < powers.size(); ++l4)
         {
-            Power power1 = (Power)powers.get(l4);
+            Power power1 = powers.get(l4);
             i5 = power1.xOffset * 24 - k;
             j5 = power1.yOffset * 24 - l;
 
-            if (i5 >= -24 && j5 >= -24 && (float)i5 <= 224 * zoom && (float)j5 <= 155 * zoom)
+            if (i5 >= -24 && j5 >= -24 && i5 <= 224 * zoom && j5 <= 155 * zoom)
             {
                 i4 = powerManager.getHierarchy(power1);
                 float f6;
@@ -446,17 +451,17 @@ public class GuiForcePowers extends GuiScreen
                     GL11.glColor4f(f6, f6, f6, 1);
                 }
 
-                GL11.glDisable(GL11.GL_LIGHTING); //Forge: Make sure Lighting is disabled. Fixes MC-33065
+                GL11.glDisable(GL11.GL_LIGHTING); // Forge: Make sure Lighting is disabled. Fixes MC-33065
                 GL11.glEnable(GL11.GL_CULL_FACE);
                 mc.getTextureManager().bindTexture(icons);
                 drawTexturedModalRect(i5 + 3, j5 + 3, power1.iconX * 16, power1.iconY * 16, 16, 16);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glDisable(GL11.GL_LIGHTING);
-                GL11.glDisable(GL11.GL_BLEND); //Forge: Cleanup states we set.
+                GL11.glDisable(GL11.GL_BLEND); // Forge: Cleanup states we set.
 
                 GL11.glColor4f(1, 1, 1, 1);
 
-                if (f4 >= (float)i5 && f4 <= (float)(i5 + 22) && f5 >= (float)j5 && f5 <= (float)(j5 + 22))
+                if (f4 >= i5 && f4 <= i5 + 22 && f5 >= j5 && f5 <= j5 + 22)
                 {
                     power = power1;
                 }
@@ -474,7 +479,7 @@ public class GuiForcePowers extends GuiScreen
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         super.drawScreen(mouseX, mouseY, partialTicks);
-        
+
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         drawForeground();
@@ -518,80 +523,80 @@ public class GuiForcePowers extends GuiScreen
             else
             {
                 j4 = Math.max(fontRendererObj.getStringWidth(s1), 120);
-                
+
                 List<String> list = Lists.newArrayList();
                 PowerStats stats = power.powerStats;
-                
+
                 if (power.getActualXpCost(mc.thePlayer) > 0)
                 {
-                	list.add((!powerManager.getPowerData(power).unlocked ? EnumChatFormatting.RED : "") + I18n.format("forcepower.cost", power.getActualXpCost(mc.thePlayer)));
+                    list.add((!powerManager.getPowerData(power).unlocked ? EnumChatFormatting.RED : "") + I18n.format("forcepower.cost", power.getActualXpCost(mc.thePlayer)));
                 }
-                
+
                 if (stats.basePowerRequirement > 0)
                 {
-                	list.add((!powerManager.getPowerData(power).unlocked && ALHelper.getBasePower(mc.thePlayer) < stats.basePowerRequirement ? EnumChatFormatting.RED : "") + I18n.format("forcepower.basePowerReq", stats.basePowerRequirement));
+                    list.add((!powerManager.getPowerData(power).unlocked && ALHelper.getBasePower(mc.thePlayer) < stats.basePowerRequirement ? EnumChatFormatting.RED : "") + I18n.format("forcepower.basePowerReq", stats.basePowerRequirement));
                 }
-                
+
                 if (stats.forcePowerUseCost > 0)
                 {
-                	list.add(I18n.format(stats.powerType == EnumPowerType.PER_USE ? "forcepower.perUse" : "forcepower.perSecond", ItemStack.field_111284_a.format(stats.forcePowerUseCost)));
+                    list.add(I18n.format(stats.powerType == EnumPowerType.PER_USE ? "forcepower.perUse" : "forcepower.perSecond", ItemStack.field_111284_a.format(stats.forcePowerUseCost)));
                 }
-                
+
                 if (stats.basePowerBonus > 0)
                 {
-                	list.add(I18n.format("forcepower.basePower", (stats.basePowerBonus < 0 ? "-" : "+") + stats.basePowerBonus));
+                    list.add(I18n.format("forcepower.basePower", (stats.basePowerBonus < 0 ? "-" : "+") + stats.basePowerBonus));
                 }
-                
+
                 if (stats.forcePowerBonus > 0)
                 {
-                	list.add(I18n.format("forcepower.forcePower", (stats.forcePowerBonus < 0 ? "-" : "+") + stats.forcePowerBonus));
+                    list.add(I18n.format("forcepower.forcePower", (stats.forcePowerBonus < 0 ? "-" : "+") + stats.forcePowerBonus));
                 }
-                
+
                 if (stats.forcePowerRegen > 0)
                 {
-                	list.add(I18n.format("forcepower.forceRegen", (stats.forcePowerRegen < 0 ? "-" : "+") + stats.forcePowerRegen + (stats.forcePowerRegenOperation == 1 ? "%" : "")));
+                    list.add(I18n.format("forcepower.forceRegen", (stats.forcePowerRegen < 0 ? "-" : "+") + stats.forcePowerRegen + (stats.forcePowerRegenOperation == 1 ? "%" : "")));
                 }
-                
+
                 if (power.powerEffect != null)
                 {
-                	String[] astring = power.powerEffect.getDesc(power.powerEffectArgs);
-                	
-                	if (astring.length > 0)
-                	{
-                		list.add("");
-                		
-                		for (String s : astring)
-                		{
-                			list.add(s);
-                		}
-                	}
+                    String[] astring = power.powerEffect.getDesc(power.powerEffectArgs);
+
+                    if (astring.length > 0)
+                    {
+                        list.add("");
+
+                        for (String s : astring)
+                        {
+                            list.add(s);
+                        }
+                    }
                 }
-                
+
                 for (String s : list)
                 {
-                	j4 = Math.max(fontRendererObj.getStringWidth(s), j4);
+                    j4 = Math.max(fontRendererObj.getStringWidth(s), j4);
                 }
-                
-                PowerData data = powerManager.getPowerData(mc.thePlayer, power);
+
+                PowerData data = PowerManager.getPowerData(mc.thePlayer, power);
                 String s = I18n.format("forcepower.xpLeft", power.getActualXpCost(mc.thePlayer) - data.xpInvested);
                 j4 = Math.max(fontRendererObj.getStringWidth(s), j4);
-                
+
                 drawGradientRect(i5 - 3, j5 - 3, i5 + j4 + 3, j5 + 6 + (2 + fontRendererObj.FONT_HEIGHT) * (list.size() + 1) + 12, -1073741824, -1073741824);
                 int height = j5 + fontRendererObj.FONT_HEIGHT + 4;
-                
+
                 for (String s3 : list)
                 {
-                	fontRendererObj.drawStringWithShadow(s3, i5, height, 0xa4a4a4);
-                	height += 2 + fontRendererObj.FONT_HEIGHT;
+                    fontRendererObj.drawStringWithShadow(s3, i5, height, 0xa4a4a4);
+                    height += 2 + fontRendererObj.FONT_HEIGHT;
                 }
-                
+
                 if (powerManager.hasPowerUnlocked(power))
                 {
                     fontRendererObj.drawStringWithShadow(I18n.format("forcepower.unlocked"), i5, height + 3, -7302913);
                 }
                 else
                 {
-                	fontRendererObj.drawStringWithShadow(s, i5, height + 3, -7302913);
+                    fontRendererObj.drawStringWithShadow(s, i5, height + 3, -7302913);
                 }
             }
 
@@ -599,19 +604,19 @@ public class GuiForcePowers extends GuiScreen
             {
                 fontRendererObj.drawStringWithShadow(s1, i5, j5, powerManager.canUnlockPower(power) ? -1 : -8355712);
             }
-            
+
             if (Mouse.isButtonDown(0) && !powerManager.getPowerData(power).unlocked && powerManager.canUnlockPower(power) && (MathHelper.floor_double(ALData.getFloat(mc.thePlayer, ALData.FORCE_XP)) > 0 || power.getActualXpCost(mc.thePlayer) == 0) && ALHelper.getBasePower(mc.thePlayer) >= power.powerStats.basePowerRequirement)
             {
-            	ALData.set(mc.thePlayer, ALData.DRAINING_XP_TO, power.getName());
+                ALData.set(mc.thePlayer, ALData.DRAINING_XP_TO, power.getName());
             }
             else
             {
-            	ALData.set(mc.thePlayer, ALData.DRAINING_XP_TO, "");
+                ALData.set(mc.thePlayer, ALData.DRAINING_XP_TO, "");
             }
         }
         else
         {
-        	ALData.set(mc.thePlayer, ALData.DRAINING_XP_TO, "");
+            ALData.set(mc.thePlayer, ALData.DRAINING_XP_TO, "");
         }
 
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -619,6 +624,7 @@ public class GuiForcePowers extends GuiScreen
         RenderHelper.disableStandardItemLighting();
     }
 
+    @Override
     public boolean doesGuiPauseGame()
     {
         return false;

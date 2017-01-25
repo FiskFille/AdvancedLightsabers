@@ -15,7 +15,8 @@ import fiskfille.lightsabers.Lightsabers;
  * @since 1.0.0
  */
 @SideOnly(Side.CLIENT)
-public class ModelAnimator {
+public class ModelAnimator
+{
     private int tempTick;
     private int prevTempTick;
     private boolean correctAnimation;
@@ -23,95 +24,106 @@ public class ModelAnimator {
     private HashMap<ModelRenderer, Transform> transformMap;
     private HashMap<ModelRenderer, Transform> prevTransformMap;
 
-    private ModelAnimator() {
-        this.tempTick = 0;
-        this.correctAnimation = false;
-        this.transformMap = new HashMap<>();
-        this.prevTransformMap = new HashMap<>();
+    private ModelAnimator()
+    {
+        tempTick = 0;
+        correctAnimation = false;
+        transformMap = new HashMap<>();
+        prevTransformMap = new HashMap<>();
     }
 
     /**
      * @return a new ModelAnimator instance
      */
-    public static ModelAnimator create() {
+    public static ModelAnimator create()
+    {
         return new ModelAnimator();
     }
 
     /**
      * @return the {@link IAnimatedEntity} instance. Null if {@link ModelAnimator#update} has never been called.
      */
-    public IAnimatedEntity getEntity() {
+    public IAnimatedEntity getEntity()
+    {
         return entity;
     }
 
     /**
      * Update the animations of this model.
-     *
+     * 
      * @param entity the entity instance
      */
-    public void update(IAnimatedEntity entity) {
-        this.tempTick = this.prevTempTick = 0;
-        this.correctAnimation = false;
+    public void update(IAnimatedEntity entity)
+    {
+        tempTick = prevTempTick = 0;
+        correctAnimation = false;
         this.entity = entity;
-        this.transformMap.clear();
-        this.prevTransformMap.clear();
+        transformMap.clear();
+        prevTransformMap.clear();
     }
 
     /**
      * Start an animation
-     *
+     * 
      * @param animation the animation instance
      * @return true if it's the current animation
      */
-    public boolean setAnimation(Animation animation) {
-        this.tempTick = this.prevTempTick = 0;
-        this.correctAnimation = this.entity.getAnimation() == animation;
-        return this.correctAnimation;
+    public boolean setAnimation(Animation animation)
+    {
+        tempTick = prevTempTick = 0;
+        correctAnimation = entity.getAnimation() == animation;
+        return correctAnimation;
     }
 
     /**
      * Start a keyframe for the current animation.
-     *
+     * 
      * @param duration the keyframe duration
      */
-    public void startKeyframe(int duration) {
-        if (!this.correctAnimation) {
+    public void startKeyframe(int duration)
+    {
+        if (!correctAnimation)
+        {
             return;
         }
-        this.prevTempTick = this.tempTick;
-        this.tempTick += duration;
+        prevTempTick = tempTick;
+        tempTick += duration;
     }
 
     /**
      * Add a static keyframe with a specific duration to the animation.
-     *
+     * 
      * @param duration the keyframe duration
      */
-    public void setStaticKeyframe(int duration) {
-        this.startKeyframe(duration);
+    public void setStaticKeyframe(int duration)
+    {
+        startKeyframe(duration);
         this.endKeyframe(true);
     }
 
     /**
      * Reset this keyframe to its original state
-     *
+     * 
      * @param duration the keyframe duration
      */
-    public void resetKeyframe(int duration) {
-        this.startKeyframe(duration);
+    public void resetKeyframe(int duration)
+    {
+        startKeyframe(duration);
         this.endKeyframe();
     }
 
     /**
      * Rotate a box in the current keyframe. All the values are relative.
-     *
+     * 
      * @param box the box to rotate
-     * @param x   the x rotation
-     * @param y   the y rotation
-     * @param z   the z rotation
+     * @param x the x rotation
+     * @param y the y rotation
+     * @param z the z rotation
      */
-    public void rotate(ModelRenderer box, float x, float y, float z) {
-        if (!this.correctAnimation) {
+    public void rotate(ModelRenderer box, float x, float y, float z)
+    {
+        if (!correctAnimation)
+        {
             return;
         }
         getTransform(box).addRotation(x, y, z);
@@ -119,24 +131,28 @@ public class ModelAnimator {
 
     /**
      * Move a box in the current keyframe. All the values are relative.
-     *
+     * 
      * @param box the box to move
-     * @param x   the x offset
-     * @param y   the y offset
-     * @param z   the z offset
+     * @param x the x offset
+     * @param y the y offset
+     * @param z the z offset
      */
-    public void move(ModelRenderer box, float x, float y, float z) {
-        if (!this.correctAnimation) {
+    public void move(ModelRenderer box, float x, float y, float z)
+    {
+        if (!correctAnimation)
+        {
             return;
         }
         getTransform(box).addOffset(x, y, z);
     }
 
-    private Transform getTransform(ModelRenderer box) {
-        Transform transform = this.transformMap.get(box);
-        if (transform == null) {
+    private Transform getTransform(ModelRenderer box)
+    {
+        Transform transform = transformMap.get(box);
+        if (transform == null)
+        {
             transform = new Transform();
-            this.transformMap.put(box, transform);
+            transformMap.put(box, transform);
         }
         return transform;
     }
@@ -144,20 +160,26 @@ public class ModelAnimator {
     /**
      * End the current keyframe. this will reset all box transformations to their original state.
      */
-    public void endKeyframe() {
+    public void endKeyframe()
+    {
         this.endKeyframe(false);
     }
 
-    private void endKeyframe(boolean stationary) {
-        if (!this.correctAnimation) {
+    private void endKeyframe(boolean stationary)
+    {
+        if (!correctAnimation)
+        {
             return;
         }
-        int animationTick = this.entity.getAnimationTick();
+        int animationTick = entity.getAnimationTick();
 
-        if (animationTick >= this.prevTempTick && animationTick < this.tempTick) {
-            if (stationary) {
-                for (ModelRenderer box : this.prevTransformMap.keySet()) {
-                    Transform transform = this.prevTransformMap.get(box);
+        if (animationTick >= prevTempTick && animationTick < tempTick)
+        {
+            if (stationary)
+            {
+                for (ModelRenderer box : prevTransformMap.keySet())
+                {
+                    Transform transform = prevTransformMap.get(box);
                     box.rotateAngleX += transform.getRotationX();
                     box.rotateAngleY += transform.getRotationY();
                     box.rotateAngleZ += transform.getRotationZ();
@@ -165,11 +187,14 @@ public class ModelAnimator {
                     box.rotationPointY += transform.getOffsetY();
                     box.rotationPointZ += transform.getOffsetZ();
                 }
-            } else {
-                float tick = (animationTick - this.prevTempTick + Lightsabers.proxy.getPartialTicks()) / (this.tempTick - this.prevTempTick);
+            }
+            else
+            {
+                float tick = (animationTick - prevTempTick + Lightsabers.proxy.getPartialTicks()) / (tempTick - prevTempTick);
                 float inc = MathHelper.sin((float) (tick * Math.PI / 2.0F)), dec = 1.0F - inc;
-                for (ModelRenderer box : this.prevTransformMap.keySet()) {
-                    Transform transform = this.prevTransformMap.get(box);
+                for (ModelRenderer box : prevTransformMap.keySet())
+                {
+                    Transform transform = prevTransformMap.get(box);
                     box.rotateAngleX += dec * transform.getRotationX();
                     box.rotateAngleY += dec * transform.getRotationY();
                     box.rotateAngleZ += dec * transform.getRotationZ();
@@ -177,8 +202,9 @@ public class ModelAnimator {
                     box.rotationPointY += dec * transform.getOffsetY();
                     box.rotationPointZ += dec * transform.getOffsetZ();
                 }
-                for (ModelRenderer box : this.transformMap.keySet()) {
-                    Transform transform = this.transformMap.get(box);
+                for (ModelRenderer box : transformMap.keySet())
+                {
+                    Transform transform = transformMap.get(box);
                     box.rotateAngleX += inc * transform.getRotationX();
                     box.rotateAngleY += inc * transform.getRotationY();
                     box.rotateAngleZ += inc * transform.getRotationZ();
@@ -189,10 +215,11 @@ public class ModelAnimator {
             }
         }
 
-        if (!stationary) {
-            this.prevTransformMap.clear();
-            this.prevTransformMap.putAll(this.transformMap);
-            this.transformMap.clear();
+        if (!stationary)
+        {
+            prevTransformMap.clear();
+            prevTransformMap.putAll(transformMap);
+            transformMap.clear();
         }
     }
 }
