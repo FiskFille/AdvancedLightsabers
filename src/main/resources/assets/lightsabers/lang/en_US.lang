@@ -1,187 +1,242 @@
-------Items------
-item.lightsaber_circuitry.name=Lightsaber Circuitry
-item.compressed_focusing_crystal.name=Compressed Focusing Crystal
-item.cracked_kyber_crystal.name=Cracked Kyber Crystal
-item.inverting_focusing_crystal.name=Inverting Focusing Crystal
-item.fine_cut_focusing_crystal.name=Fine-Cut Focusing Crystal
+commands.force.base.give.success=Given %s base power to %s
+commands.force.base.reset.success=Reset base power for %s
+commands.force.base.set.success=Set base power for %s to %s
+commands.force.base.take.success=Taken %s base power from %s
+commands.force.base.usage=/force base <give|take|set> <amount> [player] OR /force base reset [player]
+commands.force.power.alreadyHave=Player %s already has power %s
+commands.force.power.dontHave=Player %s doesn't have power %s
+commands.force.power.give.success.all=Successfully given all powers to %s
+commands.force.power.give.success.one=Successfully given %s the power %s
+commands.force.power.take.success.all=Successfully taken all powers from %s
+commands.force.power.take.success.one=Successfully taken the power %s from %s
+commands.force.power.unknown=Unknown power '%s'
+commands.force.power.usage=/force power <give|take> <name|*> [player]
+commands.force.structure.generate.failure=Unable to spawn structure
+commands.force.structure.generate.outOfWorld=Cannot generate structure outside of the world
+commands.force.structure.generate.success=Successfully generated structure %s at %s (y?) %s
+commands.force.structure.generate.usage=/force structure generate <name> [x] [z]
+commands.force.structure.locate.doesNotGenerate=Structure %s does not generate in this world
+commands.force.structure.locate.failure=Unable to locate structure
+commands.force.structure.locate.success=Located %s at %s (y?) %s
+commands.force.structure.locate.usage=/force structure locate <name|*> <searchRange>
+commands.force.structure.unknown=Unknown structure '%s'
+commands.force.structure.usage=/force structure <locate|generate> ...
+commands.force.usage=/force <xp|base|power|structure> ...
+commands.force.xp.give.success=Given %s Force experience to %s
+commands.force.xp.set.success=Set Force experience for %s to %s
+commands.force.xp.take.success=Taken %s Force experience from %s
+commands.force.xp.usage=/force xp <give|take|set> <amount> [player]
 
-item.lightsaber_blade_emitter.name=Lightsaber Blade Emitter
-item.lightsaber_switch_module.name=Lightsaber Switch Module
-item.lightsaber_grip.name=Lightsaber Grip
-item.lightsaber_pommel.name=Lightsaber Pommel
+death.attack.lightsabers.choke=%1$s was suffocated by %2$s
+death.attack.lightsabers.intoWall=%1$s was flattened against a wall
+death.attack.lightsabers.lightning=%1$s was electrocuted by %2$s
+death.attack.lightsabers.lightsaber=%1$s was struck down by %2$s
 
-item.lightsaber.name=Lightsaber
-item.double_lightsaber.name=Double Lightsaber
-
-
-------Blocks------
-tile.lightsaber_crystal.name=%s Lightsaber Crystal
-tile.lightsaber_forge_light.name=Lightsaber Forge
-tile.lightsaber_forge_dark.name=Lightsaber Forge
-tile.sith_coffin.name=Sith Sarcophagus
-tile.sith_stone_coffin.name=Stone Sith Coffin
-tile.jedi_holocron.name=Jedi Holocron
-tile.sith_holocron.name=Sith Holocron
-
-tile.light_forcestone.default.name=Light Forcestone
-tile.light_forcestone.inscribed.name=Light Inscribed Forcestone
-tile.light_forcestone.pillar.name=Light Forcestone Pillar
-tile.light_activated_forcestone_pillar.name=Light Activated Forcestone Pillar
-tile.light_forcestone_stairs.name=Light Forcestone Stairs
-tile.dark_forcestone.default.name=Dark Forcestone
-tile.dark_forcestone.inscribed.name=Dark Inscribed Forcestone
-tile.dark_forcestone.pillar.name=Dark Forcestone Pillar
-tile.dark_activated_forcestone_pillar.name=Dark Activated Forcestone Pillar
-tile.dark_forcestone_stairs.name=Dark Forcestone Stairs
-tile.forcestone_slab.light.name=Light Forcestone Slab
-tile.forcestone_slab.dark.name=Dark Forcestone Slab
-
-
-------Entities------
 entity.al_SithGhost.name=Sith Ghost
+entity.lightsabers.SithGhost.name=Sith Ghost
 
-
-------GUI------
-gui.lightsaber_forge=Lightsaber Forge
-gui.lightsaber_forge.too_short=Too short!
-gui.sith_coffin=Sith Coffin
-gui.forcePowers=Force Powers
-gui.forcePowers.xp=Force Xp: %s
-gui.forcePowers.basePower=Base Power: %s
-recipe.lightsaber_forge=Lightsaber Forge
-
-
-------Tooltip------
-lightsaber.color=Color:
-lightsaber.colors=Colors:
-lightsaber.hilt=Hilt:
-lightsaber.focusingCrystals=Focusing Crystals:
-lightsaber.upper=Upper:
-lightsaber.lower=Lower:
-
-
-------Keys------
-key.selectPower=Select Force Power
-
-
-------Effects------
-statusEffect.fortify=Fortification
-statusEffect.stun=Stun
-statusEffect.drain=Drainage
-statusEffect.lightning=Force Lightning
-statusEffect.choke=Suffocation
-statusEffect.stealth=Stealth
-statusEffect.speed=Speed
-statusEffect.gaze=Gaze
-statusEffect.meditation=Battle Meditation
-statusEffect.resist=Energy Resistance
-
-
-------Colors------
-color.0=Deep Blue
-color.1=Medium Blue
-color.2=Light Blue
-color.3=Arctic Blue
-color.4=White
-color.5=Indigo
-color.6=Purple
-color.7=Magenta
-color.8=Pink
-color.9=Red
-color.10=Blood Orange
-color.11=Amber
-color.12=Yellow
-color.13=Gold
-color.14=Lime Green
-color.15=Green
-color.16=Mint Green
-color.17=Cyan
-
-
-------Force Powers------
-forcepower.unlocked=Unlocked
-forcepower.xpLeft=%s Force Xp to Unlock
-forcepower.cost=Cost: %s Force Xp
-forcepower.basePowerReq=%s Base Power Unlock
 forcepower.basePower=%s Base Power
+forcepower.basePowerReq=%s Base Power Unlock
+forcepower.cost=Cost: %s Force Xp
 forcepower.forcePower=%s Force Power
 forcepower.forceRegen=%s FP/s Regen
-forcepower.perUse=%s Force Power/Use
-forcepower.perSecond=%s Force Power/s
 forcepower.list=and
-
-forcepower.stat.to=%1$s to %2$s
-forcepower.stat.from=%1$s from %2$s
-forcepower.stat.against=%1$s against %2$s
-forcepower.stat.divide=%1$s / %2$s
-forcepower.stat.multiply=%1$s x%2$s
-forcepower.stat.effect=%1$ss -> %2$s
-forcepower.stat.effect2=%1$s -> %2$s
-forcepower.stat.absorb=Absorb %1$s from %2$s
-forcepower.stat.highlight=Highlights %1$s %2$ss
-forcepower.stat.unit.health=HP
-forcepower.stat.unit.damage=DMG
-forcepower.stat.unit.attackDamage=Attack DMG
-forcepower.stat.unit.forceDamage=Force DMG
-forcepower.stat.unit.energyDamage=Lightsaber DMG
-forcepower.stat.unit.absorption=Absorption
-forcepower.stat.unit.speed=Speed
-forcepower.stat.unit.invisibility=Invisibility
-forcepower.stat.unit.impactRadius=Impact Radius
-forcepower.stat.unit.knockback=Knockback
-forcepower.stat.target.caster=Caster
-forcepower.stat.target.target=Target
-forcepower.stat.target.allies=Allies
-forcepower.stat.target.enemies=Enemies
-forcepower.stat.target.mobs=Mobs
-forcepower.stat.target.players=Players
-forcepower.stat.target.invisible=Invisibles
-
-forcepower.name.forceSensitivity=Force Sensitivity
-forcepower.name.lightSide=Jedi Teaching
 forcepower.name.darkSide=Sith Philosophy
-forcepower.name.neutral=Balanced Thoughts
+forcepower.name.drain1=Drain Life
+forcepower.name.drain2=Consume Life
+forcepower.name.drain3=Death Field
+forcepower.name.forceSensitivity=Force Sensitivity
+forcepower.name.fortify1=Force Fortify
+forcepower.name.fortify2=Adv. Force Fortify
+forcepower.name.fortify3=Master Force Fortify
+forcepower.name.heal1=Heal
+forcepower.name.heal2=Adv. Heal
+forcepower.name.heal3=Master Heal
 forcepower.name.level1=Force Novice
 forcepower.name.level2=Force Apprentice
 forcepower.name.level3=Force Experienced
 forcepower.name.level4=Force Expert
 forcepower.name.level5=Force Master
-forcepower.name.heal1=Heal
-forcepower.name.heal2=Adv. Heal
-forcepower.name.heal3=Master Heal
-forcepower.name.fortify1=Force Fortify
-forcepower.name.fortify2=Adv. Force Fortify
-forcepower.name.fortify3=Master Force Fortify
-forcepower.name.stun1=Force Stun
-forcepower.name.stun2=Force Stasis
-forcepower.name.stun3=Force Stasis Field
-forcepower.name.drain1=Drain Life
-forcepower.name.drain2=Consume Life
-forcepower.name.drain3=Death Field
+forcepower.name.lightSide=Jedi Teaching
 forcepower.name.lightning1=Shock
 forcepower.name.lightning2=Force Lightning
 forcepower.name.lightning3=Force Maelstrom
-forcepower.name.wound1=Wound
-forcepower.name.wound2=Choke
-forcepower.name.wound3=Torture
-forcepower.name.stealth=Force Stealth
-forcepower.name.speed=Force Speed
-forcepower.name.sight1=Force Sight
-forcepower.name.sight2=Force Gaze
-forcepower.name.sight3=Force Vision
 forcepower.name.meditation1=Battle Meditation
 forcepower.name.meditation2=Adv. Battle Meditation
 forcepower.name.meditation3=Master Battle Meditation
-forcepower.name.throw1=Blade Throw
-forcepower.name.throw2=Adv. Blade Throw
-forcepower.name.resist1=Energy Resist
-forcepower.name.resist2=Adv. Energy Resist
-forcepower.name.resist3=Master Energy Resist
+forcepower.name.neutral=Balanced Thoughts
 forcepower.name.push1=Force Push
 forcepower.name.push2=Force Gust
 forcepower.name.push3=Force Wave
+forcepower.name.rebound=Force Rebound
+forcepower.name.resist1=Energy Resist
+forcepower.name.resist2=Adv. Energy Resist
+forcepower.name.resist3=Master Energy Resist
+forcepower.name.sight1=Force Sight
+forcepower.name.sight2=Force Gaze
+forcepower.name.sight3=Force Vision
+forcepower.name.speed=Force Speed
+forcepower.name.stealth=Force Stealth
+forcepower.name.stun1=Force Stun
+forcepower.name.stun2=Force Stasis
+forcepower.name.stun3=Force Stasis Field
+forcepower.name.throw1=Blade Throw
+forcepower.name.throw2=Adv. Blade Throw
+forcepower.name.wound1=Wound
+forcepower.name.wound2=Choke
+forcepower.name.wound3=Torture
+forcepower.passive=%s Force Power/unit
+forcepower.perSecond=%s Force Power/s
+forcepower.perUse=%s Force Power/Use
+forcepower.stat.absorb=Absorb %1$s from %2$s
+forcepower.stat.against=%1$s against %2$s
+forcepower.stat.divide=%1$s / %2$s
+forcepower.stat.effect=%1$ss -> %2$s
+forcepower.stat.effect2=%1$s -> %2$s
+forcepower.stat.from=%1$s from %2$s
+forcepower.stat.highlight=Highlights %1$s %2$ss
+forcepower.stat.multiply=%1$s x%2$s
+forcepower.stat.target.allies=Allies
+forcepower.stat.target.caster=Caster
+forcepower.stat.target.enemies=Enemies
+forcepower.stat.target.invisible=Invisibles
+forcepower.stat.target.mobs=Mobs
+forcepower.stat.target.players=Players
+forcepower.stat.target.target=Target
+forcepower.stat.to=%1$s to %2$s
+forcepower.stat.unit.absorption=Absorption
+forcepower.stat.unit.attack_damage=Attack DMG
+forcepower.stat.unit.damage=DMG
+forcepower.stat.unit.energy_damage=Lightsaber DMG
+forcepower.stat.unit.fall_resistance=Fall Resistance
+forcepower.stat.unit.force_damage=Force DMG
+forcepower.stat.unit.health=HP
+forcepower.stat.unit.impact_radius=Impact Radius
+forcepower.stat.unit.invisibility=Invisibility
+forcepower.stat.unit.knockback=Knockback
+forcepower.stat.unit.speed=Speed
+forcepower.unlocked=Unlocked
+forcepower.xpLeft=%s Force Xp to Unlock
 
+gui.crystal_pouch=Crystal Pouch
+gui.disassembly_station=Disassembly Station
+gui.forcePowers=Force Powers
+gui.forcePowers.basePower=Base Power: %s
+gui.forcePowers.xp=Force Xp: %s
+gui.lightsaber_forge=Lightsaber Forge
+gui.lightsaber_forge.too_short=Too short!
+gui.sith_coffin=Sith Coffin
 
------ Death -----
-death.attack.lightsaber=%1$s was struck down by %2$s
-death.attack.forceLightning=%1$s was electrocuted by %2$s
+hilt.lightsabers.droideka.name=Droideka
+hilt.lightsabers.fulcrum.name=Fulcrum
+hilt.lightsabers.fury.name=Fury
+hilt.lightsabers.graflex.name=Graflex
+hilt.lightsabers.imperial.name=Imperial
+hilt.lightsabers.juggernaut.name=Juggernaut
+hilt.lightsabers.knighted.name=Knighted
+hilt.lightsabers.mandalorian.name=Mandalorian
+hilt.lightsabers.mauler.name=Mauler
+hilt.lightsabers.mechanical.name=Mechanical
+hilt.lightsabers.prodigal_son.name=Prodigal Son
+hilt.lightsabers.rebel.name=Rebel
+hilt.lightsabers.reborn.name=Reborn
+hilt.lightsabers.redeemer.name=Redeemer
+hilt.lightsabers.vaid_ancient.name=Vaid (Ancient)
+hilt.lightsabers.vaid_modern.name=Vaid (Modern)
+
+item.crystal_pouch.name=Crystal Pouch
+item.double_lightsaber.name=Double Lightsaber
+item.focusing_crystal.compressed.name=Compressed Focusing Crystal
+item.focusing_crystal.cracked.name=Cracked Kyber Crystal
+item.focusing_crystal.fine_cut.name=Fine-Cut Focusing Crystal
+item.focusing_crystal.inverting.name=Inverting Focusing Crystal
+item.focusing_crystal.prismatic.name=Prismatic Focusing Crystal
+item.focusing_crystal.charged.name=Charged Focusing Crystal
+item.lightsaber.name=Lightsaber
+item.lightsaber_blade_emitter.name=Lightsaber Blade Emitter
+item.lightsaber_circuitry.name=Lightsaber Circuitry
+item.lightsaber_grip.name=Lightsaber Grip
+item.lightsaber_pommel.name=Lightsaber Pommel
+item.lightsaber_switch_module.name=Lightsaber Switch Module
+
+itemGroup.lightsabers=Advanced Lightsabers
+
+key.lightsabers.activateLightsaber=Activate Lightsaber
+key.lightsabers.activatePower=Use Force Power
+key.lightsabers.selectPower=Select Force Power
+
+lightsaber.code.double=Code: #%s / #%s
+lightsaber.code.single=Code: #%s
+lightsaber.color=Color:
+lightsaber.color.amber=Amber
+lightsaber.color.arctic_blue=Arctic Blue
+lightsaber.color.blood_orange=Blood Orange
+lightsaber.color.cyan=Cyan
+lightsaber.color.deep_blue=Deep Blue
+lightsaber.color.gold=Gold
+lightsaber.color.green=Green
+lightsaber.color.indigo=Indigo
+lightsaber.color.light_blue=Light Blue
+lightsaber.color.lime_green=Lime Green
+lightsaber.color.magenta=Magenta
+lightsaber.color.medium_blue=Medium Blue
+lightsaber.color.mint_green=Mint Green
+lightsaber.color.pink=Pink
+lightsaber.color.purple=Purple
+lightsaber.color.red=Red
+lightsaber.color.white=White
+lightsaber.color.yellow=Yellow
+lightsaber.colors=Colors:
+lightsaber.focusingCrystal.charged=Charged
+lightsaber.focusingCrystal.compressed=Compressed
+lightsaber.focusingCrystal.cracked=Cracked
+lightsaber.focusingCrystal.fine_cut=Fine-Cut
+lightsaber.focusingCrystal.inverting=Inverting
+lightsaber.focusingCrystal.prismatic=Prismatic
+lightsaber.focusingCrystals=Focusing Crystals:
+lightsaber.hilt=Hilt:
+lightsaber.lower=Lower:
+lightsaber.upper=Upper:
+
+message.lightsaberStand.notOwner=You are not the owner of this Lightsaber Stand!
+
+recipe.lightsaber_forge=Lightsaber Forge
+recipe.disassembly_station=Disassembly Station
+
+statusEffect.lightsabers.choke=Suffocation
+statusEffect.lightsabers.drain=Drainage
+statusEffect.lightsabers.fortify=Fortification
+statusEffect.lightsabers.gaze=Gaze
+statusEffect.lightsabers.lightning=Force Lightning
+statusEffect.lightsabers.meditation=Battle Meditation
+statusEffect.lightsabers.rebound=Force Rebound
+statusEffect.lightsabers.resist=Energy Resistance
+statusEffect.lightsabers.speed=Speed
+statusEffect.lightsabers.stealth=Stealth
+statusEffect.lightsabers.stun=Stun
+
+tile.dark_activated_forcestone_pillar.name=Dark Activated Forcestone Pillar
+tile.dark_forcestone.cracked.name=Dark Cracked Forcestone
+tile.dark_forcestone.default.name=Dark Forcestone
+tile.dark_forcestone.inscribed.name=Dark Inscribed Forcestone
+tile.dark_forcestone.mossy.name=Dark Chipped Forcestone
+tile.dark_forcestone.pillar.name=Dark Forcestone Pillar
+tile.dark_forcestone_stairs.name=Dark Forcestone Stairs
+tile.disassembly_station.name=Disassembly Station
+tile.forcestone_slab.dark.name=Dark Forcestone Slab
+tile.forcestone_slab.light.name=Light Forcestone Slab
+tile.jedi_holocron.name=Jedi Holocron
+tile.light_activated_forcestone_pillar.name=Light Activated Forcestone Pillar
+tile.light_forcestone.cracked.name=Light Cracked Forcestone
+tile.light_forcestone.default.name=Light Forcestone
+tile.light_forcestone.inscribed.name=Light Inscribed Forcestone
+tile.light_forcestone.mossy.name=Light Mossy Forcestone
+tile.light_forcestone.pillar.name=Light Forcestone Pillar
+tile.light_forcestone_stairs.name=Light Forcestone Stairs
+tile.lightsaber_crystal.name=Lightsaber Crystal
+tile.lightsaber_forge_dark.name=Lightsaber Forge
+tile.lightsaber_forge_light.name=Lightsaber Forge
+tile.lightsaber_stand.name=Lightsaber Stand
+tile.sith_coffin.name=Sith Sarcophagus
+tile.sith_holocron.name=Sith Holocron
+tile.sith_stone_coffin.name=Stone Sith Coffin

@@ -1,0 +1,207 @@
+package com.fiskmods.lightsabers.client.model.lightsaber;
+
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+public class ModelSwitchSectionMandalorian extends ModelBase
+{
+    public ModelRenderer body1;
+    public ModelRenderer top1;
+    public ModelRenderer body2;
+    public ModelRenderer body4;
+    public ModelRenderer body6;
+    public ModelRenderer body8;
+    public ModelRenderer body10;
+    public ModelRenderer body15;
+    public ModelRenderer body3;
+    public ModelRenderer body5;
+    public ModelRenderer body7;
+    public ModelRenderer body9;
+    public ModelRenderer body11;
+    public ModelRenderer body13;
+    public ModelRenderer body12;
+    public ModelRenderer body14;
+    public ModelRenderer body16;
+    public ModelRenderer body17;
+    public ModelRenderer body18;
+    public ModelRenderer body19;
+    public ModelRenderer top2;
+    public ModelRenderer top3;
+    public ModelRenderer top7;
+    public ModelRenderer top4;
+    public ModelRenderer top5;
+    public ModelRenderer top6;
+    public ModelRenderer top8;
+    public ModelRenderer top9;
+    public ModelRenderer top10;
+
+    public ModelSwitchSectionMandalorian()
+    {
+        textureWidth = 64;
+        textureHeight = 32;
+        body10 = new ModelRenderer(this, 14, 6);
+        body10.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body10.addBox(-1.5F, -2.0F, 2.76F, 3, 2, 1, 0.0F);
+        setRotateAngle(body10, 0.0F, 3.141592653589793F, 0.0F);
+        body3 = new ModelRenderer(this, 0, 19);
+        body3.setRotationPoint(-1.0F, 0.0F, 0.0F);
+        body3.addBox(-1.0F, -1.0F, -1.0F, 1, 1, 1, 0.0F);
+        setRotateAngle(body3, 0.0F, -0.4721115626644662F, 0.0F);
+        body8 = new ModelRenderer(this, 0, 11);
+        body8.mirror = true;
+        body8.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body8.addBox(1.98F, -2.0F, -2.5F, 1, 2, 2, 0.0F);
+        body6 = new ModelRenderer(this, 0, 11);
+        body6.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body6.addBox(-2.98F, -2.0F, -2.5F, 1, 2, 2, 0.0F);
+        body17 = new ModelRenderer(this, 0, 6);
+        body17.setRotationPoint(0.0F, -0.5F, -2.5F);
+        body17.addBox(-2.5F, -0.5F, 5.5F, 5, 1, 4, 0.0F);
+        top2 = new ModelRenderer(this, 14, 14);
+        top2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        top2.addBox(-3.0F, -1.0F, 3.0F, 6, 1, 1, 0.0F);
+        setRotateAngle(top2, 0.0F, 3.141592653589793F, 0.0F);
+        body16 = new ModelRenderer(this, 0, 22);
+        body16.setRotationPoint(0.0F, 0.0F, -7.5F);
+        body16.addBox(-4.5F, -3.0F, 0.0F, 9, 3, 1, 0.0F);
+        setRotateAngle(body16, 0.2617993877991494F, 0.0F, 0.0F);
+        body4 = new ModelRenderer(this, 0, 19);
+        body4.mirror = true;
+        body4.setRotationPoint(1.5F, 0.0F, 3.76F);
+        body4.addBox(0.0F, -1.0F, -1.0F, 1, 1, 1, 0.0F);
+        setRotateAngle(body4, 0.0F, 0.46949356878647464F, 0.0F);
+        body1 = new ModelRenderer(this, 18, 9);
+        body1.setRotationPoint(0.0F, 0.0F, 0.0F);
+        body1.addBox(-1.5F, -1.0F, 2.76F, 3, 1, 1, 0.0F);
+        top1 = new ModelRenderer(this, 14, 11);
+        top1.setRotationPoint(0.0F, -1.87F, 0.2F);
+        top1.addBox(-3.0F, -1.0F, 3.0F, 6, 2, 1, 0.0F);
+        body15 = new ModelRenderer(this, 0, 0);
+        body15.setRotationPoint(0.0F, -0.9F, 0.0F);
+        body15.addBox(-4.5F, -1.0F, -7.5F, 9, 1, 5, 0.0F);
+        setRotateAngle(body15, -0.2617993877991494F, 0.0F, 0.0F);
+        body18 = new ModelRenderer(this, 0, 11);
+        body18.setRotationPoint(3.5F, -0.5F, -2.5F);
+        body18.addBox(-1.0F, -0.5F, -0.5F, 2, 1, 10, 0.0F);
+        top10 = new ModelRenderer(this, 20, 16);
+        top10.mirror = true;
+        top10.setRotationPoint(0.0F, 0.0F, 0.0F);
+        top10.addBox(0.0F, 0.0F, -3.0F, 1, 1, 3, 0.0F);
+        top4 = new ModelRenderer(this, 14, 16);
+        top4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        top4.addBox(-0.4F, -1.0F, -1.0F, 1, 2, 2, 0.0F);
+        setRotateAngle(top4, 0.0F, 0.7853981633974483F, 0.0F);
+        top7 = new ModelRenderer(this, 22, 0);
+        top7.mirror = true;
+        top7.setRotationPoint(2.0F, 0.0F, 3.0F);
+        top7.addBox(0.0F, -1.0F, -6.0F, 1, 1, 6, 0.0F);
+        top9 = new ModelRenderer(this, 25, 16);
+        top9.mirror = true;
+        top9.setRotationPoint(0.0F, 0.0F, -5.6F);
+        top9.addBox(-0.6F, -1.0F, -1.0F, 1, 1, 2, 0.0F);
+        setRotateAngle(top9, 0.0F, 0.7853981633974483F, 0.0F);
+        body11 = new ModelRenderer(this, 0, 15);
+        body11.setRotationPoint(-1.5F, 0.0F, 3.76F);
+        body11.addBox(-1.0F, -2.0F, -1.0F, 1, 2, 1, 0.0F);
+        setRotateAngle(body11, 0.0F, -0.46949356878647464F, 0.0F);
+        top8 = new ModelRenderer(this, 14, 16);
+        top8.mirror = true;
+        top8.setRotationPoint(0.0F, 0.0F, 0.0F);
+        top8.addBox(-0.6F, -1.0F, -1.0F, 1, 2, 2, 0.0F);
+        setRotateAngle(top8, 0.0F, -0.7853981633974483F, 0.0F);
+        body19 = new ModelRenderer(this, 0, 11);
+        body19.setRotationPoint(-3.5F, -0.5F, -2.5F);
+        body19.addBox(-1.0F, -0.5F, -0.5F, 2, 1, 10, 0.0F);
+        body5 = new ModelRenderer(this, 0, 19);
+        body5.mirror = true;
+        body5.setRotationPoint(1.0F, 0.0F, 0.0F);
+        body5.addBox(0.0F, -1.0F, -1.0F, 1, 1, 1, 0.0F);
+        setRotateAngle(body5, 0.0F, 0.4721115626644662F, 0.0F);
+        top6 = new ModelRenderer(this, 20, 16);
+        top6.setRotationPoint(0.0F, 0.0F, 0.0F);
+        top6.addBox(-1.0F, 0.0F, -3.0F, 1, 1, 3, 0.0F);
+        top5 = new ModelRenderer(this, 25, 16);
+        top5.setRotationPoint(0.0F, 0.0F, -5.6F);
+        top5.addBox(-0.4F, -1.0F, -1.0F, 1, 1, 2, 0.0F);
+        setRotateAngle(top5, 0.0F, -0.7853981633974483F, 0.0F);
+        body9 = new ModelRenderer(this, 1, 15);
+        body9.mirror = true;
+        body9.setRotationPoint(2.48F, 0.0F, -0.5F);
+        body9.addBox(-0.5F, -1.0F, 0.0F, 1, 1, 3, 0.0F);
+        body13 = new ModelRenderer(this, 0, 15);
+        body13.mirror = true;
+        body13.setRotationPoint(1.5F, 0.0F, 3.76F);
+        body13.addBox(0.0F, -2.0F, -1.0F, 1, 2, 1, 0.0F);
+        setRotateAngle(body13, 0.0F, 0.46949356878647464F, 0.0F);
+        body2 = new ModelRenderer(this, 0, 19);
+        body2.setRotationPoint(-1.5F, 0.0F, 3.76F);
+        body2.addBox(-1.0F, -1.0F, -1.0F, 1, 1, 1, 0.0F);
+        setRotateAngle(body2, 0.0F, -0.46949356878647464F, 0.0F);
+        body12 = new ModelRenderer(this, 0, 15);
+        body12.setRotationPoint(-1.0F, 0.0F, 0.0F);
+        body12.addBox(-1.0F, -2.0F, -1.0F, 1, 2, 1, 0.0F);
+        setRotateAngle(body12, 0.0F, -0.4721115626644662F, 0.0F);
+        body14 = new ModelRenderer(this, 0, 15);
+        body14.mirror = true;
+        body14.setRotationPoint(1.0F, 0.0F, 0.0F);
+        body14.addBox(0.0F, -2.0F, -1.0F, 1, 2, 1, 0.0F);
+        setRotateAngle(body14, 0.0F, 0.4721115626644662F, 0.0F);
+        top3 = new ModelRenderer(this, 22, 0);
+        top3.setRotationPoint(-2.0F, 0.0F, 3.0F);
+        top3.addBox(-1.0F, -1.0F, -6.0F, 1, 1, 6, 0.0F);
+        body7 = new ModelRenderer(this, 1, 15);
+        body7.setRotationPoint(-2.48F, 0.0F, -0.5F);
+        body7.addBox(-0.5F, -1.0F, 0.0F, 1, 1, 3, 0.0F);
+        body1.addChild(body10);
+        body2.addChild(body3);
+        body1.addChild(body8);
+        body1.addChild(body6);
+        body15.addChild(body17);
+        top1.addChild(top2);
+        body15.addChild(body16);
+        body1.addChild(body4);
+        body1.addChild(body15);
+        body15.addChild(body18);
+        top7.addChild(top10);
+        top3.addChild(top4);
+        top1.addChild(top7);
+        top7.addChild(top9);
+        body10.addChild(body11);
+        top7.addChild(top8);
+        body15.addChild(body19);
+        body4.addChild(body5);
+        top3.addChild(top6);
+        top3.addChild(top5);
+        body8.addChild(body9);
+        body10.addChild(body13);
+        body1.addChild(body2);
+        body11.addChild(body12);
+        body13.addChild(body14);
+        top1.addChild(top3);
+        body6.addChild(body7);
+    }
+
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    {
+        body1.render(f5);
+        GL11.glPushMatrix();
+        GL11.glTranslatef(top1.offsetX, top1.offsetY, top1.offsetZ);
+        GL11.glTranslatef(top1.rotationPointX * f5, top1.rotationPointY * f5, top1.rotationPointZ * f5);
+        GL11.glScaled(0.92D, 1.0D, 0.9D);
+        GL11.glTranslatef(-top1.offsetX, -top1.offsetY, -top1.offsetZ);
+        GL11.glTranslatef(-top1.rotationPointX * f5, -top1.rotationPointY * f5, -top1.rotationPointZ * f5);
+        top1.render(f5);
+        GL11.glPopMatrix();
+    }
+
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
+    {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
+    }
+}
